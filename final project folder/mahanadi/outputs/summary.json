@@ -1,0 +1,101 @@
+{
+ "gamma_to_sigma_db": -0.9765138350465004,
+ "events": {
+  "event_20220816": {
+   "dry_reference": "dry2020_20200310",
+   "models": {
+    "terramind": {
+     "water_event_km2": 551.7102,
+     "water_dry_km2": 92.1993,
+     "flood_km2": 459.7599,
+     "valid_km2": 2156.4128,
+     "permanent_jrc50_km2": 27.6743
+    },
+    "unet": {
+     "water_event_km2": 552.7955,
+     "water_dry_km2": 83.2116,
+     "flood_km2": 469.3533,
+     "valid_km2": 2156.4128,
+     "permanent_jrc50_km2": 27.6743
+    },
+    "otsu_vh": {
+     "water_event_km2": 957.0587,
+     "flood_km2": 530.4155,
+     "thr_event_db": -19.483133850995515,
+     "thr_dry_db": -17.268031172830675
+    }
+   },
+   "bounds_utm": [
+    374660.0,
+    2239240.0,
+    442710.0,
+    2283880.0
+   ],
+   "crs": "EPSG:32645"
+  },
+  "event_20210529": {
+   "dry_reference": "dry2020_20200310",
+   "models": {
+    "terramind": {
+     "water_event_km2": 250.1603,
+     "water_dry_km2": 92.1993,
+     "flood_km2": 169.5822,
+     "valid_km2": 2155.0971,
+     "permanent_jrc50_km2": 27.6507
+    },
+    "unet": {
+     "water_event_km2": 117.1446,
+     "water_dry_km2": 83.1791,
+     "flood_km2": 54.5527,
+     "valid_km2": 2155.0971,
+     "permanent_jrc50_km2": 27.6507
+    },
+    "otsu_vh": {
+     "water_event_km2": 519.9659,
+     "flood_km2": 248.3122,
+     "thr_event_db": -17.857047563795064,
+     "thr_dry_db": -17.268031172830675
+    }
+   },
+   "bounds_utm": [
+    374660.0,
+    2239240.0,
+    442710.0,
+    2283880.0
+   ],
+   "crs": "EPSG:32645"
+  },
+  "event_20200826": {
+   "dry_reference": "dry2020_20200310",
+   "models": {
+    "terramind": {
+     "water_event_km2": 627.8362,
+     "water_dry_km2": 92.1993,
+     "flood_km2": 540.1912,
+     "valid_km2": 2157.6106,
+     "permanent_jrc50_km2": 27.7031
+    },
+    "unet": {
+     "water_event_km2": 617.5255,
+     "water_dry_km2": 83.2506,
+     "flood_km2": 545.3012,
+     "valid_km2": 2157.6106,
+     "permanent_jrc50_km2": 27.7031
+    },
+    "otsu_vh": {
+     "water_event_km2": 1057.5236,
+     "flood_km2": 590.7452,
+     "thr_event_db": -19.41636288576207,
+     "thr_dry_db": -17.268031172830675
+    }
+   },
+   "bounds_utm": [
+    374660.0,
+    2239240.0,
+    442710.0,
+    2283880.0
+   ],
+   "crs": "EPSG:32645"
+  }
+ }
+}

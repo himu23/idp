@@ -1,0 +1,2 @@
+site_id,top_width_m,area_m2,wetted_perimeter_m,hydraulic_radius_m,max_depth_m,mean_surface_velocity_ms,float_runs,float_timing_cv,Q_m3s,Q_low_m3s,Q_high_m3s,mean_velocity_ms,slope,manning_n,manning_n_range
+EXAMPLE-1,55.0,67.0,55.18,1.214,1.8,0.668,8,0.051,39.117,36.816,41.418,0.584,0.0001,0.0195,"(np.float64(0.0184), np.float64(0.0207))"

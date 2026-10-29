@@ -1,0 +1,19 @@
+CASE 3  HEC-RAS downstream sub-reach, standard PINN
+
+Reference field       : 96 x 51 = 4896 values
+Collocation points    : 4896   (no labels, physics only)
+
+Labelled depth values the model is given:
+  initial condition   : 51
+  boundaries          : 192
+  gauges              : 192
+  TOTAL               : 435
+
+The model sees 8.9% of the reference field.
+It must reconstruct the other 91.1% from the
+Saint-Venant equations alone.
+
+Architecture          : [2, 64, 64, 64, 2]
+Engine                : SVE_module_dynamic_h
+
+Figure written to /home1/vineet/floodfm/pinn/PINN/results/figures/case3_phase1_overview.png

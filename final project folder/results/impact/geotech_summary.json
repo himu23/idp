@@ -1,0 +1,13 @@
+{
+ "cells": 663,
+ "years": "bands = 2017,2018,2019,2020,2021,2022,2023,2024,2025,2026",
+ "texture_counts": {
+  "clay loam": 456,
+  "clay": 165,
+  "silty clay loam": 34,
+  "silty clay": 8
+ },
+ "osm_embankments": 12,
+ "osm_embankment_km": 1.8,
+ "channel_km2": 178.2
+}

@@ -1,0 +1,39 @@
+{
+ "hirakud_below": {
+  "corr_by_lag_days": {
+   "0": 0.448,
+   "1": 0.47,
+   "2": 0.222,
+   "3": 0.049,
+   "4": -0.032,
+   "5": -0.064
+  },
+  "best_lag_days": 1,
+  "annual_peak_lag_days_median": 0.0,
+  "annual_peak_lag_days_iqr": [
+   0.0,
+   1.0
+  ],
+  "years": 29,
+  "mean_flow_m3s": 1382
+ },
+ "tikarpara": {
+  "corr_by_lag_days": {
+   "0": 0.926,
+   "1": 0.811,
+   "2": 0.281,
+   "3": -0.034,
+   "4": -0.118,
+   "5": -0.094
+  },
+  "best_lag_days": 0,
+  "annual_peak_lag_days_median": 0.0,
+  "annual_peak_lag_days_iqr": [
+   0.0,
+   1.0
+  ],
+  "years": 29,
+  "mean_flow_m3s": 2095
+ },
+ "naraj_mean_flow_m3s": 2194
+}

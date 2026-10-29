@@ -1,0 +1,146 @@
+{
+ "work_window_months": [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "Dec"
+ ],
+ "link_raising": {
+  "links": 10,
+  "total_km": 5.15,
+  "links_by_embankment": 8,
+  "embankment_km": 2.78,
+  "earthwork_m3": 17442,
+  "cost_crore_rs_at_350_per_m3": 0.61,
+  "max_raise_for_embankment_m": 3.0,
+  "links_needing_structure": [
+   {
+    "rank": 6,
+    "flooded_km": 2.06,
+    "raise_m": 4.9,
+    "lat": 20.40675,
+    "lon": 86.38139
+   },
+   {
+    "rank": 9,
+    "flooded_km": 0.31,
+    "raise_m": 3.85,
+    "lat": 20.38738,
+    "lon": 86.42615
+   }
+  ],
+  "earthwork_m3_if_all_by_embankment": 167882,
+  "people_routed_per_link": [
+   4638,
+   10351
+  ],
+  "hospital_routes_summed_over_links": 70988
+ },
+ "deployment": {
+  "sirens": 40,
+  "siren_share_covered_1500m": 0.491,
+  "sirens_for_50pct": null,
+  "sirens_for_80pct": null,
+  "sensor_sites": 6,
+  "crew_days": 78.0
+ },
+ "work_windows_table": [
+  {
+   "month": "Jan",
+   "mean_flow_m3s": 569.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.0,
+   "mean_flooded_share_on_radar": NaN,
+   "work_window": "yes"
+  },
+  {
+   "month": "Feb",
+   "mean_flow_m3s": 398.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.0,
+   "mean_flooded_share_on_radar": NaN,
+   "work_window": "yes"
+  },
+  {
+   "month": "Mar",
+   "mean_flow_m3s": 269.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.0,
+   "mean_flooded_share_on_radar": NaN,
+   "work_window": "yes"
+  },
+  {
+   "month": "Apr",
+   "mean_flow_m3s": 278.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.02,
+   "mean_flooded_share_on_radar": NaN,
+   "work_window": "yes"
+  },
+  {
+   "month": "May",
+   "mean_flow_m3s": 231.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.2,
+   "mean_flooded_share_on_radar": NaN,
+   "work_window": "no"
+  },
+  {
+   "month": "Jun",
+   "mean_flow_m3s": 291.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.35,
+   "mean_flooded_share_on_radar": 0.002,
+   "work_window": "no"
+  },
+  {
+   "month": "Jul",
+   "mean_flow_m3s": 3274.0,
+   "share_days_above_2yr_flood": 0.012,
+   "storms_per_year_within_300km": 0.37,
+   "mean_flooded_share_on_radar": 0.007,
+   "work_window": "no"
+  },
+  {
+   "month": "Aug",
+   "mean_flow_m3s": 8355.0,
+   "share_days_above_2yr_flood": 0.029,
+   "storms_per_year_within_300km": 0.74,
+   "mean_flooded_share_on_radar": 0.015,
+   "work_window": "no"
+  },
+  {
+   "month": "Sep",
+   "mean_flow_m3s": 7465.0,
+   "share_days_above_2yr_flood": 0.026,
+   "storms_per_year_within_300km": 0.59,
+   "mean_flooded_share_on_radar": 0.016,
+   "work_window": "no"
+  },
+  {
+   "month": "Oct",
+   "mean_flow_m3s": 2882.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.5,
+   "mean_flooded_share_on_radar": 0.007,
+   "work_window": "no"
+  },
+  {
+   "month": "Nov",
+   "mean_flow_m3s": 1210.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.22,
+   "mean_flooded_share_on_radar": 0.004,
+   "work_window": "no"
+  },
+  {
+   "month": "Dec",
+   "mean_flow_m3s": 965.0,
+   "share_days_above_2yr_flood": 0.0,
+   "storms_per_year_within_300km": 0.07,
+   "mean_flooded_share_on_radar": NaN,
+   "work_window": "yes"
+  }
+ ]
+}

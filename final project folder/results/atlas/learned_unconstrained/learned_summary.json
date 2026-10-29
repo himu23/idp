@@ -1,0 +1,288 @@
+{
+ "method": "HistGradientBoosting per pixel and pass, leave-one-year-out, flooded if p >= 0.5",
+ "features": [
+  "flow_q_max_5d",
+  "rain_7d_mm",
+  "month",
+  "track",
+  "flow_minus_trigger_log10",
+  "trigger_log10_q",
+  "freq_all",
+  "freq_high_flow",
+  "freq_heavy_rain",
+  "elevation_m",
+  "height_above_bed_m",
+  "distance_to_bed_m"
+ ],
+ "n_passes": 457,
+ "candidate_pixels": 2261691,
+ "pixel_iou": {
+  "all_passes": {
+   "learned": {
+    "iou": 0.233,
+    "precision": 0.55,
+    "recall": 0.288
+   },
+   "trigger": {
+    "iou": 0.226,
+    "precision": 0.567,
+    "recall": 0.273
+   },
+   "climatology": {
+    "iou": 0.14,
+    "precision": 0.637,
+    "recall": 0.152
+   },
+   "n": 457
+  },
+  "high_flow_passes": {
+   "learned": {
+    "iou": 0.219,
+    "precision": 0.49,
+    "recall": 0.283
+   },
+   "trigger": {
+    "iou": 0.225,
+    "precision": 0.509,
+    "recall": 0.287
+   },
+   "climatology": {
+    "iou": 0.07,
+    "precision": 0.816,
+    "recall": 0.071
+   },
+   "n": 85
+  },
+  "heavy_rain_passes": {
+   "learned": {
+    "iou": 0.185,
+    "precision": 0.422,
+    "recall": 0.248
+   },
+   "trigger": {
+    "iou": 0.175,
+    "precision": 0.493,
+    "recall": 0.214
+   },
+   "climatology": {
+    "iou": 0.05,
+    "precision": 0.752,
+    "recall": 0.051
+   },
+   "n": 46
+  }
+ },
+ "per_year_iou": {
+  "2017": {
+   "learned": 0.225,
+   "trigger": 0.206,
+   "climatology": 0.188
+  },
+  "2018": {
+   "learned": 0.168,
+   "trigger": 0.171,
+   "climatology": 0.106
+  },
+  "2019": {
+   "learned": 0.273,
+   "trigger": 0.26,
+   "climatology": 0.161
+  },
+  "2020": {
+   "learned": 0.251,
+   "trigger": 0.196,
+   "climatology": 0.098
+  },
+  "2021": {
+   "learned": 0.197,
+   "trigger": 0.156,
+   "climatology": 0.125
+  },
+  "2022": {
+   "learned": 0.312,
+   "trigger": 0.316,
+   "climatology": 0.133
+  },
+  "2023": {
+   "learned": 0.33,
+   "trigger": 0.303,
+   "climatology": 0.241
+  },
+  "2024": {
+   "learned": 0.252,
+   "trigger": 0.26,
+   "climatology": 0.237
+  },
+  "2025": {
+   "learned": 0.263,
+   "trigger": 0.257,
+   "climatology": 0.177
+  },
+  "2026": {
+   "learned": 0.173,
+   "trigger": 0.203,
+   "climatology": 0.093
+  }
+ },
+ "area_correlation": {
+  "learned": 0.477,
+  "trigger": 0.45
+ },
+ "settlements": {
+  "all_passes": {
+   "learned": {
+    "hits": 113,
+    "misses": 517,
+    "false_alarms": 116,
+    "POD": 0.179,
+    "FAR": 0.507,
+    "CSI": 0.151
+   },
+   "trigger": {
+    "hits": 111,
+    "misses": 519,
+    "false_alarms": 150,
+    "POD": 0.176,
+    "FAR": 0.575,
+    "CSI": 0.142
+   },
+   "climatology": {
+    "hits": 46,
+    "misses": 584,
+    "false_alarms": 20,
+    "POD": 0.073,
+    "FAR": 0.303,
+    "CSI": 0.071
+   }
+  },
+  "high_flow_passes": {
+   "learned": {
+    "hits": 63,
+    "misses": 318,
+    "false_alarms": 84,
+    "POD": 0.165,
+    "FAR": 0.571,
+    "CSI": 0.135
+   },
+   "trigger": {
+    "hits": 65,
+    "misses": 316,
+    "false_alarms": 123,
+    "POD": 0.171,
+    "FAR": 0.654,
+    "CSI": 0.129
+   },
+   "climatology": {
+    "hits": 10,
+    "misses": 371,
+    "false_alarms": 3,
+    "POD": 0.026,
+    "FAR": 0.231,
+    "CSI": 0.026
+   }
+  },
+  "heavy_rain_passes": {
+   "learned": {
+    "hits": 39,
+    "misses": 238,
+    "false_alarms": 67,
+    "POD": 0.141,
+    "FAR": 0.632,
+    "CSI": 0.113
+   },
+   "trigger": {
+    "hits": 39,
+    "misses": 238,
+    "false_alarms": 91,
+    "POD": 0.141,
+    "FAR": 0.7,
+    "CSI": 0.106
+   },
+   "climatology": {
+    "hits": 5,
+    "misses": 272,
+    "false_alarms": 1,
+    "POD": 0.018,
+    "FAR": 0.167,
+    "CSI": 0.018
+   }
+  }
+ },
+ "ranking_auc": {
+  "all_passes": {
+   "learned": 0.949,
+   "trigger": 0.787,
+   "climatology": 0.928
+  },
+  "high_flow_passes": {
+   "learned": 0.916,
+   "trigger": 0.76,
+   "climatology": 0.912
+  },
+  "heavy_rain_passes": {
+   "learned": 0.882,
+   "trigger": 0.712,
+   "climatology": 0.883
+  }
+ },
+ "permutation_importance_auc_drop": {
+  "freq_all": 0.3041,
+  "flow_q_max_5d": 0.0407,
+  "freq_high_flow": 0.0259,
+  "rain_7d_mm": 0.0171,
+  "freq_heavy_rain": 0.0097,
+  "flow_minus_trigger_log10": 0.0066,
+  "track": 0.0036,
+  "month": 0.0029,
+  "distance_to_bed_m": 0.0017,
+  "elevation_m": 0.0016,
+  "trigger_log10_q": 0.0011,
+  "height_above_bed_m": 0.0004
+ },
+ "scenarios_all_years_model": {
+  "T2 typical rain": {
+   "flow_m3s": 17897,
+   "rain_7d_mm": 58,
+   "flood_km2": 21.7,
+   "people": 3497
+  },
+  "T5 typical rain": {
+   "flow_m3s": 23940,
+   "rain_7d_mm": 58,
+   "flood_km2": 97.7,
+   "people": 14057
+  },
+  "T25 typical rain": {
+   "flow_m3s": 32997,
+   "rain_7d_mm": 58,
+   "flood_km2": 121.2,
+   "people": 16780
+  },
+  "T2 heavy rain": {
+   "flow_m3s": 17897,
+   "rain_7d_mm": 171,
+   "flood_km2": 7.7,
+   "people": 1146
+  },
+  "T5 heavy rain": {
+   "flow_m3s": 23940,
+   "rain_7d_mm": 171,
+   "flood_km2": 130.8,
+   "people": 16192
+  },
+  "T25 heavy rain": {
+   "flow_m3s": 32997,
+   "rain_7d_mm": 171,
+   "flood_km2": 108.5,
+   "people": 15336
+  },
+  "T5 dry week": {
+   "flow_m3s": 23940,
+   "rain_7d_mm": 20,
+   "flood_km2": 70.4,
+   "people": 10105
+  }
+ },
+ "scenario_note": "August, averaged over the three radar tracks; typical rain = median 7-day rain of the monsoon passes (58 mm); heavy rain = monsoon 95th percentile (171 mm)",
+ "runtime_s": 2260
+}

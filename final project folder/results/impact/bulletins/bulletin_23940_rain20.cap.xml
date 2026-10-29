@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2"><identifier>prithvi-flood-in-23940_rain20-2026-10-29T121605</identifier><sender>prithvi-flood-in.iitb.prototype</sender><sent>2026-10-29T12:16:05+05:30</sent><status>Exercise</status><msgType>Alert</msgType><scope>Public</scope><info><language>en-IN</language><category>Met</category><event>River flood</event><urgency>Expected</urgency><severity>Severe</severity><certainty>Possible</certainty><headline>Mahanadi delta: flooding expected at a Naraj flow of 23,940 m3/s</headline><description>MAHANADI DELTA - EXPECTED FLOODING FOR A NARAJ FLOW OF 23,940 m3/s (8.5 lakh cusec), lead time 24 h
+(flow = highest daily flow over 5 days at Naraj, the measure the atlas is fitted on; method: analog maps on river flow and 20 mm of 7-day rain; similar past passes: 20190918, 20190919, 20230811, 20230813, 20260907, 20260909, 20261003)
+Expected flooded land: 25 km2
+People living on that land: 5,021
+Settlements with at least 10 % of people on flooded land: 0
+Main roads under water: 0.8 km; named sections: Left Puri Main Canal Road 0.4 km
+Source: Sentinel-1 flood atlas 2017-2026 + GloFAS discharge (IIT Bombay IDP prototype). Not an official warning.</description><instruction>Follow the district administration; keep off flooded roads.</instruction></info></alert>

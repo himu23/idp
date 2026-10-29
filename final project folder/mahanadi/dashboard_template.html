@@ -1,0 +1,194 @@
+<title>Mahanadi Flood Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: control column (scenario -> numbers -> layers -> villages) beside a full-height map; stacks on phones.
+   One light theme, the same type and colours as the project site (and the partner's site): Inter, black, navy, blue. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff; --surface: #f9fafb; --ink: #000000; --muted: #555555; --soft: #64748b; --line: #e5e7eb;
+  --hover: rgba(0, 0, 0, 0.04); --navy: #0c3c6c; --accent: #0c9ce4; --accent-ink: #0a64a0; --accent-soft: #e8f4fc;
+  --signal: #fc9c24; --alert: #b42318; --alert-soft: #fdecea; --inv-bg: #000000; --inv-fg: #ffffff;
+  --flood: #f08714; --deep: #7f1d1d; --ground: #5b21b6; --map-ink: #16202b; --map-land: #edf1f5;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+/*__LEAFLET_CSS__*/
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; letter-spacing: -0.01em;
+  font-feature-settings: "cv11", "ss01"; -webkit-font-smoothing: antialiased; }
+.app { display: grid; grid-template-columns: minmax(320px, 410px) 1fr; height: 100%; }
+.panel { background: var(--bg); border-right: 1px solid var(--line); overflow-y: auto; min-width: 0;
+  padding-block: 16px 24px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: 18px;
+  display: flex; flex-direction: column; gap: 20px; }
+#map { height: 100%; min-height: 420px; background: var(--map-land); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 8px 8px 14px;
+  border: 1px solid var(--line); border-radius: 9999px; box-shadow: 0 8px 32px rgba(15, 23, 42, 0.06); }
+.brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.mark { width: 20px; height: 20px; border-radius: 5px; background: conic-gradient(var(--navy) 0 25%, var(--accent) 0 50%, var(--navy) 0 75%, var(--signal) 0); }
+.home { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 9999px; background: var(--inv-bg);
+  color: var(--inv-fg); font-size: 13px; font-weight: 500; text-decoration: none; white-space: nowrap; }
+.home:hover { background: #222222; }
+h1 { font-weight: 500; font-size: 26px; line-height: 1.12; margin: 0; letter-spacing: -0.03em; text-wrap: balance; }
+.sub { color: var(--muted); margin: 8px 0 0; line-height: 1.55; }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--soft); font-weight: 600; margin: 0 0 8px; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { font: 500 13px var(--sans); color: var(--ink); background: var(--bg); border: 1px solid var(--line);
+  border-radius: 9999px; padding: 7px 12px; cursor: pointer; transition: border-color .2s, background .2s; }
+.seg button:hover { border-color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--inv-bg); border-color: var(--inv-bg); color: var(--inv-fg); }
+.seg button:focus-visible, .toggles input:focus-visible, .home:focus-visible, tr.row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.flow { font-size: 13px; color: var(--muted); margin-top: 10px; font-variant-numeric: tabular-nums; }
+.flow b { color: var(--ink); font-weight: 600; }
+.stats { display: grid; grid-template-columns: 1fr auto; gap: 0; margin: 0; border-top: 1px solid var(--line); }
+.stats dt, .stats dd { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.stats dt { color: var(--muted); }
+.stats dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+.stats dd.hot { color: var(--alert); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+  border-bottom: 1px solid var(--line); padding: 8px 10px; background: var(--surface); }
+td { border-bottom: 1px solid var(--line); padding: 7px 10px; vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+tr.row { cursor: pointer; } tr.row:hover td { background: var(--hover); }
+.pill { display: inline-block; font-size: 11px; border-radius: 9999px; padding: 1px 8px; background: var(--alert-soft); color: var(--alert); font-weight: 600; }
+.toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+.toggles label { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+.toggles input { accent-color: #000000; }
+.legend { display: flex; flex-wrap: wrap; gap: 5px 12px; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+.note { color: var(--muted); font-size: 12px; line-height: 1.55; border-top: 1px solid var(--line); padding-top: 14px; }
+.town { font: 600 12px var(--sans); color: var(--map-ink); text-shadow: 0 0 3px #ffffff, 0 0 3px #ffffff; white-space: nowrap; }
+.num-icon { background: var(--navy); color: #ffffff; border-radius: 50%; font: 600 10px var(--sans); display: flex; align-items: center; justify-content: center; border: 1px solid #ffffff; }
+.tri { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 13px solid #000000; }
+.leaflet-container { font-family: var(--sans); }
+.leaflet-popup-content { font: 13px/1.5 var(--sans); }
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; height: auto; }
+  #map { height: 62svh; order: -1; }
+  .panel { border-right: 0; padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); overflow: visible; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="app">
+  <aside class="panel">
+    <div class="top"><span class="brand"><span class="mark" aria-hidden="true"></span>Prithvi Flood-IN</span><a class="home" href="#" data-home hidden>Project site</a></div>
+    <header>
+      <h1>What floods at which river flow</h1>
+      <p class="sub">Mahanadi delta, Cuttack to Kendrapara, 3,038 km². Flood extents from every Sentinel-1 radar pass 2017–2026, linked to the river flow at Naraj, the head of the delta.</p>
+    </header>
+    <section>
+      <p class="label">Flood scenario</p>
+      <div class="seg" id="scen" role="group" aria-label="Flood scenario"></div>
+      <p class="flow" id="flow"></p>
+    </section>
+    <section>
+      <p class="label">Impact in this scenario</p>
+      <dl class="stats" id="stats"></dl>
+    </section>
+    <section>
+      <p class="label">Map layers</p>
+      <div class="toggles" id="toggles"></div>
+      <div class="legend" id="legend" style="margin-top:10px"></div>
+    </section>
+    <section>
+      <p class="label">Settlements with 10 % or more of people on flooded land (click to zoom)</p>
+      <div class="tablewrap"><table><thead><tr><th>Settlement</th><th style="text-align:right">People</th><th style="text-align:right">Flooded</th><th></th></tr></thead><tbody id="vill"></tbody></table></div>
+    </section>
+    <p class="note" id="note"></p>
+  </aside>
+  <div id="map" aria-label="Map of the Mahanadi delta"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const D = /*__DATA__*/null;
+const fmt = new Intl.NumberFormat("en-IN");
+const C = { flood: "#f08714", road: "#000000", deep: "#7f1d1d", ground: "#5b21b6", siren: "#000000" };
+const map = L.map("map", { zoomControl: true, attributionControl: true, preferCanvas: true });
+map.fitBounds(D.bounds);
+map.createPane("ownbase"); map.getPane("ownbase").style.zIndex = 150;
+L.imageOverlay(D.layers.basemap, D.bounds, { pane: "ownbase", interactive: false }).addTo(map);
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 17, opacity: 0.85,
+  attribution: "© OpenStreetMap contributors · Sentinel-1/2 Copernicus · GloFAS · GHSL" }).addTo(map);
+Object.entries(D.towns).forEach(([n, ll]) => L.marker(ll, { interactive: false,
+  icon: L.divIcon({ className: "town", html: n, iconSize: null, iconAnchor: [-6, 8] }) }).addTo(map));
+
+const keys = Object.keys(D.info);
+let cur = keys.find(k => k === "T25") || keys[0];
+const over = {}, overlay = (k, url, op) => (over[k] = over[k] || L.imageOverlay(url, D.bounds, { opacity: op, interactive: false }));
+let scenLayer = null, roadsLayer = null;
+
+const vecLayers = {
+  sirens: L.layerGroup(D.vec.sirens.map(s => L.circleMarker([s.lat, s.lon], { radius: 6, color: "#ffffff", weight: 1.5, fillColor: C.siren, fillOpacity: 1 })
+    .bindPopup(`<b>Siren site ${s.rank}</b><br>${s.settlement}<br>covers ${fmt.format(Math.round(s.new_people_covered))} more exposed people (1.5 km)`))),
+  sensors: L.layerGroup(D.vec.sensors.map(s => L.marker([s.lat, s.lon], { icon: L.divIcon({ className: "", html: '<div class="tri"></div>', iconSize: [14, 13] }) })
+    .bindPopup(`<b>River gauge: ${s.river}</b><br>${s.name || s.ref || "road bridge"}, ${Math.round(s.length_m)} m<br>approaches dry in the 25-year flood: ${s.access_dry ? "yes" : "no"}`))),
+  geotech: L.layerGroup(D.vec.geotech.map(g => L.marker([g.lat, g.lon], { icon: L.divIcon({ className: "num-icon", html: g.rank, iconSize: [18, 18] }) })
+    .bindPopup(`<b>Bank inspection #${g.rank}</b><br>water behind the bank in ${Math.round(g.behind_freq * 100)} % of monsoon passes, ${g.years_flooded} years<br>soil (SoilGrids): ${g.texture}`))),
+  checkpoints: L.layerGroup(D.vec.checkpoints.filter(c => c.kind === "ground truth").map(c => L.circleMarker([c.lat, c.lon], { radius: 4, color: "#16202b", weight: 1, fillColor: "#ffd166", fillOpacity: 1 })
+    .bindPopup(`<b>${c.id}</b> ground-truth point<br>${c.note}`))),
+};
+const LAYERS = [
+  ["scenario", "Flood extent (scenario)", true], ["roads", "Roads cut", true], ["frequency", "Flood frequency", false],
+  ["trigger", "Trigger flow", false], ["sirens", "Siren sites", true], ["sensors", "River gauges", true],
+  ["geotech", "Bank inspection", false], ["checkpoints", "Field check points", false]]
+  .concat(D.layers.deep ? [["deep", "Depth ≥ 1 m (25-yr)", false]] : [])
+  .concat(D.layers.ground ? [["ground", "Ground advisory (25-yr)", false]] : []);
+const on = Object.fromEntries(LAYERS.map(l => [l[0], l[2]]));
+const tg = document.getElementById("toggles");
+LAYERS.forEach(([k, lab]) => { const id = "t-" + k; tg.insertAdjacentHTML("beforeend",
+  `<label for="${id}"><input type="checkbox" id="${id}" ${on[k] ? "checked" : ""}> ${lab}</label>`);
+  document.getElementById(id).addEventListener("change", e => { on[k] = e.target.checked; draw(); }); });
+
+const LEG = {
+  frequency: ["Flood frequency (% of monsoon passes)", [["#c6dbef", "1–5"], ["#9ecae1", "5–10"], ["#6baed6", "10–20"], ["#4292c6", "20–30"], ["#2171b5", "30–50"], ["#08458a", "≥ 50"]]],
+  trigger: ["Floods when the Naraj flow exceeds", [["#7f2704", "2-yr"], ["#c44607", "2–5 yr"], ["#f16913", "5–10 yr"], ["#fd8d3c", "10–25 yr"], ["#fdbe85", "rarer"]]],
+};
+function draw() {
+  if (scenLayer) map.removeLayer(scenLayer);
+  if (roadsLayer) map.removeLayer(roadsLayer);
+  ["frequency", "trigger", "deep", "ground"].filter(k => D.layers[k]).forEach(k => { const o = overlay(k, D.layers[k], 0.85); on[k] ? o.addTo(map) : map.removeLayer(o); });
+  if (on.scenario) scenLayer = overlay("scen_" + cur, D.layers["scen_" + cur], 0.8).addTo(map);
+  const r = D.info[cur].roads;
+  if (on.roads && r) roadsLayer = L.geoJSON(r, { style: { color: C.road, weight: 2.4, opacity: 0.95 }, interactive: false }).addTo(map);
+  Object.entries(vecLayers).forEach(([k, l]) => on[k] ? l.addTo(map) : map.removeLayer(l));
+  const lg = document.getElementById("legend"); lg.innerHTML = "";
+  if (on.scenario) lg.insertAdjacentHTML("beforeend", `<span><i class="sw" style="background:${C.flood}"></i>flooded land</span>`);
+  if (on.roads) lg.insertAdjacentHTML("beforeend", `<span><i class="sw" style="background:${C.road};height:3px;vertical-align:3px"></i>road under water ≥ 20 m</span>`);
+  if (on.deep) lg.insertAdjacentHTML("beforeend", `<span><i class="sw" style="background:${C.deep}"></i>25-yr flood ≥ 1 m deep: brick walls at risk</span>`);
+  if (on.ground) lg.insertAdjacentHTML("beforeend", `<span><i class="sw" style="background:${C.ground}"></i>dry land within 200 m of flood water on silty clay: check foundations</span>`);
+  ["frequency", "trigger"].filter(k => on[k]).forEach(k => lg.insertAdjacentHTML("beforeend",
+    `<span style="width:100%;margin-top:4px">${LEG[k][0]}:</span>` + LEG[k][1].map(([c, t]) => `<span><i class="sw" style="background:${c}"></i>${t}</span>`).join("")));
+}
+function show(k) {
+  cur = k;
+  document.querySelectorAll("#scen button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k));
+  const inf = D.info[k];
+  document.getElementById("flow").innerHTML = (inf.q ? `Naraj flow <b>${fmt.format(inf.q)} m³/s</b> · <b>${inf.lakh} lakh cusec</b>` : "")
+    + (k.startsWith("T") ? "" : `${inf.q ? "<br>" : ""}${inf.label}`);
+  const st = inf.stats || {};
+  document.getElementById("stats").innerHTML = Object.entries(st).map(([n, v]) =>
+    `<dt>${n}</dt><dd class="${/cut off|Health|Schools/.test(n) && v > 0 ? "hot" : ""}">${fmt.format(v)}</dd>`).join("");
+  document.getElementById("vill").innerHTML = inf.villages.map((v, i) =>
+    `<tr class="row" data-i="${i}" tabindex="0"><td>${v.name}</td><td class="num">${fmt.format(Math.round(v.pop * v.share / 100))}</td><td class="num">${v.share} %</td><td>${v.cut ? '<span class="pill">cut off</span>' : ""}</td></tr>`).join("")
+    || `<tr><td colspan="4" style="color:var(--muted)">No settlement has 10 % of its people on flooded land.</td></tr>`;
+  document.querySelectorAll("#vill tr.row").forEach(tr => { const go = () => { const v = inf.villages[+tr.dataset.i];
+    map.setView([v.lat, v.lon], 14); L.popup().setLatLng([v.lat, v.lon]).setContent(`<b>${v.name}</b><br>${fmt.format(v.pop)} people, ${v.share} % on flooded land${v.cut ? "<br>road to hospital cut" : ""}`).openOn(map); };
+    tr.addEventListener("click", go); tr.addEventListener("keydown", e => { if (e.key === "Enter") go(); }); });
+  draw();
+}
+const sc = document.getElementById("scen");
+keys.forEach(k => { const b = document.createElement("button"); b.type = "button"; b.dataset.k = k;
+  b.textContent = k.startsWith("T") ? `${k.slice(1)}-year` : (k === "rain_T5" ? "5-year + heavy rain" : "Largest seen");
+  b.addEventListener("click", () => show(k)); sc.appendChild(b); });
+const v = D.summary.validation;
+document.getElementById("note").innerHTML = `Student prototype, IIT Bombay Integrated Design Project with ClimMaTech (2026); not an official warning. `
+  + `Water from ${D.summary.passes} Sentinel-1 passes (${D.summary.years[0]}–${D.summary.years[D.summary.years.length - 1]}), radar foundation-model fusion (TerraMind-B + U-Net). `
+  + `Scenario maps: per-pixel trigger flow against the GloFAS flow at Naraj; tested on held-out years, high-flow passes IoU ${v.model.iou.toFixed(2)} (climatology ${v.climatology.iou.toFixed(2)}). `
+  + `Design flows from a Gumbel fit to GloFAS annual maxima 1984–2025 (modelled, not gauged). People from GHSL 2020; roads, bridges and facilities from OpenStreetMap.`;
+show(cur);
+</script>

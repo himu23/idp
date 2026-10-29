@@ -1,0 +1,11 @@
+unet       native     IoU 0.649  precision 0.820  recall 0.757
+terramind  native     IoU 0.654  precision 0.798  recall 0.784
+mean       native     IoU 0.664  precision 0.839  recall 0.762
+unet       avg20      IoU 0.636  precision 0.857  recall 0.711
+terramind  avg20      IoU 0.632  precision 0.897  recall 0.681
+mean       avg20      IoU 0.640  precision 0.891  recall 0.694
+unet       nearest20  IoU 0.640  precision 0.845  recall 0.725
+terramind  nearest20  IoU 0.646  precision 0.878  recall 0.709
+mean       nearest20  IoU 0.648  precision 0.879  recall 0.711
+val sweep (mean, avg20): {np.float64(0.2): 0.635, np.float64(0.25): 0.636, np.float64(0.3): 0.636, np.float64(0.35): 0.636, np.float64(0.4): 0.634, np.float64(0.45): 0.629, np.float64(0.5): 0.618, np.float64(0.55): 0.601, np.float64(0.6): 0.592, np.float64(0.65): 0.585, np.float64(0.7): 0.576}
+chosen threshold 0.3: test IoU 0.646 precision 0.847 recall 0.732

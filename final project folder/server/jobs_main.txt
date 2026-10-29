@@ -1,0 +1,92 @@
+official_terramind_s1_full_s0 --model terramind --protocol official --mode full --seed 0 --modalities s1 --save_ckpt
+official_unet_s1_full_s0 --model unet --protocol official --mode full --seed 0 --modalities s1 --save_ckpt
+lio_unet_full_s0 --model unet --protocol lio --mode full --seed 0
+lio_cnn_full_s0 --model cnn --protocol lio --mode full --seed 0
+lio_prithvi_full_s0 --model prithvi --protocol lio --mode full --seed 0
+lio_terramind_full_s0 --model terramind --protocol lio --mode full --seed 0
+lio_dofa_full_s0 --model dofa --protocol lio --mode full --seed 0
+lio_clay_full_s0 --model clay --protocol lio --mode full --seed 0
+lio_satlas_full_s0 --model satlas --protocol lio --mode full --seed 0
+lio_decur_full_s0 --model decur --protocol lio --mode full --seed 0
+official_unet_full_s0 --model unet --protocol official --mode full --seed 0 --save_ckpt
+official_cnn_full_s0 --model cnn --protocol official --mode full --seed 0 --save_ckpt
+official_prithvi_full_s0 --model prithvi --protocol official --mode full --seed 0 --save_ckpt
+official_terramind_full_s0 --model terramind --protocol official --mode full --seed 0 --save_ckpt
+official_dofa_full_s0 --model dofa --protocol official --mode full --seed 0 --save_ckpt
+official_clay_full_s0 --model clay --protocol official --mode full --seed 0 --save_ckpt
+official_satlas_full_s0 --model satlas --protocol official --mode full --seed 0 --save_ckpt
+official_decur_full_s0 --model decur --protocol official --mode full --seed 0 --save_ckpt
+lio_prithvi_frozen_s0 --model prithvi --protocol lio --mode frozen --seed 0
+lio_terramind_frozen_s0 --model terramind --protocol lio --mode frozen --seed 0
+lio_dofa_frozen_s0 --model dofa --protocol lio --mode frozen --seed 0
+lio_clay_frozen_s0 --model clay --protocol lio --mode frozen --seed 0
+lio_satlas_frozen_s0 --model satlas --protocol lio --mode frozen --seed 0
+lio_decur_frozen_s0 --model decur --protocol lio --mode frozen --seed 0
+official_prithvi_frozen_s0 --model prithvi --protocol official --mode frozen --seed 0
+official_terramind_frozen_s0 --model terramind --protocol official --mode frozen --seed 0
+official_dofa_frozen_s0 --model dofa --protocol official --mode frozen --seed 0
+official_clay_frozen_s0 --model clay --protocol official --mode frozen --seed 0
+official_satlas_frozen_s0 --model satlas --protocol official --mode frozen --seed 0
+official_decur_frozen_s0 --model decur --protocol official --mode frozen --seed 0
+lio_terramind_s1_full_s0 --model terramind --protocol lio --mode full --seed 0 --modalities s1
+lio_terramind_s2_full_s0 --model terramind --protocol lio --mode full --seed 0 --modalities s2
+lio_unet_s1_full_s0 --model unet --protocol lio --mode full --seed 0 --modalities s1
+lio_unet_s2_full_s0 --model unet --protocol lio --mode full --seed 0 --modalities s2
+lio_unet_full_s1 --model unet --protocol lio --mode full --seed 1
+lio_cnn_full_s1 --model cnn --protocol lio --mode full --seed 1
+lio_prithvi_full_s1 --model prithvi --protocol lio --mode full --seed 1
+lio_terramind_full_s1 --model terramind --protocol lio --mode full --seed 1
+lio_dofa_full_s1 --model dofa --protocol lio --mode full --seed 1
+lio_clay_full_s1 --model clay --protocol lio --mode full --seed 1
+lio_satlas_full_s1 --model satlas --protocol lio --mode full --seed 1
+lio_decur_full_s1 --model decur --protocol lio --mode full --seed 1
+official_unet_full_s1 --model unet --protocol official --mode full --seed 1
+official_cnn_full_s1 --model cnn --protocol official --mode full --seed 1
+official_prithvi_full_s1 --model prithvi --protocol official --mode full --seed 1
+official_terramind_full_s1 --model terramind --protocol official --mode full --seed 1
+official_dofa_full_s1 --model dofa --protocol official --mode full --seed 1
+official_clay_full_s1 --model clay --protocol official --mode full --seed 1
+official_satlas_full_s1 --model satlas --protocol official --mode full --seed 1
+official_decur_full_s1 --model decur --protocol official --mode full --seed 1
+lio_terramind_s1_full_s1 --model terramind --protocol lio --mode full --seed 1 --modalities s1
+lio_terramind_s2_full_s1 --model terramind --protocol lio --mode full --seed 1 --modalities s2
+lio_unet_s1_full_s1 --model unet --protocol lio --mode full --seed 1 --modalities s1
+lio_unet_s2_full_s1 --model unet --protocol lio --mode full --seed 1 --modalities s2
+lio_unet_full_s2 --model unet --protocol lio --mode full --seed 2
+lio_cnn_full_s2 --model cnn --protocol lio --mode full --seed 2
+lio_prithvi_full_s2 --model prithvi --protocol lio --mode full --seed 2
+lio_terramind_full_s2 --model terramind --protocol lio --mode full --seed 2
+lio_dofa_full_s2 --model dofa --protocol lio --mode full --seed 2
+lio_clay_full_s2 --model clay --protocol lio --mode full --seed 2
+lio_satlas_full_s2 --model satlas --protocol lio --mode full --seed 2
+lio_decur_full_s2 --model decur --protocol lio --mode full --seed 2
+official_unet_full_s2 --model unet --protocol official --mode full --seed 2
+official_cnn_full_s2 --model cnn --protocol official --mode full --seed 2
+official_prithvi_full_s2 --model prithvi --protocol official --mode full --seed 2
+official_terramind_full_s2 --model terramind --protocol official --mode full --seed 2
+official_dofa_full_s2 --model dofa --protocol official --mode full --seed 2
+official_clay_full_s2 --model clay --protocol official --mode full --seed 2
+official_satlas_full_s2 --model satlas --protocol official --mode full --seed 2
+official_decur_full_s2 --model decur --protocol official --mode full --seed 2
+lio_terramind_s1_full_s2 --model terramind --protocol lio --mode full --seed 2 --modalities s1
+lio_terramind_s2_full_s2 --model terramind --protocol lio --mode full --seed 2 --modalities s2
+lio_unet_s1_full_s2 --model unet --protocol lio --mode full --seed 2 --modalities s1
+lio_unet_s2_full_s2 --model unet --protocol lio --mode full --seed 2 --modalities s2
+lio_unet_frac10_full_s0 --model unet --protocol lio --mode full --seed 0 --train_frac 0.1
+lio_terramind_frac10_full_s0 --model terramind --protocol lio --mode full --seed 0 --train_frac 0.1
+lio_prithvi_frac10_full_s0 --model prithvi --protocol lio --mode full --seed 0 --train_frac 0.1
+lio_unet_frac25_full_s0 --model unet --protocol lio --mode full --seed 0 --train_frac 0.25
+lio_terramind_frac25_full_s0 --model terramind --protocol lio --mode full --seed 0 --train_frac 0.25
+lio_prithvi_frac25_full_s0 --model prithvi --protocol lio --mode full --seed 0 --train_frac 0.25
+lio_unet_frac50_full_s0 --model unet --protocol lio --mode full --seed 0 --train_frac 0.5
+lio_terramind_frac50_full_s0 --model terramind --protocol lio --mode full --seed 0 --train_frac 0.5
+lio_prithvi_frac50_full_s0 --model prithvi --protocol lio --mode full --seed 0 --train_frac 0.5
+lio_unet_frac10_full_s1 --model unet --protocol lio --mode full --seed 1 --train_frac 0.1
+lio_terramind_frac10_full_s1 --model terramind --protocol lio --mode full --seed 1 --train_frac 0.1
+lio_prithvi_frac10_full_s1 --model prithvi --protocol lio --mode full --seed 1 --train_frac 0.1
+lio_unet_frac25_full_s1 --model unet --protocol lio --mode full --seed 1 --train_frac 0.25
+lio_terramind_frac25_full_s1 --model terramind --protocol lio --mode full --seed 1 --train_frac 0.25
+lio_prithvi_frac25_full_s1 --model prithvi --protocol lio --mode full --seed 1 --train_frac 0.25
+lio_unet_frac50_full_s1 --model unet --protocol lio --mode full --seed 1 --train_frac 0.5
+lio_terramind_frac50_full_s1 --model terramind --protocol lio --mode full --seed 1 --train_frac 0.5
+lio_prithvi_frac50_full_s1 --model prithvi --protocol lio --mode full --seed 1 --train_frac 0.5

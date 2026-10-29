@@ -1,0 +1,3 @@
+sample_id,total_dry_mass_g,liquid_limit_pct,plastic_limit_pct,natural_moisture_pct,notes
+EXAMPLE-S1,700,,,12,EXAMPLE ONLY - non-plastic
+EXAMPLE-S2,500,41,22,24,EXAMPLE ONLY

@@ -1,0 +1,19 @@
+{
+ "naraj_discharge_m3s": 23940,
+ "naraj_discharge_lakh_cusec": 8.45,
+ "lead_time": "24 h",
+ "rain_mm": null,
+ "method": "trigger-discharge map, river flow only",
+ "lower_bound": false,
+ "flooded_land_km2": 202.8,
+ "people_on_flooded_land": 22545,
+ "settlements_to_warn": 20,
+ "main_road_km_under_water": 10.9,
+ "all_road_km_under_water": 30.1,
+ "main_roads_affected": {},
+ "model": {
+  "atlas_passes": 590,
+  "predictor": "Q_max_5d",
+  "held_out_high_flow_iou": 0.225
+ }
+}
