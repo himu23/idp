@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Prithvi Flood-IN (IIT Bombay IDP)" xmlns="http://www.topografix.com/GPX/1/1">
+<wpt lat="20.485944" lon="86.009344"><name>GT01</name><desc>ground truth: atlas: never flooded; ask in near Jagatpur (8.1 km)</desc></wpt>
+<wpt lat="20.350128" lon="86.24033"><name>GT02</name><desc>ground truth: atlas: never flooded; ask in near Nemalo (10.9 km)</desc></wpt>
+<wpt lat="20.571656" lon="86.019729"><name>GT03</name><desc>ground truth: atlas: never flooded; ask in near Tangi (3.3 km)</desc></wpt>
+<wpt lat="20.35512" lon="86.409888"><name>GT04</name><desc>ground truth: atlas: never flooded; ask in near Patkura (3.5 km)</desc></wpt>
+<wpt lat="20.261454" lon="86.44931"><name>GT05</name><desc>ground truth: atlas: never flooded; ask in near Patkura (14.9 km)</desc></wpt>
+<wpt lat="20.280172" lon="86.425112"><name>GT06</name><desc>ground truth: atlas: never flooded; ask in near Patkura (11.9 km)</desc></wpt>
+<wpt lat="20.267712" lon="85.898328"><name>GT07</name><desc>ground truth: atlas: never flooded; ask in near Balikanthia (1.9 km)</desc></wpt>
+<wpt lat="20.488688" lon="86.271678"><name>GT08</name><desc>ground truth: atlas: never flooded; ask in near Derabish (6.4 km)</desc></wpt>
+<wpt lat="20.386076" lon="86.425678"><name>GT09</name><desc>ground truth: atlas: never flooded; ask in near Patkura (1.5 km)</desc></wpt>
+<wpt lat="20.57739" lon="86.043294"><name>GT10</name><desc>ground truth: atlas: never flooded; ask in near Gokulpur (1.9 km)</desc></wpt>
+<wpt lat="20.577155" lon="86.390809"><name>GT11</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in Nikirai</desc></wpt>
+<wpt lat="20.489987" lon="85.989565"><name>GT12</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Jagatpur (5.3 km)</desc></wpt>
+<wpt lat="20.603575" lon="86.107807"><name>GT13</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Bhattasagar Square (4.4 km)</desc></wpt>
+<wpt lat="20.510507" lon="86.106813"><name>GT14</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Salepur (3.4 km)</desc></wpt>
+<wpt lat="20.650277" lon="86.279742"><name>GT15</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Balachandrapur (6.1 km)</desc></wpt>
+<wpt lat="20.310902" lon="86.159109"><name>GT16</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Jagatsinghpur (6.5 km)</desc></wpt>
+<wpt lat="20.362829" lon="86.295648"><name>GT17</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Patkura (12.1 km)</desc></wpt>
+<wpt lat="20.351348" lon="85.893713"><name>GT18</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Balikanthia (7.9 km)</desc></wpt>
+<wpt lat="20.387079" lon="86.071304"><name>GT19</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Kishannagar (4.5 km)</desc></wpt>
+<wpt lat="20.27329" lon="86.368447"><name>GT20</name><desc>ground truth: atlas: rarely (&lt;10 %); ask in near Patkura (14.0 km)</desc></wpt>
+<wpt lat="20.317229" lon="86.375166"><name>GT21</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Patkura (8.5 km)</desc></wpt>
+<wpt lat="20.537002" lon="86.026856"><name>GT22</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Tangi (4.1 km)</desc></wpt>
+<wpt lat="20.626241" lon="86.324005"><name>GT23</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Keutkandia (6.2 km)</desc></wpt>
+<wpt lat="20.581768" lon="85.987043"><name>GT24</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Tangi (2.8 km)</desc></wpt>
+<wpt lat="20.543733" lon="86.254726"><name>GT25</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Derabish (5.3 km)</desc></wpt>
+<wpt lat="20.250658" lon="85.945934"><name>GT26</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Bhingarapur (2.5 km)</desc></wpt>
+<wpt lat="20.507848" lon="86.416211"><name>GT27</name><desc>ground truth: atlas: sometimes (10-30 %); ask in Fakirabad</desc></wpt>
+<wpt lat="20.291299" lon="86.037018"><name>GT28</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Gobindpur (4.1 km)</desc></wpt>
+<wpt lat="20.463606" lon="86.054163"><name>GT29</name><desc>ground truth: atlas: sometimes (10-30 %); ask in near Salepur (6.0 km)</desc></wpt>
+<wpt lat="20.42446" lon="86.174021"><name>GT30</name><desc>ground truth: atlas: sometimes (10-30 %); ask in Nemalo</desc></wpt>
+<wpt lat="20.391823" lon="86.315641"><name>GT31</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Patkura (8.7 km)</desc></wpt>
+<wpt lat="20.270432" lon="86.054573"><name>GT32</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Gobindpur (8.0 km)</desc></wpt>
+<wpt lat="20.284243" lon="85.912192"><name>GT33</name><desc>ground truth: atlas: often (&gt;=30 %); ask in Balikanthia</desc></wpt>
+<wpt lat="20.409974" lon="86.385335"><name>GT34</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Patkura (2.4 km)</desc></wpt>
+<wpt lat="20.407007" lon="86.364453"><name>GT35</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Patkura (4.7 km)</desc></wpt>
+<wpt lat="20.367938" lon="86.263814"><name>GT36</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Nemalo (11.6 km)</desc></wpt>
+<wpt lat="20.641705" lon="86.008531"><name>GT37</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Bhattasagar Square (6.0 km)</desc></wpt>
+<wpt lat="20.469996" lon="86.173395"><name>GT38</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Nischintakoili (2.3 km)</desc></wpt>
+<wpt lat="20.401244" lon="86.276881"><name>GT39</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Nemalo (10.8 km)</desc></wpt>
+<wpt lat="20.602502" lon="85.919546"><name>GT40</name><desc>ground truth: atlas: often (&gt;=30 %); ask in near Choudwar (7.6 km)</desc></wpt>
+<wpt lat="20.50289" lon="86.41865"><name>SR01</name><desc>siren site: rank 1: Fakirabad, covers 1,561 more people</desc></wpt>
+<wpt lat="20.31901" lon="86.37564"><name>SR02</name><desc>siren site: rank 2: near Patkura (8.5 km), covers 1,067 more people</desc></wpt>
+<wpt lat="20.3872" lon="86.41953"><name>SR03</name><desc>siren site: rank 3: near Patkura (1.5 km), covers 696 more people</desc></wpt>
+<wpt lat="20.33115" lon="86.03182"><name>SR04</name><desc>siren site: rank 4: near Gobindpur (1.1 km), covers 602 more people</desc></wpt>
+<wpt lat="20.63049" lon="86.24689"><name>SR05</name><desc>siren site: rank 5: near Balachandrapur (1.4 km), covers 565 more people</desc></wpt>
+<wpt lat="20.40471" lon="86.38856"><name>SR06</name><desc>siren site: rank 6: near Patkura (2.4 km), covers 565 more people</desc></wpt>
+<wpt lat="20.63012" lon="86.12477"><name>SR07</name><desc>siren site: rank 7: near Bhattasagar Square (7.0 km), covers 522 more people</desc></wpt>
+<wpt lat="20.45136" lon="86.38491"><name>SR08</name><desc>siren site: rank 8: near Fakirabad (6.7 km), covers 486 more people</desc></wpt>
+<wpt lat="20.63768" lon="86.27285"><name>SR09</name><desc>siren site: rank 9: near Balachandrapur (3.8 km), covers 481 more people</desc></wpt>
+<wpt lat="20.34158" lon="86.38187"><name>SR10</name><desc>siren site: rank 10: near Patkura (5.9 km), covers 469 more people</desc></wpt>
+<wpt lat="20.34478" lon="86.33846"><name>SR11</name><desc>siren site: rank 11: near Patkura (8.6 km), covers 393 more people</desc></wpt>
+<wpt lat="20.46579" lon="85.87971"><name>SR12</name><desc>siren site: rank 12: Badambadi, covers 378 more people</desc></wpt>
+<wpt lat="20.40844" lon="86.41295"><name>SR13</name><desc>siren site: rank 13: near Patkura (2.2 km), covers 366 more people</desc></wpt>
+<wpt lat="20.39099" lon="86.44256"><name>SR14</name><desc>siren site: rank 14: near Patkura (3.9 km), covers 364 more people</desc></wpt>
+<wpt lat="20.25983" lon="86.44169"><name>SR15</name><desc>siren site: rank 15: near Patkura (14.9 km), covers 279 more people</desc></wpt>
+<wpt lat="20.45458" lon="85.84814"><name>RS01</name><desc>river sensor bridge: Devi River bridge, 2823 m, approaches dry in the 25-year flood: yes</desc></wpt>
+<wpt lat="20.44052" lon="85.89012"><name>RS02</name><desc>river sensor bridge: Kathajodi bridge, 869 m, approaches dry in the 25-year flood: yes</desc></wpt>
+<wpt lat="20.51335" lon="85.932"><name>RS03</name><desc>river sensor bridge: Birupa bridge, 543 m, approaches dry in the 25-year flood: yes</desc></wpt>
+<wpt lat="20.46498" lon="86.07432"><name>RS04</name><desc>river sensor bridge: Luna bridge, 776 m, approaches dry in the 25-year flood: no</desc></wpt>
+<wpt lat="20.36684" lon="86.26424"><name>RS05</name><desc>river sensor bridge: Mahanadi bridge, 458 m, approaches dry in the 25-year flood: yes</desc></wpt>
+<wpt lat="20.62609" lon="86.32244"><name>RS06</name><desc>river sensor bridge: Biropa bridge, 424 m, approaches dry in the 25-year flood: no</desc></wpt>
+<wpt lat="20.429" lon="85.909"><name>GB01</name><desc>bank inspection / soil sample: rank 1: behind-bank flood freq 4%, clay loam</desc></wpt>
+<wpt lat="20.429" lon="85.871"><name>GB02</name><desc>bank inspection / soil sample: rank 2: behind-bank flood freq 6%, clay loam</desc></wpt>
+<wpt lat="20.492" lon="85.832"><name>GB03</name><desc>bank inspection / soil sample: rank 3: behind-bank flood freq 2%, clay loam</desc></wpt>
+<wpt lat="20.314" lon="86.369"><name>GB04</name><desc>bank inspection / soil sample: rank 4: behind-bank flood freq 8%, clay loam</desc></wpt>
+<wpt lat="20.511" lon="85.918"><name>GB05</name><desc>bank inspection / soil sample: rank 5: behind-bank flood freq 1%, clay loam</desc></wpt>
+<wpt lat="20.294" lon="85.891"><name>GB06</name><desc>bank inspection / soil sample: rank 6: behind-bank flood freq 2%, clay loam</desc></wpt>
+<wpt lat="20.314" lon="86.398"><name>GB07</name><desc>bank inspection / soil sample: rank 7: behind-bank flood freq 1%, clay loam</desc></wpt>
+<wpt lat="20.321" lon="85.881"><name>GB08</name><desc>bank inspection / soil sample: rank 8: behind-bank flood freq 1%, clay loam</desc></wpt>
+<wpt lat="20.639" lon="86.282"><name>GB09</name><desc>bank inspection / soil sample: rank 9: behind-bank flood freq 4%, clay loam</desc></wpt>
+<wpt lat="20.621" lon="86.33"><name>GB10</name><desc>bank inspection / soil sample: rank 10: behind-bank flood freq 3%, clay loam</desc></wpt>
+<wpt lat="20.314" lon="86.322"><name>GB11</name><desc>bank inspection / soil sample: rank 11: behind-bank flood freq 6%, clay loam</desc></wpt>
+<wpt lat="20.457" lon="85.928"><name>GB12</name><desc>bank inspection / soil sample: rank 12: behind-bank flood freq 1%, clay loam</desc></wpt>
+<wpt lat="20.38301" lon="86.16167"><name>RL01</name><desc>critical road link: unclassified: 10,351 people's hospital route, 1.03 km flooded (T25)</desc></wpt>
+<wpt lat="20.27157" lon="86.02512"><name>RL02</name><desc>critical road link: unclassified: 9,421 people's hospital route, 0.34 km flooded (T25)</desc></wpt>
+<wpt lat="20.45309" lon="86.37705"><name>RL03</name><desc>critical road link: tertiary: 8,261 people's hospital route, 0.71 km flooded (T25)</desc></wpt>
+<wpt lat="20.39945" lon="86.25511"><name>RL04</name><desc>critical road link: unclassified: 7,657 people's hospital route, 0.14 km flooded (T25)</desc></wpt>
+<wpt lat="20.34554" lon="86.37918"><name>RL05</name><desc>critical road link: tertiary: 7,045 people's hospital route, 0.14 km flooded (T25)</desc></wpt>
+<wpt lat="20.40675" lon="86.38139"><name>RL06</name><desc>critical road link: tertiary: 6,371 people's hospital route, 2.06 km flooded (T25)</desc></wpt>
+<wpt lat="20.46508" lon="86.35512"><name>RL07</name><desc>critical road link: unclassified: 6,210 people's hospital route, 0.34 km flooded (T25)</desc></wpt>
+<wpt lat="20.28453" lon="86.44175"><name>RL08</name><desc>critical road link: residential: 6,171 people's hospital route, 0.03 km flooded (T25)</desc></wpt>
+<wpt lat="20.38738" lon="86.42615"><name>RL09</name><desc>critical road link: tertiary: 4,863 people's hospital route, 0.31 km flooded (T25)</desc></wpt>
+<wpt lat="20.52496" lon="86.02748"><name>RL10</name><desc>critical road link: unclassified: 4,638 people's hospital route, 0.05 km flooded (T25)</desc></wpt>
+<wpt lat="20.3029" lon="86.3751"><name>WL01</name><desc>well levels (ground advisory): near Patkura (10.2 km): 33% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.6188" lon="86.242"><name>WL02</name><desc>well levels (ground advisory): Balachandrapur: 28% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.4029" lon="86.3345"><name>WL03</name><desc>well levels (ground advisory): near Patkura (7.6 km): 33% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.4113" lon="86.3926"><name>WL04</name><desc>well levels (ground advisory): near Patkura (2.7 km): 60% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.3901" lon="86.4057"><name>WL05</name><desc>well levels (ground advisory): Patkura: 57% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.4333" lon="86.4369"><name>WL06</name><desc>well levels (ground advisory): near Patkura (5.8 km): 63% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.4511" lon="86.1323"><name>WL07</name><desc>well levels (ground advisory): near Salepur (4.4 km): 40% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.4594" lon="86.3606"><name>WL08</name><desc>well levels (ground advisory): near Fakirabad (7.7 km): 74% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</desc></wpt>
+<wpt lat="20.40932" lon="85.93741"><name>HF01</name><desc>flooded health facility: PHC, Bentkar</desc></wpt>
+<wpt lat="20.32195" lon="86.42415"><name>HF02</name><desc>flooded health facility: PHC, Hansura</desc></wpt>
+<wpt lat="20.46205" lon="86.35172"><name>HF03</name><desc>flooded health facility: Government hospital, Nanakar</desc></wpt>
+<wpt lat="20.50871" lon="86.41009"><name>HF04</name><desc>flooded health facility: Bhumika Hospital</desc></wpt>
+<wpt lat="20.34104" lon="86.38086"><name>HF05</name><desc>flooded health facility: Sub Centre</desc></wpt>
+<wpt lat="20.51068" lon="85.9146"><name>HF06</name><desc>flooded health facility: Unique Hospital</desc></wpt>
+</gpx>

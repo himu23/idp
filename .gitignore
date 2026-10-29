@@ -1,0 +1,50 @@
+# Prithvi Flood-IN (IIT Bombay CE IDP) — what stays out of the repository.
+# Everything else in this folder is meant to be shared with the team: code, results, report, slides, website,
+# field kit, meeting notes. Keep the GitHub repository PRIVATE: it holds meeting transcripts and the lab server's
+# address (no passwords are stored anywhere in it).
+
+# The mentor's PINN repository, cloned as-is with its own .git (inside another repo it would push as an empty link).
+# Get it with:  git clone https://github.com/Barbhuiya12/PINN.git PINN
+# Our own PINN work is in "final project folder/pinn/".
+/PINN/
+
+# Python, notebooks, environments
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.env
+*.egg-info/
+
+# Model weights and large arrays (they live on the lab server under /home1/vineet/floodfm, hundreds of MB each)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npy
+*.npz
+
+# Raw data downloads (Sen1Floods11, Sentinel-1 passes); re-fetch with datakit/ and mahanadi/ scripts
+/data/*
+!/data/.gitkeep
+
+# Credentials, in case any are ever saved here
+*.pem
+*.key
+id_rsa*
+secrets*
+
+# Office lock files, OS and editor files
+~$*
+.~lock.*
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# Temporary page previews made while building the website
+_preview.html
+_vprev.html

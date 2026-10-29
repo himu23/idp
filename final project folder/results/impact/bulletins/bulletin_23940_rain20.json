@@ -1,0 +1,21 @@
+{
+ "naraj_discharge_m3s": 23940,
+ "naraj_discharge_lakh_cusec": 8.45,
+ "lead_time": "24 h",
+ "rain_mm": 20.0,
+ "method": "analog maps on river flow and 20 mm of 7-day rain; similar past passes: 20190918, 20190919, 20230811, 20230813, 20260907, 20260909, 20261003",
+ "lower_bound": false,
+ "flooded_land_km2": 25.4,
+ "people_on_flooded_land": 5021,
+ "settlements_to_warn": 0,
+ "main_road_km_under_water": 0.8,
+ "all_road_km_under_water": 7.5,
+ "main_roads_affected": {
+  "Left Puri Main Canal Road": 0.4
+ },
+ "model": {
+  "atlas_passes": 590,
+  "predictor": "Q_max_5d",
+  "held_out_high_flow_iou": 0.225
+ }
+}

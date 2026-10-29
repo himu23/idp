@@ -1,0 +1,13 @@
+/home1/vineet/floodfm/env/lib/python3.12/site-packages/terratorch/models/necks.py:288: UserWarning: Cannot infer grid shape from input tokens (1024), assuming a cls_token (default setting). Retry ReshapeTokensToImage with remove_cls_token to False. Silence this warning with remove_cls_token=False for neck ReshapeTokensToImage.
+  warnings.warn(
+terramind  native     IoU 0.672  precision 0.785  recall 0.823
+unet       native     IoU 0.424  precision 0.454  recall 0.867
+mean       native     IoU 0.607  precision 0.678  recall 0.852
+terramind  avg20      IoU 0.690  precision 0.861  recall 0.776
+unet       avg20      IoU 0.649  precision 0.800  recall 0.775
+mean       avg20      IoU 0.695  precision 0.869  recall 0.776
+terramind  nearest20  IoU 0.699  precision 0.843  recall 0.803
+unet       nearest20  IoU 0.640  precision 0.762  recall 0.800
+mean       nearest20  IoU 0.700  precision 0.846  recall 0.802
+val sweep (mean, avg20): {np.float64(0.2): 0.669, np.float64(0.25): 0.676, np.float64(0.3): 0.681, np.float64(0.35): 0.686, np.float64(0.4): 0.69, np.float64(0.45): 0.694, np.float64(0.5): 0.691, np.float64(0.55): 0.685, np.float64(0.6): 0.68, np.float64(0.65): 0.675, np.float64(0.7): 0.668}
+chosen threshold 0.45: test IoU 0.681 precision 0.833 recall 0.788

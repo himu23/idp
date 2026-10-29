@@ -1,0 +1,26 @@
+{
+ "systems_within_300km_since_2016": 37,
+ "named": [
+  "Amphan",
+  "Bulbul:Matmo",
+  "Dana",
+  "Daye",
+  "Fani",
+  "Gulab:Shaheen-Gu",
+  "Hamoon",
+  "Jawad",
+  "Midhili",
+  "Roanu",
+  "Titli",
+  "Unnamed",
+  "Yaas"
+ ],
+ "top20_flood_passes_driver_counts": {
+  "river": 18,
+  "rain": 14,
+  "cyclone/depression": 11
+ },
+ "q90_m3s": 9682,
+ "r90_mm": 134.7,
+ "rain_predictor": "R_7d"
+}

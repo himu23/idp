@@ -1,0 +1,2 @@
+official_terramind_s1_full_s0_r20 --model terramind --protocol official --mode full --seed 0 --modalities s1 --s1_res 20 --save_ckpt
+official_unet_s1_full_s0_r20 --model unet --protocol official --mode full --seed 0 --modalities s1 --s1_res 20 --save_ckpt

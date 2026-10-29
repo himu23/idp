@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document>
+<name>Mahanadi delta field visit check points</name>
+<Folder><name>ground truth</name>
+<Placemark><name>GT01</name><description>atlas: never flooded; ask in near Jagatpur (8.1 km)</description><Point><coordinates>86.009344,20.485944,0</coordinates></Point></Placemark>
+<Placemark><name>GT02</name><description>atlas: never flooded; ask in near Nemalo (10.9 km)</description><Point><coordinates>86.24033,20.350128,0</coordinates></Point></Placemark>
+<Placemark><name>GT03</name><description>atlas: never flooded; ask in near Tangi (3.3 km)</description><Point><coordinates>86.019729,20.571656,0</coordinates></Point></Placemark>
+<Placemark><name>GT04</name><description>atlas: never flooded; ask in near Patkura (3.5 km)</description><Point><coordinates>86.409888,20.35512,0</coordinates></Point></Placemark>
+<Placemark><name>GT05</name><description>atlas: never flooded; ask in near Patkura (14.9 km)</description><Point><coordinates>86.44931,20.261454,0</coordinates></Point></Placemark>
+<Placemark><name>GT06</name><description>atlas: never flooded; ask in near Patkura (11.9 km)</description><Point><coordinates>86.425112,20.280172,0</coordinates></Point></Placemark>
+<Placemark><name>GT07</name><description>atlas: never flooded; ask in near Balikanthia (1.9 km)</description><Point><coordinates>85.898328,20.267712,0</coordinates></Point></Placemark>
+<Placemark><name>GT08</name><description>atlas: never flooded; ask in near Derabish (6.4 km)</description><Point><coordinates>86.271678,20.488688,0</coordinates></Point></Placemark>
+<Placemark><name>GT09</name><description>atlas: never flooded; ask in near Patkura (1.5 km)</description><Point><coordinates>86.425678,20.386076,0</coordinates></Point></Placemark>
+<Placemark><name>GT10</name><description>atlas: never flooded; ask in near Gokulpur (1.9 km)</description><Point><coordinates>86.043294,20.57739,0</coordinates></Point></Placemark>
+<Placemark><name>GT11</name><description>atlas: rarely (&lt;10 %); ask in Nikirai</description><Point><coordinates>86.390809,20.577155,0</coordinates></Point></Placemark>
+<Placemark><name>GT12</name><description>atlas: rarely (&lt;10 %); ask in near Jagatpur (5.3 km)</description><Point><coordinates>85.989565,20.489987,0</coordinates></Point></Placemark>
+<Placemark><name>GT13</name><description>atlas: rarely (&lt;10 %); ask in near Bhattasagar Square (4.4 km)</description><Point><coordinates>86.107807,20.603575,0</coordinates></Point></Placemark>
+<Placemark><name>GT14</name><description>atlas: rarely (&lt;10 %); ask in near Salepur (3.4 km)</description><Point><coordinates>86.106813,20.510507,0</coordinates></Point></Placemark>
+<Placemark><name>GT15</name><description>atlas: rarely (&lt;10 %); ask in near Balachandrapur (6.1 km)</description><Point><coordinates>86.279742,20.650277,0</coordinates></Point></Placemark>
+<Placemark><name>GT16</name><description>atlas: rarely (&lt;10 %); ask in near Jagatsinghpur (6.5 km)</description><Point><coordinates>86.159109,20.310902,0</coordinates></Point></Placemark>
+<Placemark><name>GT17</name><description>atlas: rarely (&lt;10 %); ask in near Patkura (12.1 km)</description><Point><coordinates>86.295648,20.362829,0</coordinates></Point></Placemark>
+<Placemark><name>GT18</name><description>atlas: rarely (&lt;10 %); ask in near Balikanthia (7.9 km)</description><Point><coordinates>85.893713,20.351348,0</coordinates></Point></Placemark>
+<Placemark><name>GT19</name><description>atlas: rarely (&lt;10 %); ask in near Kishannagar (4.5 km)</description><Point><coordinates>86.071304,20.387079,0</coordinates></Point></Placemark>
+<Placemark><name>GT20</name><description>atlas: rarely (&lt;10 %); ask in near Patkura (14.0 km)</description><Point><coordinates>86.368447,20.27329,0</coordinates></Point></Placemark>
+<Placemark><name>GT21</name><description>atlas: sometimes (10-30 %); ask in near Patkura (8.5 km)</description><Point><coordinates>86.375166,20.317229,0</coordinates></Point></Placemark>
+<Placemark><name>GT22</name><description>atlas: sometimes (10-30 %); ask in near Tangi (4.1 km)</description><Point><coordinates>86.026856,20.537002,0</coordinates></Point></Placemark>
+<Placemark><name>GT23</name><description>atlas: sometimes (10-30 %); ask in near Keutkandia (6.2 km)</description><Point><coordinates>86.324005,20.626241,0</coordinates></Point></Placemark>
+<Placemark><name>GT24</name><description>atlas: sometimes (10-30 %); ask in near Tangi (2.8 km)</description><Point><coordinates>85.987043,20.581768,0</coordinates></Point></Placemark>
+<Placemark><name>GT25</name><description>atlas: sometimes (10-30 %); ask in near Derabish (5.3 km)</description><Point><coordinates>86.254726,20.543733,0</coordinates></Point></Placemark>
+<Placemark><name>GT26</name><description>atlas: sometimes (10-30 %); ask in near Bhingarapur (2.5 km)</description><Point><coordinates>85.945934,20.250658,0</coordinates></Point></Placemark>
+<Placemark><name>GT27</name><description>atlas: sometimes (10-30 %); ask in Fakirabad</description><Point><coordinates>86.416211,20.507848,0</coordinates></Point></Placemark>
+<Placemark><name>GT28</name><description>atlas: sometimes (10-30 %); ask in near Gobindpur (4.1 km)</description><Point><coordinates>86.037018,20.291299,0</coordinates></Point></Placemark>
+<Placemark><name>GT29</name><description>atlas: sometimes (10-30 %); ask in near Salepur (6.0 km)</description><Point><coordinates>86.054163,20.463606,0</coordinates></Point></Placemark>
+<Placemark><name>GT30</name><description>atlas: sometimes (10-30 %); ask in Nemalo</description><Point><coordinates>86.174021,20.42446,0</coordinates></Point></Placemark>
+<Placemark><name>GT31</name><description>atlas: often (&gt;=30 %); ask in near Patkura (8.7 km)</description><Point><coordinates>86.315641,20.391823,0</coordinates></Point></Placemark>
+<Placemark><name>GT32</name><description>atlas: often (&gt;=30 %); ask in near Gobindpur (8.0 km)</description><Point><coordinates>86.054573,20.270432,0</coordinates></Point></Placemark>
+<Placemark><name>GT33</name><description>atlas: often (&gt;=30 %); ask in Balikanthia</description><Point><coordinates>85.912192,20.284243,0</coordinates></Point></Placemark>
+<Placemark><name>GT34</name><description>atlas: often (&gt;=30 %); ask in near Patkura (2.4 km)</description><Point><coordinates>86.385335,20.409974,0</coordinates></Point></Placemark>
+<Placemark><name>GT35</name><description>atlas: often (&gt;=30 %); ask in near Patkura (4.7 km)</description><Point><coordinates>86.364453,20.407007,0</coordinates></Point></Placemark>
+<Placemark><name>GT36</name><description>atlas: often (&gt;=30 %); ask in near Nemalo (11.6 km)</description><Point><coordinates>86.263814,20.367938,0</coordinates></Point></Placemark>
+<Placemark><name>GT37</name><description>atlas: often (&gt;=30 %); ask in near Bhattasagar Square (6.0 km)</description><Point><coordinates>86.008531,20.641705,0</coordinates></Point></Placemark>
+<Placemark><name>GT38</name><description>atlas: often (&gt;=30 %); ask in near Nischintakoili (2.3 km)</description><Point><coordinates>86.173395,20.469996,0</coordinates></Point></Placemark>
+<Placemark><name>GT39</name><description>atlas: often (&gt;=30 %); ask in near Nemalo (10.8 km)</description><Point><coordinates>86.276881,20.401244,0</coordinates></Point></Placemark>
+<Placemark><name>GT40</name><description>atlas: often (&gt;=30 %); ask in near Choudwar (7.6 km)</description><Point><coordinates>85.919546,20.602502,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>siren site</name>
+<Placemark><name>SR01</name><description>rank 1: Fakirabad, covers 1,561 more people</description><Point><coordinates>86.41865,20.50289,0</coordinates></Point></Placemark>
+<Placemark><name>SR02</name><description>rank 2: near Patkura (8.5 km), covers 1,067 more people</description><Point><coordinates>86.37564,20.31901,0</coordinates></Point></Placemark>
+<Placemark><name>SR03</name><description>rank 3: near Patkura (1.5 km), covers 696 more people</description><Point><coordinates>86.41953,20.3872,0</coordinates></Point></Placemark>
+<Placemark><name>SR04</name><description>rank 4: near Gobindpur (1.1 km), covers 602 more people</description><Point><coordinates>86.03182,20.33115,0</coordinates></Point></Placemark>
+<Placemark><name>SR05</name><description>rank 5: near Balachandrapur (1.4 km), covers 565 more people</description><Point><coordinates>86.24689,20.63049,0</coordinates></Point></Placemark>
+<Placemark><name>SR06</name><description>rank 6: near Patkura (2.4 km), covers 565 more people</description><Point><coordinates>86.38856,20.40471,0</coordinates></Point></Placemark>
+<Placemark><name>SR07</name><description>rank 7: near Bhattasagar Square (7.0 km), covers 522 more people</description><Point><coordinates>86.12477,20.63012,0</coordinates></Point></Placemark>
+<Placemark><name>SR08</name><description>rank 8: near Fakirabad (6.7 km), covers 486 more people</description><Point><coordinates>86.38491,20.45136,0</coordinates></Point></Placemark>
+<Placemark><name>SR09</name><description>rank 9: near Balachandrapur (3.8 km), covers 481 more people</description><Point><coordinates>86.27285,20.63768,0</coordinates></Point></Placemark>
+<Placemark><name>SR10</name><description>rank 10: near Patkura (5.9 km), covers 469 more people</description><Point><coordinates>86.38187,20.34158,0</coordinates></Point></Placemark>
+<Placemark><name>SR11</name><description>rank 11: near Patkura (8.6 km), covers 393 more people</description><Point><coordinates>86.33846,20.34478,0</coordinates></Point></Placemark>
+<Placemark><name>SR12</name><description>rank 12: Badambadi, covers 378 more people</description><Point><coordinates>85.87971,20.46579,0</coordinates></Point></Placemark>
+<Placemark><name>SR13</name><description>rank 13: near Patkura (2.2 km), covers 366 more people</description><Point><coordinates>86.41295,20.40844,0</coordinates></Point></Placemark>
+<Placemark><name>SR14</name><description>rank 14: near Patkura (3.9 km), covers 364 more people</description><Point><coordinates>86.44256,20.39099,0</coordinates></Point></Placemark>
+<Placemark><name>SR15</name><description>rank 15: near Patkura (14.9 km), covers 279 more people</description><Point><coordinates>86.44169,20.25983,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>river sensor bridge</name>
+<Placemark><name>RS01</name><description>Devi River bridge, 2823 m, approaches dry in the 25-year flood: yes</description><Point><coordinates>85.84814,20.45458,0</coordinates></Point></Placemark>
+<Placemark><name>RS02</name><description>Kathajodi bridge, 869 m, approaches dry in the 25-year flood: yes</description><Point><coordinates>85.89012,20.44052,0</coordinates></Point></Placemark>
+<Placemark><name>RS03</name><description>Birupa bridge, 543 m, approaches dry in the 25-year flood: yes</description><Point><coordinates>85.932,20.51335,0</coordinates></Point></Placemark>
+<Placemark><name>RS04</name><description>Luna bridge, 776 m, approaches dry in the 25-year flood: no</description><Point><coordinates>86.07432,20.46498,0</coordinates></Point></Placemark>
+<Placemark><name>RS05</name><description>Mahanadi bridge, 458 m, approaches dry in the 25-year flood: yes</description><Point><coordinates>86.26424,20.36684,0</coordinates></Point></Placemark>
+<Placemark><name>RS06</name><description>Biropa bridge, 424 m, approaches dry in the 25-year flood: no</description><Point><coordinates>86.32244,20.62609,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>bank inspection / soil sample</name>
+<Placemark><name>GB01</name><description>rank 1: behind-bank flood freq 4%, clay loam</description><Point><coordinates>85.909,20.429,0</coordinates></Point></Placemark>
+<Placemark><name>GB02</name><description>rank 2: behind-bank flood freq 6%, clay loam</description><Point><coordinates>85.871,20.429,0</coordinates></Point></Placemark>
+<Placemark><name>GB03</name><description>rank 3: behind-bank flood freq 2%, clay loam</description><Point><coordinates>85.832,20.492,0</coordinates></Point></Placemark>
+<Placemark><name>GB04</name><description>rank 4: behind-bank flood freq 8%, clay loam</description><Point><coordinates>86.369,20.314,0</coordinates></Point></Placemark>
+<Placemark><name>GB05</name><description>rank 5: behind-bank flood freq 1%, clay loam</description><Point><coordinates>85.918,20.511,0</coordinates></Point></Placemark>
+<Placemark><name>GB06</name><description>rank 6: behind-bank flood freq 2%, clay loam</description><Point><coordinates>85.891,20.294,0</coordinates></Point></Placemark>
+<Placemark><name>GB07</name><description>rank 7: behind-bank flood freq 1%, clay loam</description><Point><coordinates>86.398,20.314,0</coordinates></Point></Placemark>
+<Placemark><name>GB08</name><description>rank 8: behind-bank flood freq 1%, clay loam</description><Point><coordinates>85.881,20.321,0</coordinates></Point></Placemark>
+<Placemark><name>GB09</name><description>rank 9: behind-bank flood freq 4%, clay loam</description><Point><coordinates>86.282,20.639,0</coordinates></Point></Placemark>
+<Placemark><name>GB10</name><description>rank 10: behind-bank flood freq 3%, clay loam</description><Point><coordinates>86.33,20.621,0</coordinates></Point></Placemark>
+<Placemark><name>GB11</name><description>rank 11: behind-bank flood freq 6%, clay loam</description><Point><coordinates>86.322,20.314,0</coordinates></Point></Placemark>
+<Placemark><name>GB12</name><description>rank 12: behind-bank flood freq 1%, clay loam</description><Point><coordinates>85.928,20.457,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>critical road link</name>
+<Placemark><name>RL01</name><description>unclassified: 10,351 people's hospital route, 1.03 km flooded (T25)</description><Point><coordinates>86.16167,20.38301,0</coordinates></Point></Placemark>
+<Placemark><name>RL02</name><description>unclassified: 9,421 people's hospital route, 0.34 km flooded (T25)</description><Point><coordinates>86.02512,20.27157,0</coordinates></Point></Placemark>
+<Placemark><name>RL03</name><description>tertiary: 8,261 people's hospital route, 0.71 km flooded (T25)</description><Point><coordinates>86.37705,20.45309,0</coordinates></Point></Placemark>
+<Placemark><name>RL04</name><description>unclassified: 7,657 people's hospital route, 0.14 km flooded (T25)</description><Point><coordinates>86.25511,20.39945,0</coordinates></Point></Placemark>
+<Placemark><name>RL05</name><description>tertiary: 7,045 people's hospital route, 0.14 km flooded (T25)</description><Point><coordinates>86.37918,20.34554,0</coordinates></Point></Placemark>
+<Placemark><name>RL06</name><description>tertiary: 6,371 people's hospital route, 2.06 km flooded (T25)</description><Point><coordinates>86.38139,20.40675,0</coordinates></Point></Placemark>
+<Placemark><name>RL07</name><description>unclassified: 6,210 people's hospital route, 0.34 km flooded (T25)</description><Point><coordinates>86.35512,20.46508,0</coordinates></Point></Placemark>
+<Placemark><name>RL08</name><description>residential: 6,171 people's hospital route, 0.03 km flooded (T25)</description><Point><coordinates>86.44175,20.28453,0</coordinates></Point></Placemark>
+<Placemark><name>RL09</name><description>tertiary: 4,863 people's hospital route, 0.31 km flooded (T25)</description><Point><coordinates>86.42615,20.38738,0</coordinates></Point></Placemark>
+<Placemark><name>RL10</name><description>unclassified: 4,638 people's hospital route, 0.05 km flooded (T25)</description><Point><coordinates>86.02748,20.52496,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>well levels (ground advisory)</name>
+<Placemark><name>WL01</name><description>near Patkura (10.2 km): 33% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.3751,20.3029,0</coordinates></Point></Placemark>
+<Placemark><name>WL02</name><description>Balachandrapur: 28% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.242,20.6188,0</coordinates></Point></Placemark>
+<Placemark><name>WL03</name><description>near Patkura (7.6 km): 33% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.3345,20.4029,0</coordinates></Point></Placemark>
+<Placemark><name>WL04</name><description>near Patkura (2.7 km): 60% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.3926,20.4113,0</coordinates></Point></Placemark>
+<Placemark><name>WL05</name><description>Patkura: 57% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.4057,20.3901,0</coordinates></Point></Placemark>
+<Placemark><name>WL06</name><description>near Patkura (5.8 km): 63% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.4369,20.4333,0</coordinates></Point></Placemark>
+<Placemark><name>WL07</name><description>near Salepur (4.4 km): 40% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.1323,20.4511,0</coordinates></Point></Placemark>
+<Placemark><name>WL08</name><description>near Fakirabad (7.7 km): 74% of people within 200 m of 25-yr flood water; measure wells at 0-500 m</description><Point><coordinates>86.3606,20.4594,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>flooded health facility</name>
+<Placemark><name>HF01</name><description>PHC, Bentkar</description><Point><coordinates>85.93741,20.40932,0</coordinates></Point></Placemark>
+<Placemark><name>HF02</name><description>PHC, Hansura</description><Point><coordinates>86.42415,20.32195,0</coordinates></Point></Placemark>
+<Placemark><name>HF03</name><description>Government hospital, Nanakar</description><Point><coordinates>86.35172,20.46205,0</coordinates></Point></Placemark>
+<Placemark><name>HF04</name><description>Bhumika Hospital</description><Point><coordinates>86.41009,20.50871,0</coordinates></Point></Placemark>
+<Placemark><name>HF05</name><description>Sub Centre</description><Point><coordinates>86.38086,20.34104,0</coordinates></Point></Placemark>
+<Placemark><name>HF06</name><description>Unique Hospital</description><Point><coordinates>85.9146,20.51068,0</coordinates></Point></Placemark>
+</Folder>
+</Document></kml>

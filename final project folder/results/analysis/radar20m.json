@@ -1,0 +1,22 @@
+{
+ "unet": {
+  "native": 0.649,
+  "avg20": 0.636,
+  "nearest20": 0.64
+ },
+ "terramind": {
+  "native": 0.654,
+  "avg20": 0.632,
+  "nearest20": 0.646
+ },
+ "mean": {
+  "native": 0.664,
+  "avg20": 0.64,
+  "nearest20": 0.648
+ },
+ "threshold": 0.3,
+ "calibrated_test_iou": 0.646,
+ "calibrated_precision": 0.847,
+ "calibrated_recall": 0.732,
+ "source": "scripts/test_resolution.py on the official Sen1Floods11 test (90 chips); avg20 = 2x2 average in linear power (= the Sentinel-1 RTC COG overview), up-sampled bilinearly to 10 m; threshold chosen on validation"
+}

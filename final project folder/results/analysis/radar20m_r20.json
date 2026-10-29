@@ -1,0 +1,32 @@
+{
+ "terramind": {
+  "native": 0.672,
+  "avg20": 0.69,
+  "nearest20": 0.699
+ },
+ "unet": {
+  "native": 0.424,
+  "avg20": 0.649,
+  "nearest20": 0.64
+ },
+ "mean": {
+  "native": 0.607,
+  "avg20": 0.695,
+  "nearest20": 0.7
+ },
+ "threshold": 0.45,
+ "calibrated_test_iou": 0.681,
+ "calibrated_precision": 0.833,
+ "calibrated_recall": 0.788,
+ "source": "radar-only TerraMind-B and U-Net retrained with --s1_res 20 (official split, seed 0); scripts/test_resolution.py",
+ "official_terramind_s1_full_s0_r20": {
+  "best_epoch": 22,
+  "best_val_iou": 0.7114,
+  "test_iou_on_20m_input": 0.6899
+ },
+ "official_unet_s1_full_s0_r20": {
+  "best_epoch": 29,
+  "best_val_iou": 0.6374,
+  "test_iou_on_20m_input": 0.649
+ }
+}

@@ -1,0 +1,3 @@
+sample_id,gravel_pct,sand_pct,fines_pct,D10_mm,D30_mm,D60_mm,Cu,Cc,LL,PL,PI,IS1498,USCS,kenney_lau_min_HF,kenney_lau_Fmax,internally_stable,piping_susceptibility
+EXAMPLE-S1,0.0,77.3,22.7,,0.0965,0.239,,,,,,SM,SM,1.6121,0.3,True,high
+EXAMPLE-S2,0.0,40.0,60.0,,,0.075,,,41.0,22.0,19.0,CI,CL,,0.3,,low

@@ -1,0 +1,5 @@
+segment_id,side,slope_deg,soil_class,phi_deg,c_kPa,FS_dry,FS_seepage_or_rapid_drawdown,flag
+EXAMPLE-E1,river side,30,SM,30,0,1.0,0.45,True
+EXAMPLE-E1,land side,22,SM,30,0,1.43,0.65,True
+EXAMPLE-E2,river side,24,CI,25,5,1.55,0.97,True
+EXAMPLE-E2,land side,18,CI,25,5,2.07,1.28,True

@@ -1,0 +1,84 @@
+## Main Discussion
+The faculty member emphasized that the student project must connect to an **implemented or formally sanctioned real-world project**, rather than remain a classroom-style technical exercise. Students should engage with stakeholders such as clients, contractors, and site engineers; visit the project site; understand its practical constraints; and make a concrete contribution. A site visit that amounts only to observing or briefly visiting the location would not meet expectations. The project should offer interdisciplinary exposure—for example, a water-resources project may also involve geotechnical, structural, or transportation considerations.
+
+## Potential Project Direction
+The students proposed fine-tuning one foundation model and then applying it to a real project, rather than training several models in isolation. The faculty member agreed this could be a reasonable direction if it is tied to an actual project. She suggested exploring participation in Professor Vasudev’s long-running Mahanadi Basin work, including access to the site, discussions with engineers, and identification of a practical problem. She offered to inform Vasudev about the guidelines, while stressing that arranging the opportunity is the students’ responsibility.
+
+## Examples of Successful Teams
+The faculty member described three highly placed teams from the previous year:
+- **First place:** A team working with Sandhanchana, a construction repair and rehabilitation company, evaluated new column-wrapping methods. Students visited the implementation site, prepared and tested wrapped samples in the laboratory, and conducted SEM analysis to assess repair and structural performance.
+- **Another leading team:** A team working with L&T on the Mumbai Coastal Road Project examined areas including traffic, geotechnical, and structural work, with students dividing the project across these disciplines.
+- **Third place:** A construction-management team implemented camera-based tools at a construction site to document worker efficiency and identify shortcomings.
+
+These examples illustrated that strong projects combined real industry or site access with practical investigation, measurement, analysis, and contribution.
+
+## Scope, Timeline, and Expectations
+The students noted that their industrial mentor had asked them to complete work involving roughly five or six foundation-model training tasks by the 17th and would be unavailable afterward. The faculty member questioned the purpose of that workload and advised them not to prioritize producing many outputs over meeting the project’s core expectations. She acknowledged that the remaining time was limited—approximately two to three weeks after exams—and urged the students to discuss the constraints with their mentors and revise the scope if needed.
+
+The final presentation is likely to be evaluated on specific evidence of site engagement: what the team did there, what information or measurements it obtained, and how those findings shaped subsequent work. The team should identify a real problem, address at least some aspect of it, and refine its problem statement accordingly. The faculty member offered help if challenges arise.
+
+## Follow-Ups
+- Contact the relevant project and industrial mentors to clarify the purpose and feasibility of the requested model-training tasks.
+- Explore joining an active, sanctioned project, potentially the Mahanadi Basin work, and arrange meaningful site and engineer engagement.
+- Reassess the scope and consider fine-tuning one model as part of a practical, interdisciplinary application.
+- Define and document concrete site activities, measurements, findings, and contributions for the presentation.
+
+---
+
+Speaker A (0:00): that, let them make you project. You go and learn how they are doing that or handling that, then come back and bring that to the presentation so that you are also working in a real project where you have a client, a contractor, or whatever, whoever are the stakeholders. So you— the whole idea is you learn to deal with all of these people and understand the nitty-gritties. And if you're not getting to do that, it's nothing different from a B.Tech. So one is it should be an actually implemented or sanctioned project. Tell them that this is a compulsory criteria here. You can tell to Vasudev, I also will talk to him, but then I can only inform him because I am also a faculty like him. He can also see the guidelines up there. In case he missed it, I'll just inform him, but it is your responsibility to get it happening.
+
+Speaker B (0:46): So ma'am, what we can do is that we were initially asked to train multiple foundation models, so we can just Fine-tune one foundation model, then we can move on to something different.
+
+Speaker A (0:57): Right, right, that is true.
+
+Speaker B (0:59): Because if I talk about interdisciplinary aspect, we are just focusing on water resource and AI/ML techniques, not anything apart.
+
+Speaker A (1:08): Yeah, because in an actual project there will be everything. In real life project, if you have water resources, there will be geotechnical study also. Which river basin comes without a geotechnical
+
+Speaker C (1:19): Like, uh, if, uh, can you like give example of some last year teams who like performed really well? Like what all exact kind of things they were able to do?
+
+Speaker A (1:28): I'll tell you, out of 9 teams, first 3 places. First place I think was Professor Savit Banerjee's team. They worked with Sandhanchana, the company. So Sandhanchana is a major construction repair rehabilitation company. It's run by an IIT Bombay alumni, very established. I have worked with them during Rashtrapalika also. So what the students did is they went to the site where Santanjana is implementing new kind of wrapping of column method. So they saw how they were doing, how they wanted to try different kind of wrapping, and the students evaluated the efficiency of these kind of wrappings. That they implemented in those projects. The students actually measured at site, they even pasted samples in laboratory, wrapped and tested in our lab, and then they did an SEM analysis also. So there was experiment analysis, and then they looked at repair, rehabilitation, structural efficiency of the material. So we saw that 5 students, they divided among themselves and did. Next Workforce Plus, they worked with L&T. L&T is the current one. Last time, Mumbai Coastal Road Project. So there also they had traffic analysis of the road, geotechnical, structural, everything. So there each of them divided into each of these and performed. Third place was for Professor Varun's project, which was on construction management. So there they implemented tools to document worker efficiency and the lack of In an actual construction site. So they implemented cameras that automatically documents if something is lacking.
+
+Speaker C (3:35): So basically, like, their work included, like, real implementation, uh, on the comp— along with the companies.
+
+Speaker A (3:43): And, like, different projects going on, you are getting access to that project, like your site. You are going there, you are staying there, you are studying, and then you understand and contribute. That's why, that's why you also get into a real project. This is just like a course project also, but you put equal amount of work and headache, but eventually you are not getting an exposure outside of your study environment. So since Vasudev also works with real project, Mahanadi Basin, he is working for quite a long time. So you get him to try to see if you can be Part of an actual project, go to the site, talk to the engineers there, identify something. So as you said, maybe you'll fine-tune to one foundational model and then connect it to one real project.
+
+Speaker C (4:34): Like, as of now, like, uh, but that would mean like we would have to like talk with our industrial mentor because he just told us like we have to get this like couple of Like five six foundation model training stuff done by like seventeenth of this.
+
+Speaker A (4:50): What is the purpose of that?
+
+Speaker C (4:54): Like, like yeah something.
+
+Speaker D (4:56): You create a combination.
+
+Speaker C (4:58): Like he told that he won't be available after like seventeen. Like the TA, he is going to his home office.
+
+Speaker A (5:04): Because you will also don't have so much of time, no? By end of two three weeks after your exams. Yes, yes. You also have only this much of time, so you cannot wait for somebody to return.
+
+Speaker D (5:17): We'll speak with—
+
+Speaker C (5:19): like, that would also mean like we would have to change the scope of this project itself, like, because currently we are having—
+
+Speaker A (5:25): Don't worry about finishing something or doing so many things, but whatever you do, just see that it is sticking with what is the expectation. Questions will come on what about your site visit. specifically what did you do at the site, what did you take from the site, how did you continue that also, so that the team that raised all the complaints also had the problem that they went to the site, the river, they just floated and came back is what the comment given by one of the committee members. So you just told you should be doing something for the project at the site, at least understand, measure, okay. Have a discussion and try to address at least some of the points, and then re-modify the problem statement. Let me know if you need any help or if you face any challenges.
+
+Speaker C (6:22): Okay.
+
+Speaker D (6:54): पंची पंची पंची अरे अपन एक काम करते हैं अलग अलग अलग department
+
+Speaker C (7:02): ही लगती
+
+Speaker D (7:03): है सुन अलग ही जो disciplines हैं उनपे काम करते हैं सोचते हैं कि इसमें transportation अभी और चीजें कैसा है अभी क्या बात करेंगे अभी एक बार अभी उनको भी सोच लेना तो आपको भी तो कुछ नहीं पता अभी एक बार एक बार उनको mail भेज दे दो
+
+Speaker C (7:16): अभी वो जो सिद्धि
+
+Speaker D (7:21): चार पांच हुए। अरे मुझे तीसरा बंदा है तो सबको मैंने कर
+
+Speaker C (7:25): लिया।
+
+Speaker D (7:26): जो था ना उसका बंदा वो नीचे है। तीसरा बंदा था ना?
+
+Speaker B (7:30): देखो, सिद्ध को भेज के लाया। वो एक्चुअल
+
+Speaker D (7:32): काम
+
+Speaker B (7:33): कर रहा था उसमें। मैं बता रहा हूँ, अभी इनमें क्या-क्या करना है?

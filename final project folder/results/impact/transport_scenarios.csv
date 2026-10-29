@@ -1,0 +1,9 @@
+scenario,edges_cut,road_km_cut,shelter: dry schools,shelter: people > 30 min from a dry school,shelter: people with no reachable dry school,hospital: settlements cut off,hospital: people cut off,hospital: people with trip +5 min or more,"hospital: median extra minutes (still reachable, delayed)",town: settlements cut off,town: people cut off,town: people with trip +5 min or more,"town: median extra minutes (still reachable, delayed)",town: extra person-hours of travel per day
+T2,47,3.3,100,911462,0,0,0,802,7.5,0,0,3941,13.0,493
+T5,449,41.7,97,925953,39073,32,36941,23140,7.9,34,39073,85131,21.8,12050
+T10,469,43.8,97,927716,40836,32,36941,24345,9.1,35,40836,83368,21.8,12023
+T25,469,43.8,97,927716,40836,32,36941,24345,9.1,35,40836,83368,21.8,12023
+T50,469,43.8,97,927716,40836,32,36941,24345,9.1,35,40836,83368,21.8,12023
+T100,469,43.8,97,927716,40836,32,36941,24345,9.1,35,40836,83368,21.8,12023
+freq10,241,16.8,97,945183,0,0,0,9998,11.7,0,0,64437,21.8,11838
+observed_20180908,362,31.1,96,980870,24732,21,15784,30475,9.6,34,24732,124576,20.2,18179

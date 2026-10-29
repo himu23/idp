@@ -1,0 +1,10 @@
+rasterio
+numpy
+pystac-client
+planetary-computer
+pyproj
+shapely
+scikit-image
+matplotlib
+pyarrow
+huggingface_hub

@@ -1,0 +1,39 @@
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:31: The name tf.set_random_seed is deprecated. Please use tf.compat.v1.set_random_seed instead.
+
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:97: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:97: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+2026-10-28 06:13:33.191331: E tensorflow/stream_executor/cuda/cuda_driver.cc:318] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:101: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:
+The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+  * https://github.com/tensorflow/io (for I/O related ops)
+If you depend on functionality not listed there, please file an issue.
+
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/env/lib/python3.7/site-packages/tensorflow_core/python/ops/math_grad.py:1375: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:171: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
+
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:174: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+WARNING:tensorflow:From /home1/vineet/floodfm/pinn/PINN/engine/SVE_module_dynamic.py:225: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
+
+1.15.0
+Loading uh NN ...
+ - Load NN parameters successfully...
+Loading adaptive weights ...
+constant_bcs_val: 25.509, constant_ics_val: 9.458, constant_obs_val: 30.536
+
+==========================================================================
+CASE 2   variant: case2   weights: paper
+==========================================================================
+PINN               eps_h = 3.6845e-02    RMSE = 0.076 m    NSE = 0.9952
+                   paper: eps_h = 3.685e-02, RMSE = 0.076 m  (deviation 0.0%)
+  figure: /home1/vineet/floodfm/pinn/PINN/results/figures/case2_paper_contour.png
+  figure: /home1/vineet/floodfm/pinn/PINN/results/figures/case2_paper_profiles.png

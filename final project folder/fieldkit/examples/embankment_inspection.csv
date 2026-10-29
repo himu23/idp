@@ -1,0 +1,3 @@
+segment_id,date,lat,lon,bank,crest_width_m,height_above_field_m,river_side_slope_deg,land_side_slope_deg,seepage_or_boils_seen,cracks_or_slips_seen,animal_burrows,breach_history_local_report,protection_works,photo_ids,notes
+EXAMPLE-E1,2026-11-02,,,left,4.0,3.5,30,22,yes,no,yes,2020,none,,EXAMPLE ONLY
+EXAMPLE-E2,2026-11-02,,,right,5.0,4.0,24,18,no,no,no,none,stone pitching,,EXAMPLE ONLY
