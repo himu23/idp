@@ -11,14 +11,14 @@ clinics, 103 schools). All areas exclude the river bed and normal water.
 
 | Scenario | Flooded land (km²) | People on flooded land | Settlements ≥ 10 % flooded | Cropland (km²) | Road under water, km (main roads) | Rail (km) | Bridges with flooded approach | Health facilities | Schools |
 |---|---|---|---|---|---|---|---|---|---|
-| 2-year | 38 | 6,086 | 1 | 16 | 3 (0) | 0.0 | 37 | 5 | 1 |
-| 5-year | 203 | 22,545 | 20 | 152 | 30 (11) | 0.0 | 72 | 5 | 4 |
-| 10-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| 25-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| 50-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| 100-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| flooded in ≥ 10 % of passes | 48 | 11,063 | 3 | 19 | 14 (3) | 0.0 | 56 | 7 | 4 |
-| largest seen (2018-09-08) | 275 | 28,826 | 14 | 232 | 23 (8) | 0.0 | 89 | 6 | 5 |
+| 2-year | 50 | 7,837 | 4 | 24 | 6 (1) | 0.0 | 46 | 4 | 0 |
+| 5-year | 218 | 25,384 | 24 | 165 | 34 (11) | 0.3 | 71 | 6 | 0 |
+| 10-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| 25-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| 50-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| 100-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| flooded in ≥ 10 % of passes | 54 | 11,801 | 3 | 27 | 20 (7) | 0.1 | 62 | 7 | 2 |
+| largest seen (2018-09-08) | 278 | 39,367 | 38 | 231 | 35 (11) | 0.4 | 97 | 8 | 2 |
 
 Most flooded land is cropland; the people exposed live in villages on slightly higher ground at the edge of the
 flooded fields, which is why a settlement-level list (viewer, bulletin tool) is more useful to a district officer
@@ -31,38 +31,38 @@ than a total. Mapped building footprints are incomplete here (Microsoft: 120,647
 
 | Scenario | Road cut (km) | Settlements cut off from any hospital/clinic | People cut off | People reaching one only by a detour ≥ 5 min | Median detour (min) | People cut off from any town |
 |---|---|---|---|---|---|---|
-| 2-year | 3 | 0 | 0 | 802 | 7.5 | 0 |
-| 5-year | 42 | 32 | 36,941 | 23,140 | 7.9 | 39,073 |
-| 10-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| 25-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| 50-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| 100-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| flooded in ≥ 10 % of passes | 17 | 0 | 0 | 9,998 | 11.7 | 0 |
-| largest seen (2018-09-08) | 31 | 21 | 15,784 | 30,475 | 9.6 | 24,732 |
+| 2-year | 8 | 0 | 0 | 802 | 7.5 | 0 |
+| 5-year | 48 | 39 | 51,155 | 20,287 | 8.3 | 63,788 |
+| 10-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| 25-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| 50-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| 100-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| flooded in ≥ 10 % of passes | 25 | 1 | 521 | 802 | 7.5 | 521 |
+| largest seen (2018-09-08) | 49 | 43 | 49,742 | 32,621 | 11.7 | 95,950 |
 
 Graph: 147,729 nodes, 156,647 edges, 6,383 km; 364 hospital/clinic
 nodes and 6 towns; settlements farther than 500 m from the main network are not routed.
 
-- **Evacuation**: schools serve as relief camps. In the 25-year flood 97 of the
-  mapped schools stay dry and 40,836 people can reach none of them by
+- **Evacuation**: schools serve as relief camps. In the 25-year flood 101 of the
+  mapped schools stay dry and 65,056 people can reach none of them by
   road. OpenStreetMap maps only about a hundred schools here (every village has one), so travel times to shelters
   need the official OSDMA shelter list; the cut-off count is the robust part.
 - **Everyday travel**: with an assumed 0.2 trips per person per day to the nearest town, the detours of the 25-year
-  flood add about 12,023 person-hours of travel a day — the cost that does not appear in damage figures.
+  flood add about 10,077 person-hours of travel a day — the cost that does not appear in damage figures.
 - **Critical links** (flooded sections carrying the most people's dry-weather route to the nearest hospital; raising
   or protecting these keeps the most people connected; earthwork in C.7):
 
 | Rank | Road | Class | People routed | Flooded length (km) | Location |
 |---|---|---|---|---|---|
-| 1 | (unnamed) | unclassified | 10,351 | 1.03 | 20.3830 N, 86.1617 E |
-| 2 | (unnamed) | unclassified | 9,421 | 0.34 | 20.2716 N, 86.0251 E |
-| 3 | (unnamed) | tertiary | 8,261 | 0.71 | 20.4531 N, 86.3770 E |
+| 1 | (unnamed) | secondary | 10,930 | 0.83 | 20.2661 N, 86.3614 E |
+| 2 | (unnamed) | unclassified | 10,351 | 1.68 | 20.3826 N, 86.1631 E |
+| 3 | (unnamed) | unclassified | 9,421 | 0.34 | 20.2716 N, 86.0251 E |
 | 4 | (unnamed) | unclassified | 7,657 | 0.14 | 20.3995 N, 86.2551 E |
-| 5 | (unnamed) | tertiary | 7,045 | 0.14 | 20.3455 N, 86.3792 E |
-| 6 | (unnamed) | tertiary | 6,371 | 2.06 | 20.4067 N, 86.3814 E |
+| 5 | (unnamed) | tertiary | 7,582 | 0.42 | 20.4527 N, 86.3781 E |
+| 6 | (unnamed) | tertiary | 7,045 | 0.14 | 20.3455 N, 86.3792 E |
 | 7 | (unnamed) | unclassified | 6,210 | 0.34 | 20.4651 N, 86.3551 E |
 | 8 | (unnamed) | residential | 6,171 | 0.03 | 20.2845 N, 86.4417 E |
-| 9 | (unnamed) | tertiary | 4,863 | 0.31 | 20.3874 N, 86.4262 E |
+| 9 | (unnamed) | tertiary | 4,863 | 0.16 | 20.3869 N, 86.4210 E |
 | 10 | (unnamed) | unclassified | 4,638 | 0.05 | 20.5250 N, 86.0275 E |
 
 ### C.3 Structural
@@ -77,8 +77,8 @@ nodes and 6 towns; settlements farther than 500 m from the main network are not 
   cracks when this exceeds f_t t²/6. With flexural tension f_t = 0.1–0.2 MPa the critical depth is
   0.81–1.03 m for a 230 mm wall and
   0.51–0.65 m for a 115 mm wall (self-weight
-  ignored, conservative). **3,626 people** live where the 25-year flood is 1 m deep
-  or more (5,194 at 0.6 m or more); mud walls weaken with soaking at any depth.
+  ignored, conservative). **4,080 people** live where the 25-year flood is 1 m deep
+  or more (5,867 at 0.6 m or more); mud walls weaken with soaking at any depth.
   The settlements are listed in `results/impact/wall_risk_settlements.csv`.
 - **Bridge scour** (IRC:78, Lacey): d_sm = 1.34 (D_b²/K_sf)^(1/3), D_b = Q / linear waterway, K_sf = 1.76 √d_m
   (d_m = 0.3 mm until the field sieve gives the bed size); maximum scour 2.0 d_sm at piers, 1.27 d_sm at abutments,
@@ -106,9 +106,9 @@ nodes and 6 towns; settlements farther than 500 m from the main network are not 
   (20.48 N, 85.91 E). Shares of 25 % and 75 % are in
   `bridge_scour.csv`. Pier foundations must reach well below these depths; the PWD
   foundation levels collected at the site close the check.
-- **Clearance and facilities**: 74 bridge segments have flood water within 60 m
-  of an end; deck clearance above HFL is checked against IRC:5 at the site (§8.5). 6
-  hospitals/clinics and 4 schools have flood water within 60 m; 0.0 km of railway is
+- **Clearance and facilities**: 79 bridge segments have flood water within 60 m
+  of an end; deck clearance above HFL is checked against IRC:5 at the site (§8.5). 7
+  hospitals/clinics and 0 schools have flood water within 60 m; 0.3 km of railway is
   under water.
 
 ![Bridge scour screening](../results/atlas_figures/bridge_scour.png)
@@ -117,23 +117,23 @@ nodes and 6 towns; settlements farther than 500 m from the main network are not 
 
 ![River-bank inspection priority](../results/atlas_figures/geotech_map.png)
 
-663 one-kilometre cells contain river bank. SoilGrids gives clay loam (456), clay (165), silty clay loam (34), silty clay (8)
+664 one-kilometre cells contain river bank. SoilGrids gives clay loam (454), clay (166), silty clay loam (36), silty clay (8)
 — too coarse to tell one bank from another, which is why the field samples matter. OpenStreetMap maps only
 12 embankment segments (1.8 km), so the screening works from the river-bed
 outline (the WRD embankment inventory is requested in §8.1). The field list is the 20 highest cells at least 3 km apart:
 
 | Rank | Location | Water behind the bank (share of passes) | Years with water behind the bank | Texture (sand/silt/clay %) | People within 2 km |
 |---|---|---|---|---|---|
-| 1 | 20.4290 N, 85.9090 E | 4% | 10 | clay loam (29/37/34) | 68,934 |
-| 2 | 20.4290 N, 85.8710 E | 6% | 10 | clay loam (29/36/34) | 22,047 |
-| 3 | 20.4920 N, 85.8320 E | 2% | 9 | clay loam (30/37/33) | 93,127 |
-| 4 | 20.3140 N, 86.3690 E | 8% | 10 | clay loam (22/44/34) | 18,481 |
-| 5 | 20.5110 N, 85.9180 E | 1% | 6 | clay loam (29/38/32) | 53,829 |
-| 6 | 20.2940 N, 85.8910 E | 2% | 9 | clay loam (36/30/34) | 13,872 |
-| 7 | 20.3140 N, 86.3980 E | 1% | 8 | clay loam (21/44/34) | 23,281 |
-| 8 | 20.3210 N, 85.8810 E | 1% | 5 | clay loam (37/30/33) | 24,225 |
-| 9 | 20.6390 N, 86.2820 E | 4% | 9 | clay loam (25/38/37) | 18,192 |
-| 10 | 20.6210 N, 86.3300 E | 3% | 9 | clay loam (24/37/39) | 17,936 |
+| 1 | 20.5110 N, 85.9180 E | 4% | 10 | clay loam (29/38/32) | 53,829 |
+| 2 | 20.4920 N, 85.8320 E | 3% | 10 | clay loam (30/37/33) | 93,127 |
+| 3 | 20.4290 N, 85.9090 E | 6% | 10 | clay loam (29/37/34) | 68,934 |
+| 4 | 20.4290 N, 85.8710 E | 7% | 10 | clay loam (29/36/34) | 22,047 |
+| 5 | 20.3140 N, 86.3690 E | 8% | 10 | clay loam (22/44/34) | 18,481 |
+| 6 | 20.3210 N, 85.8810 E | 2% | 10 | clay loam (37/30/33) | 24,225 |
+| 7 | 20.2940 N, 85.8910 E | 2% | 9 | clay loam (36/30/34) | 13,872 |
+| 8 | 20.2570 N, 85.8810 E | 1% | 8 | clay loam (34/34/32) | 14,397 |
+| 9 | 20.3140 N, 86.3980 E | 1% | 8 | clay loam (21/44/34) | 23,281 |
+| 10 | 20.3140 N, 86.3220 E | 7% | 10 | clay loam (23/40/37) | 14,275 |
 
 Laboratory plan: wet sieving (IS 2720 Part 4), liquid / plastic limits (IS 2720 Part 5), IS 1498 class, Kenney–Lau
 internal stability and a piping flag (`soil_gradation.py`); bank slopes measured at the site give the factor of
@@ -150,10 +150,10 @@ lose bearing capacity while it is wet and settle when the water table falls back
 
 | Scenario | Advisory zone (km²) | People in the zone | People on flooded land | Settlements with ≥ 25 % of people in the zone |
 |---|---|---|---|---|
-| 5-year | 414 | 380,300 | 22,545 | 290 |
-| 25-year | 432 | 415,549 | 25,163 | 310 |
-| 100-year | 432 | 415,549 | 25,163 | 310 |
-| flooded in ≥ 10 % of passes | 319 | 299,472 | 11,063 | 185 |
+| 5-year | 464 | 407,037 | 25,384 | 305 |
+| 25-year | 489 | 441,605 | 30,427 | 329 |
+| 100-year | 489 | 441,605 | 30,427 | 329 |
+| flooded in ≥ 10 % of passes | 366 | 291,194 | 11,801 | 177 |
 
 What the advisory means for a typical house foundation (strip footing 1 m wide at 1 m depth; textbook parameters to be
 replaced by the lab results, `foundation_checks.py`):
@@ -175,32 +175,32 @@ The 200 m distance is a screening value; the water levels in village wells at in
 ![Flood drivers](../results/atlas_figures/flood_drivers.png)
 
 37 cyclones and depressions passed within 300 km of the delta since 2016
-(IBTrACS). Of the 20 largest floods seen by radar, 18 came with a high Naraj flow (≥ 9,682 m³/s, the
-monsoon 90th percentile), 14 with heavy rain (≥ 135 mm in 7 days) and
+(IBTrACS). Of the 20 largest floods seen by radar, 15 came with a high Naraj flow (≥ 9,682 m³/s, the
+monsoon 90th percentile), 13 with heavy rain (≥ 135 mm in 7 days) and
 11 within a week of a Bay of Bengal system:
 
 | Date | Flooded land (km²) | Naraj flow (m³/s) | Rain (mm) | System | Drivers |
 |---|---|---|---|---|---|
-| 2021-09-14 | 267 | 11,614 | 231 | depression (unnamed) | river + rain + cyclone/depression |
-| 2022-08-16 | 218 | 24,603 | 177 | depression (unnamed) | river + rain + cyclone/depression |
-| 2020-08-26 | 204 | 15,523 | 187 |  | river + rain |
-| 2018-09-08 | 276 | 15,030 | 159 | depression (unnamed) | river + rain + cyclone/depression |
-| 2021-09-16 | 250 | 15,380 | 242 | depression (unnamed) | river + rain + cyclone/depression |
-| 2018-09-12 | 145 | 15,030 | 117 | depression (unnamed) | river + cyclone/depression |
-| 2021-09-19 | 182 | 15,380 | 175 | depression (unnamed) | river + rain + cyclone/depression |
-| 2026-08-14 | 138 | 9,682 | 187 |  | river + rain |
-| 2018-09-06 | 137 | 14,157 | 186 | depression (unnamed) | river + rain + cyclone/depression |
-| 2026-07-26 | 154 | 5,283 | 259 |  | rain |
-| 2026-08-02 | 121 | 14,893 | 155 |  | river + rain |
-| 2026-10-01 | 119 | 19,497 | 56 |  | river |
-| 2020-09-07 | 100 | 13,676 | 42 |  | river |
-| 2020-08-31 | 123 | 23,226 | 139 |  | river + rain |
-| 2018-10-14 | 127 | 6,901 | 145 | Titli | rain + cyclone/depression |
-| 2022-08-18 | 118 | 28,378 | 141 | depression (unnamed) | river + rain + cyclone/depression |
-| 2019-08-14 | 78 | 10,888 | 74 | depression (unnamed) | river + cyclone/depression |
-| 2025-07-31 | 72 | 16,217 | 85 | depression (unnamed) | river + cyclone/depression |
-| 2019-09-13 | 70 | 19,453 | 59 |  | river |
-| 2020-08-28 | 99 | 20,136 | 180 |  | river + rain |
+| 2021-09-14 | 411 | 11,614 | 231 | depression (unnamed) | river + rain + cyclone/depression |
+| 2020-08-26 | 377 | 14,487 | 187 |  | river + rain |
+| 2022-08-16 | 280 | 24,603 | 177 | depression (unnamed) | river + rain + cyclone/depression |
+| 2018-09-06 | 222 | 13,867 | 186 | depression (unnamed) | river + rain + cyclone/depression |
+| 2018-09-12 | 212 | 13,645 | 117 | depression (unnamed) | river + cyclone/depression |
+| 2026-07-26 | 246 | 5,283 | 259 |  | rain |
+| 2018-09-08 | 278 | 15,030 | 159 | depression (unnamed) | river + rain + cyclone/depression |
+| 2021-09-16 | 271 | 15,380 | 242 | depression (unnamed) | river + rain + cyclone/depression |
+| 2026-08-14 | 174 | 9,682 | 187 |  | river + rain |
+| 2021-09-19 | 195 | 12,617 | 175 | depression (unnamed) | river + rain + cyclone/depression |
+| 2026-10-01 | 153 | 19,497 | 56 |  | river |
+| 2018-10-14 | 205 | 6,901 | 145 | Titli | rain + cyclone/depression |
+| 2020-09-07 | 136 | 10,279 | 42 |  | river |
+| 2026-08-02 | 132 | 14,893 | 155 |  | river + rain |
+| 2019-08-14 | 129 | 8,709 | 74 | depression (unnamed) | cyclone/depression |
+| 2019-09-13 | 118 | 18,577 | 59 |  | river |
+| 2025-07-31 | 114 | 16,217 | 85 | depression (unnamed) | river + cyclone/depression |
+| 2025-07-07 | 88 | 3,854 | 125 |  | none above the 90th percentiles |
+| 2023-09-16 | 87 | 7,533 | 156 |  | rain |
+| 2018-07-25 | 109 | 12,444 | 271 | depression (unnamed) | river + rain + cyclone/depression |
 
 Systems that came within 300 km:
 
@@ -209,40 +209,40 @@ Systems that came within 300 km:
 | Roanu | 2016-05-20 | 132 | 45 | 102 | 69 |  |
 | depression (unnamed) | 2016-08-17 | 259 | 25 | 47 | 10,398 |  |
 | depression (unnamed) | 2016-11-05 | 236 | 25 | 79 | 1,212 |  |
-| depression (unnamed) | 2017-07-18 | 99 | 25 | 89 | 6,838 | 16.4 |
-| depression (unnamed) | 2017-10-19 | 64 | 25 | 152 | 2,611 | 14.1 |
-| depression (unnamed) | 2017-11-17 | 107 | 25 | 104 | 2,957 | 8.8 |
+| depression (unnamed) | 2017-07-18 | 99 | 25 | 89 | 6,838 | 54.5 |
+| depression (unnamed) | 2017-10-19 | 64 | 25 | 152 | 2,611 | 18.2 |
+| depression (unnamed) | 2017-11-17 | 107 | 25 | 104 | 2,957 | 4.1 |
 | depression (unnamed) | 2017-12-09 | 170 | 30 | 98 | 1,171 |  |
-| depression (unnamed) | 2018-07-21 | 192 | 30 | 249 | 12,444 | 68.6 |
-| depression (unnamed) | 2018-08-07 | 123 | 25 | 212 | 11,040 | 19.1 |
-| depression (unnamed) | 2018-08-15 | 52 | 25 | 103 | 13,365 | 45.8 |
-| depression (unnamed) | 2018-09-06 | 155 | 30 | 164 | 15,030 | 276.0 |
-| Daye | 2018-09-20 | 178 | 35 | 88 | 5,382 | 34.8 |
-| Titli | 2018-10-12 | 82 | 80 | 78 | 6,901 | 126.7 |
+| depression (unnamed) | 2018-07-21 | 192 | 30 | 249 | 12,444 | 109.3 |
+| depression (unnamed) | 2018-08-07 | 123 | 25 | 212 | 11,040 | 58.1 |
+| depression (unnamed) | 2018-08-15 | 52 | 25 | 103 | 13,365 | 49.8 |
+| depression (unnamed) | 2018-09-06 | 155 | 30 | 164 | 15,030 | 278.4 |
+| Daye | 2018-09-20 | 178 | 35 | 88 | 5,382 | 54.2 |
+| Titli | 2018-10-12 | 82 | 80 | 78 | 6,901 | 204.9 |
 | Fani | 2019-05-03 | 28 | 115 | 180 | 1,168 |  |
-| depression (unnamed) | 2019-08-07 | 140 | 30 | 133 | 11,428 | 78.1 |
-| Bulbul (Matmo) | 2019-11-09 | 154 | 75 | 43 | 1,844 | 16.3 |
+| depression (unnamed) | 2019-08-07 | 140 | 30 | 133 | 11,428 | 129.2 |
+| Bulbul (Matmo) | 2019-11-09 | 154 | 75 | 43 | 1,844 | 14.5 |
 | Amphan | 2020-05-20 | 180 | 100 | 112 | 377 |  |
-| depression (unnamed) | 2020-10-22 | 147 | 25 | 58 | 3,040 | 21.9 |
+| depression (unnamed) | 2020-10-22 | 147 | 25 | 58 | 3,040 | 23.6 |
 | Yaas | 2021-05-26 | 134 | 75 | 149 | 385 |  |
-| depression (unnamed) | 2021-09-13 | 64 | 30 | 227 | 15,380 | 267.3 |
-| Gulab (Shaheen) | 2021-09-26 | 217 | 45 | 52 | 6,682 | 61.8 |
+| depression (unnamed) | 2021-09-13 | 64 | 30 | 227 | 15,380 | 411.3 |
+| Gulab (Shaheen) | 2021-09-26 | 217 | 45 | 52 | 6,682 | 96.1 |
 | Jawad | 2021-12-05 | 105 | 30 | 158 | 1,527 |  |
-| depression (unnamed) | 2022-08-09 | 67 | 25 | 193 | 24,603 | 218.4 |
-| depression (unnamed) | 2022-08-14 | 184 | 25 | 171 | 28,378 | 218.4 |
-| depression (unnamed) | 2022-08-19 | 215 | 30 | 136 | 26,914 | 64.1 |
-| depression (unnamed) | 2022-09-11 | 182 | 25 | 74 | 6,294 | 12.6 |
-| Hamoon | 2023-10-23 | 254 | 50 | 3 | 2,088 | 12.3 |
-| Midhili | 2023-11-16 | 247 | 35 | 25 | 1,261 | 9.0 |
-| depression (unnamed) | 2024-07-20 | 112 | 25 | 50 | 4,852 | 10.9 |
-| depression (unnamed) | 2024-09-09 | 52 | 30 | 52 | 19,098 | 17.7 |
-| depression (unnamed) | 2024-09-15 | 288 | 30 | 77 | 17,946 | 17.7 |
-| Dana | 2024-10-26 | 88 | 60 | 70 | 1,874 | 13.7 |
-| depression (unnamed) | 2025-05-29 | 230 | 30 | 70 | 558 | 6.7 |
-| depression (unnamed) | 2025-07-25 | 273 | 25 | 86 | 16,217 | 71.8 |
-| depression (unnamed) | 2025-08-19 | 188 | 20 | 100 | 7,655 | 30.5 |
-| depression (unnamed) | 2025-09-26 | 128 | 25 | 68 | 9,682 | 37.4 |
-| depression (unnamed) | 2025-10-02 | 181 | 30 | 120 | 11,454 | 10.0 |
+| depression (unnamed) | 2022-08-09 | 67 | 25 | 193 | 24,603 | 280.4 |
+| depression (unnamed) | 2022-08-14 | 184 | 25 | 171 | 28,378 | 280.4 |
+| depression (unnamed) | 2022-08-19 | 215 | 30 | 136 | 26,914 | 67.4 |
+| depression (unnamed) | 2022-09-11 | 182 | 25 | 74 | 6,294 | 14.0 |
+| Hamoon | 2023-10-23 | 254 | 50 | 3 | 2,088 | 9.6 |
+| Midhili | 2023-11-16 | 247 | 35 | 25 | 1,261 | 4.7 |
+| depression (unnamed) | 2024-07-20 | 112 | 25 | 50 | 4,852 | 16.8 |
+| depression (unnamed) | 2024-09-09 | 52 | 30 | 52 | 19,098 | 26.8 |
+| depression (unnamed) | 2024-09-15 | 288 | 30 | 77 | 17,946 | 18.6 |
+| Dana | 2024-10-26 | 88 | 60 | 70 | 1,874 | 13.3 |
+| depression (unnamed) | 2025-05-29 | 230 | 30 | 70 | 558 | 7.1 |
+| depression (unnamed) | 2025-07-25 | 273 | 25 | 86 | 16,217 | 113.5 |
+| depression (unnamed) | 2025-08-19 | 188 | 20 | 100 | 7,655 | 28.3 |
+| depression (unnamed) | 2025-09-26 | 128 | 25 | 68 | 9,682 | 52.1 |
+| depression (unnamed) | 2025-10-02 | 181 | 30 | 120 | 11,454 | 15.4 |
 
 Storm surge and high tide also slow the drainage of the lower delta through the tidal distributaries; the study box
 ends about 25 km inland of Paradip, and a tide-gauge record (Paradip) is the first ocean dataset to add.
@@ -259,11 +259,11 @@ ends about 25 km inland of Paradip, and a tide-gauge record (Paradip) is the fir
 | Apr | 278 | 0.0% | 0.02 |  | yes |
 | May | 231 | 0.0% | 0.20 |  | no |
 | Jun | 291 | 0.0% | 0.35 | 0.2% | no |
-| Jul | 3,274 | 1.2% | 0.37 | 0.7% | no |
-| Aug | 8,355 | 2.9% | 0.74 | 1.5% | no |
-| Sep | 7,465 | 2.6% | 0.59 | 1.6% | no |
-| Oct | 2,882 | 0.0% | 0.50 | 0.7% | no |
-| Nov | 1,210 | 0.0% | 0.22 | 0.4% | no |
+| Jul | 3,274 | 1.2% | 0.37 | 1.3% | no |
+| Aug | 8,355 | 2.9% | 0.74 | 1.9% | no |
+| Sep | 7,465 | 2.6% | 0.59 | 2.2% | no |
+| Oct | 2,882 | 0.0% | 0.50 | 0.9% | no |
+| Nov | 1,210 | 0.0% | 0.22 | 0.3% | no |
 | Dec | 965 | 0.0% | 0.07 |  | yes |
 
 **Raising the critical links** above the 25-year flood (raise = 90th-percentile depth + 0.6 m freeboard; crest 3.75 m
@@ -271,26 +271,26 @@ single lane or 7.5 m for trunk/primary roads; side slopes 2H:1V; earthwork at an
 
 | Rank | Road | Class | Flooded (km) | Depth p90 (m) | Raise (m) | Crest (m) | Design | Earthwork (m³) | Cost (₹ lakh) |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | (unnamed) | unclassified | 1.03 | 0.6 | 1.2 | 3.75 | embankment raise | 7,601 | 26.6 |
-| 2 | (unnamed) | unclassified | 0.34 | 0.4 | 1.0 | 3.75 | embankment raise | 2,008 | 7.0 |
-| 3 | (unnamed) | tertiary | 0.71 | 0.0 | 0.6 | 3.75 | embankment raise | 2,109 | 7.4 |
-| 4 | (unnamed) | unclassified | 0.14 | 1.6 | 2.2 | 3.75 | embankment raise | 2,599 | 9.1 |
-| 5 | (unnamed) | tertiary | 0.14 | 0.7 | 1.3 | 3.75 | embankment raise | 1,206 | 4.2 |
-| 6 | (unnamed) | tertiary | 2.06 | 4.3 | 4.9 | 3.75 | bridge or vented causeway | (136,774 as embankment) | – |
+| 1 | (unnamed) | secondary | 0.83 | 0.2 | 0.8 | 3.75 | embankment raise | 3,552 | 12.4 |
+| 2 | (unnamed) | unclassified | 1.68 | 0.8 | 1.4 | 3.75 | embankment raise | 15,406 | 53.9 |
+| 3 | (unnamed) | unclassified | 0.34 | 0.7 | 1.3 | 3.75 | embankment raise | 2,868 | 10.0 |
+| 4 | (unnamed) | unclassified | 0.14 | 0.1 | 0.7 | 3.75 | embankment raise | 468 | 1.6 |
+| 5 | (unnamed) | tertiary | 0.42 | 0.0 | 0.6 | 3.75 | embankment raise | 1,247 | 4.4 |
+| 6 | (unnamed) | tertiary | 0.14 | 0.9 | 1.5 | 3.75 | embankment raise | 1,404 | 4.9 |
 | 7 | (unnamed) | unclassified | 0.34 | 0.0 | 0.6 | 3.75 | embankment raise | 1,010 | 3.5 |
 | 8 | (unnamed) | residential | 0.03 | 0.2 | 0.8 | 3.75 | embankment raise | 128 | 0.4 |
-| 9 | (unnamed) | tertiary | 0.31 | 3.2 | 3.9 | 3.75 | bridge or vented causeway | (13,666 as embankment) | – |
-| 10 | (unnamed) | unclassified | 0.05 | 1.4 | 2.0 | 3.75 | embankment raise | 781 | 2.7 |
+| 9 | (unnamed) | tertiary | 0.16 | 0.2 | 0.8 | 3.75 | embankment raise | 685 | 2.4 |
+| 10 | (unnamed) | unclassified | 0.05 | 1.5 | 2.1 | 3.75 | embankment raise | 835 | 2.9 |
 
-Embankment raises for 8 links (2.78 km of road):
-17,442 m³, about ₹0.61 crore. Links 6 and 9 would need raises above 3 m (4.9 m over 2.06 km; 3.9 m over 0.31 km): each needs a bridge or a vented causeway rather than a road embankment, and the DEM depth there is the first thing to check at the site (check points RL06, RL09). As embankments they alone would take 150,440 m³. Each of the ten links
-carries the dry-weather hospital route of 4,638–10,351 people.
+Embankment raises for 10 links (4.13 km of road):
+27,603 m³, about ₹0.97 crore. Each of the ten links
+carries the dry-weather hospital route of 4,638–10,930 people.
 
 **Deployment quantities** (quantities and effort only; the unit rates are asked from ClimMaTech):
 
 | Item | Unit | Quantity | Crew-days | Basis |
 |---|---|---|---|---|
-| Solar siren unit with controller (Rakshak-type), mast and foundation | site | 40 | 40 | 40 sirens cover 49% of the exposed people at a 1.5 km audible range (impact_siting.py) |
+| Solar siren unit with controller (Rakshak-type), mast and foundation | site | 40 | 40 | 40 sirens cover 48% of the exposed people at a 1.5 km audible range (impact_siting.py) |
 | Non-contact radar level + surface-velocity station (Pravaah-type) on bridge, with logger and telemetry | site | 6 | 12 | one per main distributary (impact_siting.py) |
 | Cross-section and bed-material survey at each sensor bridge | site | 6 | 6 | needed to turn level + surface velocity into discharge |
 | Community training and siren drills | village | 40 | 20 | one session per siren site |
@@ -304,7 +304,7 @@ site each year.
 
 ### C.8 Water resources: the watershed above the delta
 
-Daily GloFAS v4 flows just below Hirakud dam and at Naraj, 29 complete years between 1984 and 2025
+Daily GloFAS v4 flows just below Hirakud dam and at Naraj, 29 complete years between 1997 and 2025
 (`mahanadi/watershed_share.py`). For each year the flow below Hirakud on the day before the Naraj peak is compared with
 the peak (one day is the travel time found in §6.5).
 
@@ -321,3 +321,40 @@ Over all 29 years the share has a median of 48% (interquartile range
 (3,803 of 6,353 m³/s). Basin areas: Hirakud controls about 83,400 km² of a
 basin of about 141,600 km² (sources differ between about 139,700 and 141,600 km²). GloFAS represents the reservoir with
 a generic operating rule, so these shares are indicative until CWC/WRD gauge and release records replace them.
+
+### C.9 Risk and economics
+
+**Houses.** For each design flood, the people on flooded land in each 0.1 m depth step (impact_depth.py, now also for
+the 2- and 10-year floods) times the JRC depth–damage fraction for residential buildings in Asia (Huizinga et al. 2017:
+0.33 at 0.5 m, 0.49 at 1 m, 0.72 at 2 m, 1.0 at 6 m) gives damage in house-equivalents at one household per
+4.4 people (an assumption of the order of the Census for rural Odisha), priced at
+the PMAY-G rural housing assistance of ₹1.20 lakh a house: the public cost of rebuilding, a lower bound of the loss.
+**Paddy.** Flooded cropland (ESA WorldCover) at Odisha's rice yield of 2,081 kg/ha (RBI, 2023-24) and the 2025-26 MSP of
+₹2,369 a quintal (₹49,299 a hectare); the crop is lost where the water is 0.5 m deep or more and
+30% is lost where it is shallower. **Expected annual damage** is the area under the
+damage–probability curve from the 2- to the 100-year flood (trapezoid rule) plus the 100-year damage for the rarer tail.
+
+| Flood | Naraj flow (m³/s) | People on flooded land | Houses (damage-equivalent) | Houses (₹ crore) | Paddy flooded (ha) | Paddy lost (ha) | Paddy (₹ crore) | Total (₹ crore) |
+|---|---|---|---|---|---|---|---|---|
+| 2-year | 17,897 | 7,837 | 245 | 2.93 | 2,419 | 985 | 4.85 | 7.78 |
+| 5-year | 23,940 | 25,384 | 812 | 9.74 | 16,539 | 6,579 | 32.44 | 42.18 |
+| 10-year | 27,941 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+| 25-year | 32,997 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+| 50-year | 36,747 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+| 100-year | 40,470 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+
+The 10- to 100-year rows are equal because the radar record has not seen a larger flood (§6.5): the expected annual
+damage, ₹17.1 crore, is a lower bound. **The daily record.** Each day of 1997–2025 (29 years) at Naraj, as the
+3-day peak flow the atlas uses, was looked up in the flow–impact table (`impact_curve.csv`): on average a year brings
+438,978 person-days on flooded land and 131,511
+person-days without road access to any hospital (54,811 with the ten
+critical links raised, i.e. never cut). The warning levels of §9.7 would have stood at "Be aware" or above on
+12.7 days a year, "Be prepared" or above on 3.8 and
+"Act now" on 2.2, with "Act now" in 10 of the years.
+**Road raising.** The earthwork of C.7 (₹0.97 crore) annualised over 20 years at
+10% costs ₹11.4 lakh a year; the 76,700 person-days of
+hospital access it saves, valued at the Odisha MGNREGA wage of ₹254 a day (2024-25), are worth ₹195
+lakh: a benefit–cost ratio of 17 that leaves out health outcomes and travel delays.
+**Hirakud.** Taking 1,000 m³/s off the peak keeps about 295, 1,535 and
+2,965 people dry in a 2-, 5- and 10-year flood. **Warnings.** Twenty-four hours of warning cuts flood
+damage by about 30 % (Global Commission on Adaptation, 2019), about ₹5 crore a year here.

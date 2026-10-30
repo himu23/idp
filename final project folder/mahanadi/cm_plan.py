@@ -2,7 +2,7 @@
 
     python mahanadi/cm_plan.py <discharge.csv> <ibtracs_NI.csv> <out_fig_dir>   (after the impact scripts and impact_depth.py)
 
-1. Work windows. Month by month: share of days with Naraj flow above the 2-year flood (GloFAS 1984-2025), mean
+1. Work windows. Month by month: share of days with Naraj flow above the 2-year flood (GloFAS 1997-2025), mean
    flooded share of the radar passes (atlas), and Bay of Bengal systems within 300 km (IBTrACS 1980-2025). Months
    with no flood days, low flooding and few storms are the windows for embankment repair, road raising and
    installation.

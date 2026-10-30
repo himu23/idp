@@ -1,0 +1,1199 @@
+{
+ "basin": "mahanadi",
+ "name": "Mahanadi delta",
+ "river": "Mahanadi",
+ "gauge": "Naraj",
+ "issued": "2022-08-14T06:00:00+05:30",
+ "replay": true,
+ "horizon_days": 10,
+ "level": 3,
+ "level_name": "Act now",
+ "level_possible": 3,
+ "peak": {
+  "date": "2022-08-18",
+  "median_m3s": 28378,
+  "p90_m3s": 28378,
+  "p90_date": "2022-08-18",
+  "lakh_cusec": 10.02
+ },
+ "today_m3s": 16032,
+ "design_flows_m3s": {
+  "2": 17897,
+  "5": 23940,
+  "10": 27941,
+  "25": 32997,
+  "50": 36747,
+  "100": 40470
+ },
+ "level_flows_m3s": {
+  "1": 12250.0,
+  "2": 18500.0,
+  "3": 21250.0
+ },
+ "largest_seen_m3s": 28378,
+ "beyond_record": true,
+ "impact_at_peak": {
+  "flooded_km2": 239.74,
+  "people": 30427.0,
+  "cropland_km2": 182.06,
+  "beyond_record": 0.0,
+  "settlements_10pct": 32.0,
+  "health_facilities_flooded": 9.0,
+  "school_facilities_flooded": 1.0,
+  "road_km_cut": 54.32,
+  "hospital_people_cut_off": 52423.0,
+  "hospital_settlements_cut_off": 41.0,
+  "hospital_people_cut_off_links_raised": 21306.0
+ },
+ "impact_at_peak_p90": {
+  "flooded_km2": 239.74,
+  "people": 30427.0,
+  "cropland_km2": 182.06,
+  "beyond_record": 0.0,
+  "settlements_10pct": 32.0,
+  "health_facilities_flooded": 9.0,
+  "school_facilities_flooded": 1.0,
+  "road_km_cut": 54.32,
+  "hospital_people_cut_off": 52423.0,
+  "hospital_settlements_cut_off": 41.0,
+  "hospital_people_cut_off_links_raised": 21306.0
+ },
+ "days": [
+  {
+   "date": "2022-08-14",
+   "median_m3s": 16032,
+   "p10_m3s": 16032,
+   "p90_m3s": 16032,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-15",
+   "median_m3s": 18364,
+   "p10_m3s": 18364,
+   "p90_m3s": 18364,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-16",
+   "median_m3s": 24603,
+   "p10_m3s": 24603,
+   "p90_m3s": 24603,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-17",
+   "median_m3s": 27668,
+   "p10_m3s": 27668,
+   "p90_m3s": 27668,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-18",
+   "median_m3s": 28378,
+   "p10_m3s": 28378,
+   "p90_m3s": 28378,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-19",
+   "median_m3s": 28378,
+   "p10_m3s": 28378,
+   "p90_m3s": 28378,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-20",
+   "median_m3s": 28378,
+   "p10_m3s": 28378,
+   "p90_m3s": 28378,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-21",
+   "median_m3s": 26914,
+   "p10_m3s": 26914,
+   "p90_m3s": 26914,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-22",
+   "median_m3s": 22541,
+   "p10_m3s": 22541,
+   "p90_m3s": 22541,
+   "level": 3,
+   "p_level": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "date": "2022-08-23",
+   "median_m3s": 18364,
+   "p10_m3s": 18364,
+   "p90_m3s": 18364,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-24",
+   "median_m3s": 16032,
+   "p10_m3s": 16032,
+   "p90_m3s": 16032,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-25",
+   "median_m3s": 15275,
+   "p10_m3s": 15275,
+   "p90_m3s": 15275,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-26",
+   "median_m3s": 14756,
+   "p10_m3s": 14756,
+   "p90_m3s": 14756,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-27",
+   "median_m3s": 13520,
+   "p10_m3s": 13520,
+   "p90_m3s": 13520,
+   "level": 1,
+   "p_level": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-28",
+   "median_m3s": 12077,
+   "p10_m3s": 12077,
+   "p90_m3s": 12077,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-29",
+   "median_m3s": 11040,
+   "p10_m3s": 11040,
+   "p90_m3s": 11040,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-30",
+   "median_m3s": 10092,
+   "p10_m3s": 10092,
+   "p90_m3s": 10092,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-08-31",
+   "median_m3s": 9310,
+   "p10_m3s": 9310,
+   "p90_m3s": 9310,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-01",
+   "median_m3s": 8789,
+   "p10_m3s": 8789,
+   "p90_m3s": 8789,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-02",
+   "median_m3s": 8053,
+   "p10_m3s": 8053,
+   "p90_m3s": 8053,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-03",
+   "median_m3s": 7327,
+   "p10_m3s": 7327,
+   "p90_m3s": 7327,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-04",
+   "median_m3s": 6094,
+   "p10_m3s": 6094,
+   "p90_m3s": 6094,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-05",
+   "median_m3s": 5635,
+   "p10_m3s": 5635,
+   "p90_m3s": 5635,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-06",
+   "median_m3s": 5092,
+   "p10_m3s": 5092,
+   "p90_m3s": 5092,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-07",
+   "median_m3s": 4863,
+   "p10_m3s": 4863,
+   "p90_m3s": 4863,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-08",
+   "median_m3s": 4796,
+   "p10_m3s": 4796,
+   "p90_m3s": 4796,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-09",
+   "median_m3s": 5034,
+   "p10_m3s": 5034,
+   "p90_m3s": 5034,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-10",
+   "median_m3s": 5199,
+   "p10_m3s": 5199,
+   "p90_m3s": 5199,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-11",
+   "median_m3s": 5199,
+   "p10_m3s": 5199,
+   "p90_m3s": 5199,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2022-09-12",
+   "median_m3s": 5199,
+   "p10_m3s": 5199,
+   "p90_m3s": 5199,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "villages_to_warn": [
+  {
+   "name": "near Bhattasagar Square (5.9 km)",
+   "lat": 20.6,
+   "lon": 86.1,
+   "pop": 417,
+   "flow_10pct": 9976,
+   "expected": "2022-08-14",
+   "possible": "2022-08-14"
+  },
+  {
+   "name": "near Bhattasagar Square (7.0 km)",
+   "lat": 20.6,
+   "lon": 86.1,
+   "pop": 1613,
+   "flow_10pct": 13931,
+   "expected": "2022-08-14",
+   "possible": "2022-08-14"
+  },
+  {
+   "name": "near Patkura (9.3 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 269,
+   "flow_10pct": 16051,
+   "expected": "2022-08-15",
+   "possible": "2022-08-15"
+  },
+  {
+   "name": "near Patkura (9.7 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 704,
+   "flow_10pct": 18386,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (9.1 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 253,
+   "flow_10pct": 18386,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (6.1 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 368,
+   "flow_10pct": 18386,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (2.7 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 647,
+   "flow_10pct": 18837,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Fakirabad (7.2 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 706,
+   "flow_10pct": 21159,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (1.5 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 281,
+   "flow_10pct": 21159,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (10.8 km)",
+   "lat": 20.3,
+   "lon": 86.3,
+   "pop": 247,
+   "flow_10pct": 21159,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.6 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 440,
+   "flow_10pct": 21159,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Dhuria (8.6 km)",
+   "lat": 20.5,
+   "lon": 86.3,
+   "pop": 529,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Jagatpur (5.8 km)",
+   "lat": 20.4,
+   "lon": 86.0,
+   "pop": 377,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Nemalo (1.2 km)",
+   "lat": 20.4,
+   "lon": 86.2,
+   "pop": 414,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Nemalo (5.1 km)",
+   "lat": 20.4,
+   "lon": 86.2,
+   "pop": 203,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (2.6 km)",
+   "lat": 20.4,
+   "lon": 86.0,
+   "pop": 260,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (10.9 km)",
+   "lat": 20.4,
+   "lon": 86.3,
+   "pop": 367,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (2.2 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 326,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Biridi (1.4 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 574,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Biridi (7.9 km)",
+   "lat": 20.3,
+   "lon": 86.1,
+   "pop": 481,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Balikanthia (3.4 km)",
+   "lat": 20.3,
+   "lon": 85.9,
+   "pop": 363,
+   "flow_10pct": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Balachandrapur (5.2 km)",
+   "lat": 20.6,
+   "lon": 86.2,
+   "pop": 262,
+   "flow_10pct": 23915,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Nemalo (10.7 km)",
+   "lat": 20.4,
+   "lon": 86.3,
+   "pop": 292,
+   "flow_10pct": 23915,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Fakirabad (6.7 km)",
+   "lat": 20.5,
+   "lon": 86.4,
+   "pop": 679,
+   "flow_10pct": 25758,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Nemalo (5.3 km)",
+   "lat": 20.4,
+   "lon": 86.2,
+   "pop": 663,
+   "flow_10pct": 25758,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Patkura (5.9 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 1349,
+   "flow_10pct": 25758,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Patkura (7.3 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 1763,
+   "flow_10pct": 25758,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Patkura (8.5 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 259,
+   "flow_10pct": 25758,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Patkura (8.5 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 1205,
+   "flow_10pct": 25758,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Mahanga (7.9 km)",
+   "lat": 20.6,
+   "lon": 86.1,
+   "pop": 245,
+   "flow_10pct": 27646,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Gobindpur (2.5 km)",
+   "lat": 20.4,
+   "lon": 86.0,
+   "pop": 314,
+   "flow_10pct": 27646,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  }
+ ],
+ "hospital_access_lost": [
+  {
+   "name": "near Patkura (2.4 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 2035,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (1.6 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 1753,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (5.3 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 816,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (5.6 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 231,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (6.9 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 765,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (9.7 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 704,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (9.3 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 269,
+   "flow": 18500,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (5.0 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 372,
+   "flow": 19000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (2.7 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 647,
+   "flow": 19000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (6.0 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 3622,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (6.1 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 368,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (6.7 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 481,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (6.9 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 451,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (7.2 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 1023,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (8.0 km)",
+   "lat": 20.3,
+   "lon": 86.1,
+   "pop": 1107,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (8.1 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 258,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (8.5 km)",
+   "lat": 20.3,
+   "lon": 86.0,
+   "pop": 836,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Gobindpur (9.4 km)",
+   "lat": 20.2,
+   "lon": 86.1,
+   "pop": 879,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Biridi (9.6 km)",
+   "lat": 20.3,
+   "lon": 86.1,
+   "pop": 396,
+   "flow": 20000,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (6.6 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 823,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (2.9 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 4863,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (1.8 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 2897,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (10.8 km)",
+   "lat": 20.3,
+   "lon": 86.3,
+   "pop": 247,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (11.5 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 1055,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (11.9 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 3093,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.4 km)",
+   "lat": 20.3,
+   "lon": 86.3,
+   "pop": 1906,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (12.9 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 207,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.1 km)",
+   "lat": 20.3,
+   "lon": 86.3,
+   "pop": 1131,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (13.4 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 3078,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (12.6 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 626,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.1 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 1842,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.0 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 4928,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (13.2 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 285,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (15.4 km)",
+   "lat": 20.3,
+   "lon": 86.3,
+   "pop": 440,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.8 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 3039,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.1 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 633,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (14.8 km)",
+   "lat": 20.3,
+   "lon": 86.4,
+   "pop": 1241,
+   "flow": 21250,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Patkura (11.1 km)",
+   "lat": 20.4,
+   "lon": 86.3,
+   "pop": 1427,
+   "flow": 22750,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Nemalo (6.4 km)",
+   "lat": 20.4,
+   "lon": 86.2,
+   "pop": 381,
+   "flow": 22750,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16"
+  },
+  {
+   "name": "near Nemalo (5.1 km)",
+   "lat": 20.4,
+   "lon": 86.2,
+   "pop": 203,
+   "flow": 26000,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  },
+  {
+   "name": "near Patkura (1.5 km)",
+   "lat": 20.4,
+   "lon": 86.4,
+   "pop": 1065,
+   "flow": 26000,
+   "expected": "2022-08-17",
+   "possible": "2022-08-17"
+  }
+ ],
+ "roads_closing": [
+  {
+   "road": "NH16",
+   "highway": "trunk",
+   "flow": 13002,
+   "expected": "2022-08-14",
+   "possible": "2022-08-14",
+   "lat": 20.56864,
+   "lon": 86.01537
+  },
+  {
+   "road": "Left Puri Main Canal Road",
+   "highway": "tertiary",
+   "flow": 14774,
+   "expected": "2022-08-14",
+   "possible": "2022-08-14",
+   "lat": 20.30919,
+   "lon": 85.88894
+  },
+  {
+   "road": "Kalabuda Patkura Road",
+   "highway": "unclassified",
+   "flow": 18386,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16",
+   "lat": 20.40063,
+   "lon": 86.38317
+  },
+  {
+   "road": "Bilahata kalabuda RIver Road",
+   "highway": "unclassified",
+   "flow": 22704,
+   "expected": "2022-08-16",
+   "possible": "2022-08-16",
+   "lat": 20.39645,
+   "lon": 86.31769
+  }
+ ],
+ "road_segments_closing": 120,
+ "health_facilities_at_risk": [
+  {
+   "name": "PHC, Samsarpur",
+   "flow": 22704,
+   "expected": "2022-08-16",
+   "lat": 20.6,
+   "lon": 86.1
+  },
+  {
+   "name": "PHC, Hansura",
+   "flow": 9560,
+   "expected": "2022-08-14",
+   "lat": 20.3,
+   "lon": 86.4
+  },
+  {
+   "name": "CHC, Mahidharpada",
+   "flow": 27646,
+   "expected": "2022-08-17",
+   "lat": 20.3,
+   "lon": 85.9
+  },
+  {
+   "name": "Government hospital, Nanakar",
+   "flow": 9450,
+   "expected": "2022-08-14",
+   "lat": 20.5,
+   "lon": 86.4
+  },
+  {
+   "name": "Sub Centre",
+   "flow": 21159,
+   "expected": "2022-08-16",
+   "lat": 20.4,
+   "lon": 86.4
+  },
+  {
+   "name": "Sub Centre",
+   "flow": 25758,
+   "expected": "2022-08-17",
+   "lat": 20.3,
+   "lon": 86.4
+  },
+  {
+   "name": "Unique Hospital",
+   "flow": 19297,
+   "expected": "2022-08-16",
+   "lat": 20.5,
+   "lon": 85.9
+  }
+ ],
+ "radar_check": [
+  {
+   "date": "2022-08-16",
+   "coverage": 0.71,
+   "flow_m3s": 24603,
+   "observed_km2": 280.4,
+   "expected_km2": 217.9
+  },
+  {
+   "date": "2022-08-18",
+   "coverage": 1.0,
+   "flow_m3s": 28378,
+   "observed_km2": 125.2,
+   "expected_km2": 239.7
+  },
+  {
+   "date": "2022-08-21",
+   "coverage": 0.9,
+   "flow_m3s": 26914,
+   "observed_km2": 67.4,
+   "expected_km2": 227.9
+  }
+ ],
+ "model_forecast": {
+  "issued": "2022-08-14",
+  "naraj_m3s": {
+   "2022-08-15": 16254,
+   "2022-08-16": 20554,
+   "2022-08-17": 21327
+  },
+  "note": "gradient boosting on the upstream flows and ERA5 catchment rain, trained on 1997-2021 (without the year replayed)"
+ },
+ "sources": {},
+ "note": "Student prototype (IIT Bombay CE IDP with ClimMaTech), not an official warning. Flood extents from the Sentinel-1 atlas 2017-2026; flows above the largest seen give lower bounds."
+}

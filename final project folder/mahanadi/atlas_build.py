@@ -19,7 +19,7 @@ Everything is on the 20 m atlas grid (pixel = 400 m2).
 6. Leave-one-year-out test: fit on the other years, predict each pass of the held-out year, compare with the observed
    flood map, per pixel and per settlement. Methods: trigger map (flow only); analogs (flood where >= half of the 7
    training passes most similar in flow, or in flow and rain, were flooded); climatology (frequency >= 50 %).
-7. Design floods: Gumbel fit to GloFAS annual maxima at Naraj 1984-2025; scenario maps for T = 2...100 years.
+7. Design floods: Gumbel fit to GloFAS annual maxima at the gauge (Naraj: 1997-2025, the years the series has); scenario maps for T = 2...100 years.
 """
 import argparse
 import glob
@@ -40,6 +40,9 @@ ap.add_argument("--out", required=True)
 ap.add_argument("--model", default="mean", help="terramind | unet | mean (average of the two radar models)")
 ap.add_argument("--thr", type=float, default=0.5, help="water if probability >= thr (chosen on Sen1Floods11 validation)")
 ap.add_argument("--min_cov", type=float, default=0.5)
+ap.add_argument("--gauge", default="naraj", help="column of discharge.csv the trigger map is fitted on (basins.py)")
+ap.add_argument("--dry", default="2,3", help="months of the dry-season passes (normal water)")
+ap.add_argument("--wet", default="6,7,8,9,10,11", help="months of the flood season")
 a = ap.parse_args()
 os.makedirs(a.out, exist_ok=True)
 PIX_KM2 = 400 / 1e6
@@ -56,7 +59,8 @@ inv = inv[inv.index.isin(files) & (inv.coverage >= a.min_cov)].copy()
 inv["date"] = pd.to_datetime(inv["date"])
 inv["year"], inv["month"] = inv.date.dt.year, inv.date.dt.month
 inv = inv.sort_values("date")
-Q = pd.read_csv(f"{a.context}/discharge.csv", index_col="date", parse_dates=True)["naraj"]
+Q = pd.read_csv(f"{a.context}/discharge.csv", index_col="date", parse_dates=True)[a.gauge]
+DRY_MONTHS, WET_MONTHS = [int(m) for m in a.dry.split(",")], [int(m) for m in a.wet.split(",")]
 preds = {"Q_same_day": Q, "Q_prev_day": Q.shift(1), "Q_max_3d": Q.rolling(3).max(), "Q_max_5d": Q.rolling(5).max(),
          "Q_max_7d": Q.rolling(7).max()}
 for k, s_ in preds.items():
@@ -117,7 +121,7 @@ def save(name, arr, dtype, nodata=None, desc=None):
 
 
 # ---------------------------------------------------------------- 1. normal water per year
-dry = inv[inv.month.isin([2, 3])]
+dry = inv[inv.month.isin(DRY_MONTHS)]
 normal = {}
 all_dry = load(list(dry.index))
 dv, dw = all_dry != 255, (all_dry != 255) & (all_dry >= THR)
@@ -149,7 +153,7 @@ for y in normal:
 print(f"river bed (channels + sand bars): {bed.sum() * PIX_KM2:.0f} km2", flush=True)
 
 # ---------------------------------------------------------------- 2-3. monsoon floods and frequency
-mon = inv[inv.month.isin([6, 7, 8, 9, 10, 11])].copy()
+mon = inv[inv.month.isin(WET_MONTHS)].copy()
 P = load(list(mon.index))
 V = P != 255
 WET = V & (P >= THR)
@@ -252,7 +256,7 @@ def counts(pred, obs, valid):
     return np.array([(pred & obs & valid).sum(), (pred & ~obs & valid).sum(), (~pred & obs & valid).sum()])
 
 
-q90 = float(Q[(Q.index.month >= 6) & (Q.index.month <= 11)].quantile(0.9))
+q90 = float(Q[Q.index.month.isin(WET_MONTHS)].quantile(0.9))
 # Settlements (same rule as impact_exposure.py): >= 1,000 people/km2, dilated 1 px, >= 200 people. A warning is
 # about villages, so the held-out test also asks: was a settlement with >= 10 % of its people on flooded land flagged?
 from scipy import ndimage  # noqa: E402
@@ -272,7 +276,7 @@ def flagged(mask, valid):
 
 METHODS = ("model", "aq", "aqr", "clim")  # trigger map, analog on flow, analog on flow + rain, climatology
 sett = {m: np.zeros((3, 3), int) for m in METHODS}  # rows: all, high flow, high rain; cols: hit, miss, false alarm
-r90 = float(rpreds[best_r][(rpreds[best_r].index.month >= 6) & (rpreds[best_r].index.month <= 11)].quantile(0.9))
+r90 = float(rpreds[best_r][rpreds[best_r].index.month.isin(WET_MONTHS)].quantile(0.9))
 
 
 def analog(train, qi, ri, use_r, k=7, frac=False):
@@ -385,7 +389,7 @@ if fold_theta:
          "bands = held-out year " + ",".join(map(str, sorted(fold_theta))) + " (trigger fitted without that year)")
 
 # ---------------------------------------------------------------- 7. design floods (Gumbel, method of moments)
-ann = Q[Q.index.year <= 2025].groupby(Q.index.year[Q.index.year <= 2025]).max()
+ann = Q[Q.index.year <= 2025].groupby(Q.index.year[Q.index.year <= 2025]).max().dropna()
 beta = ann.std() * np.sqrt(6) / np.pi
 mu = ann.mean() - 0.5772 * beta
 rp = {T: float(mu - beta * np.log(-np.log(1 - 1 / T))) for T in (2, 5, 10, 25, 50, 100)}
@@ -398,10 +402,10 @@ for T, qT in rp.items():
     print(f"T={T:>3} y  Q={qT:,.0f} m3/s ({qT / 2831.7:.1f} lakh cusec)  flood {m.sum() * PIX_KM2:.0f} km2"
           + ("  [above the largest observed flow: lower bound]" if qT > qmax_obs else ""), flush=True)
 save("scenarios_return_period", np.stack([scen[T] for T in rp]), "uint8", None,
-     "bands = T " + ",".join(map(str, rp)) + " years (Gumbel on GloFAS Naraj annual maxima 1984-2025)")
+     "bands = T " + ",".join(map(str, rp)) + f" years (Gumbel on GloFAS annual maxima {ann.index.min()}-{ann.index.max()})")
 
 # compound scenario: 5-year flow with heavy local rain (95th percentile of the monsoon rain predictor), from analogs
-r95 = float(rpreds[best_r][(rpreds[best_r].index.month >= 6) & (rpreds[best_r].index.month <= 11)].quantile(0.95))
+r95 = float(rpreds[best_r][rpreds[best_r].index.month.isin(WET_MONTHS)].quantile(0.95))
 heavy = analog(allidx, rp[5], r95, True) & land
 save("scenario_heavy_rain", heavy, "uint8", None,
      f"5-year flow ({rp[5]:.0f} m3/s) with heavy local rain ({best_r} = {r95:.0f} mm, 95th percentile of Jun-Nov): analog map")

@@ -2,17 +2,21 @@
 # Flood atlas -> impacts -> bulletins -> field check points -> figures -> viewer -> Sentinel-2 check, on the lab server.
 #   bash code/mahanadi/run_atlas_pipeline.sh <tag>   (outputs in runs/_atlas/{build,impact,figures,checkpoints}_<tag>)
 #   SKIP_BUILD=1 SKIP_S2=1 bash ...   re-runs everything after the atlas build (minutes instead of ~45 min)
-# Threshold 0.30 = chosen on Sen1Floods11 validation for the 20 m radar fusion (scripts/test_resolution.py).
+# Water maps come from the radar pair retrained on 20 m input (server/run_r20_candidate.sh), threshold 0.45 chosen on
+# Sen1Floods11 validation (scripts/test_resolution.py, report Appendix B). The first atlas used the 10 m-trained pair:
+#   PROB=/home1/vineet/floodfm/runs/_atlas/prob THR=0.30 bash ...   (archived in results/archive_atlas_10m)
 H=/home1/vineet/floodfm
-TAG=${1:-final}
+TAG=${1:-r20}
+PROB=${PROB:-$H/runs/_atlas/prob_r20}
+THR=${THR:-0.45}
 PY="nice $H/env/bin/python"
 export PYTHONWARNINGS=ignore ATLAS_DIR=$H/runs/_atlas/build_$TAG IMPACT_DIR=$H/runs/_atlas/impact_$TAG
 cd $H/code/mahanadi
 if [ -z "$SKIP_BUILD" ]; then
   echo "== build $(date +%T)"
-  $PY atlas_build.py --prob $H/runs/_atlas/prob --inventory $H/data/mahanadi_atlas20/inventory.csv \
+  $PY atlas_build.py --prob $PROB --inventory $H/data/mahanadi_atlas20/inventory.csv \
       --context $H/data/mahanadi_context --jrc $H/data/mahanadi/event_20200826/jrc_occurrence.tif \
-      --out $ATLAS_DIR --model mean --thr 0.30 || { echo "FAILED build"; exit 1; }
+      --out $ATLAS_DIR --model mean --thr $THR || { echo "FAILED build"; exit 1; }
 fi
 for s in impact_exposure impact_transport impact_siting impact_geotech; do
   echo "== $s $(date +%T)"
@@ -38,7 +42,7 @@ echo "== dashboard $(date +%T)"
 $PY make_dashboard.py $H/runs/_atlas/checkpoints_$TAG $H/runs/_atlas/dashboard_$TAG.html || echo "FAILED dashboard"
 if [ -z "$SKIP_S2" ]; then
   echo "== sentinel-2 check $(date +%T)"
-  $PY s2_crosscheck.py --prob $H/runs/_atlas/prob --inventory $H/data/mahanadi_atlas20/inventory.csv \
-      --normal $ATLAS_DIR/normal_water_latest.tif --out $IMPACT_DIR --thr 0.30 || echo "FAILED s2"
+  $PY s2_crosscheck.py --prob $PROB --inventory $H/data/mahanadi_atlas20/inventory.csv \
+      --normal $ATLAS_DIR/normal_water_latest.tif --out $IMPACT_DIR --thr $THR || echo "FAILED s2"
 fi
 echo "PIPELINE_DONE $TAG $(date +%T)"

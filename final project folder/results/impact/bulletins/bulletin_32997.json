@@ -5,15 +5,17 @@
  "rain_mm": null,
  "method": "trigger-discharge map, river flow only",
  "lower_bound": true,
- "flooded_land_km2": 216.5,
- "people_on_flooded_land": 25163,
- "settlements_to_warn": 24,
- "main_road_km_under_water": 12.7,
- "all_road_km_under_water": 32.2,
- "main_roads_affected": {},
+ "flooded_land_km2": 239.7,
+ "people_on_flooded_land": 30427,
+ "settlements_to_warn": 32,
+ "main_road_km_under_water": 14.5,
+ "all_road_km_under_water": 39.3,
+ "main_roads_affected": {
+  "Right Puri Main Canal Road": 0.8
+ },
  "model": {
   "atlas_passes": 590,
-  "predictor": "Q_max_5d",
-  "held_out_high_flow_iou": 0.225
+  "predictor": "Q_max_3d",
+  "held_out_high_flow_iou": 0.198
  }
 }

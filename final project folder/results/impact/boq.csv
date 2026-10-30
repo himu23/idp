@@ -1,5 +1,5 @@
 item,unit,qty,basis,crew_days
-"Solar siren unit with controller (Rakshak-type), mast and foundation",site,40,40 sirens cover 49% of the exposed people at a 1.5 km audible range (impact_siting.py),40.0
+"Solar siren unit with controller (Rakshak-type), mast and foundation",site,40,40 sirens cover 48% of the exposed people at a 1.5 km audible range (impact_siting.py),40.0
 "Non-contact radar level + surface-velocity station (Pravaah-type) on bridge, with logger and telemetry",site,6,one per main distributary (impact_siting.py),12.0
 Cross-section and bed-material survey at each sensor bridge,site,6,needed to turn level + surface velocity into discharge,6.0
 Community training and siren drills,village,40,one session per siren site,20.0

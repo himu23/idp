@@ -1,98 +1,99 @@
 id,kind,lat,lon,note
-GT01,ground truth,20.485944,86.009344,atlas: never flooded; ask in near Jagatpur (8.1 km)
-GT02,ground truth,20.350128,86.24033,atlas: never flooded; ask in near Nemalo (10.9 km)
-GT03,ground truth,20.571656,86.019729,atlas: never flooded; ask in near Tangi (3.3 km)
-GT04,ground truth,20.35512,86.409888,atlas: never flooded; ask in near Patkura (3.5 km)
-GT05,ground truth,20.261454,86.44931,atlas: never flooded; ask in near Patkura (14.9 km)
-GT06,ground truth,20.280172,86.425112,atlas: never flooded; ask in near Patkura (11.9 km)
-GT07,ground truth,20.267712,85.898328,atlas: never flooded; ask in near Balikanthia (1.9 km)
-GT08,ground truth,20.488688,86.271678,atlas: never flooded; ask in near Derabish (6.4 km)
-GT09,ground truth,20.386076,86.425678,atlas: never flooded; ask in near Patkura (1.5 km)
-GT10,ground truth,20.57739,86.043294,atlas: never flooded; ask in near Gokulpur (1.9 km)
-GT11,ground truth,20.577155,86.390809,atlas: rarely (<10 %); ask in Nikirai
-GT12,ground truth,20.489987,85.989565,atlas: rarely (<10 %); ask in near Jagatpur (5.3 km)
-GT13,ground truth,20.603575,86.107807,atlas: rarely (<10 %); ask in near Bhattasagar Square (4.4 km)
-GT14,ground truth,20.510507,86.106813,atlas: rarely (<10 %); ask in near Salepur (3.4 km)
-GT15,ground truth,20.650277,86.279742,atlas: rarely (<10 %); ask in near Balachandrapur (6.1 km)
-GT16,ground truth,20.310902,86.159109,atlas: rarely (<10 %); ask in near Jagatsinghpur (6.5 km)
-GT17,ground truth,20.362829,86.295648,atlas: rarely (<10 %); ask in near Patkura (12.1 km)
-GT18,ground truth,20.351348,85.893713,atlas: rarely (<10 %); ask in near Balikanthia (7.9 km)
-GT19,ground truth,20.387079,86.071304,atlas: rarely (<10 %); ask in near Kishannagar (4.5 km)
-GT20,ground truth,20.27329,86.368447,atlas: rarely (<10 %); ask in near Patkura (14.0 km)
-GT21,ground truth,20.317229,86.375166,atlas: sometimes (10-30 %); ask in near Patkura (8.5 km)
-GT22,ground truth,20.537002,86.026856,atlas: sometimes (10-30 %); ask in near Tangi (4.1 km)
-GT23,ground truth,20.626241,86.324005,atlas: sometimes (10-30 %); ask in near Keutkandia (6.2 km)
-GT24,ground truth,20.581768,85.987043,atlas: sometimes (10-30 %); ask in near Tangi (2.8 km)
-GT25,ground truth,20.543733,86.254726,atlas: sometimes (10-30 %); ask in near Derabish (5.3 km)
-GT26,ground truth,20.250658,85.945934,atlas: sometimes (10-30 %); ask in near Bhingarapur (2.5 km)
-GT27,ground truth,20.507848,86.416211,atlas: sometimes (10-30 %); ask in Fakirabad
-GT28,ground truth,20.291299,86.037018,atlas: sometimes (10-30 %); ask in near Gobindpur (4.1 km)
-GT29,ground truth,20.463606,86.054163,atlas: sometimes (10-30 %); ask in near Salepur (6.0 km)
-GT30,ground truth,20.42446,86.174021,atlas: sometimes (10-30 %); ask in Nemalo
-GT31,ground truth,20.391823,86.315641,atlas: often (>=30 %); ask in near Patkura (8.7 km)
-GT32,ground truth,20.270432,86.054573,atlas: often (>=30 %); ask in near Gobindpur (8.0 km)
-GT33,ground truth,20.284243,85.912192,atlas: often (>=30 %); ask in Balikanthia
-GT34,ground truth,20.409974,86.385335,atlas: often (>=30 %); ask in near Patkura (2.4 km)
-GT35,ground truth,20.407007,86.364453,atlas: often (>=30 %); ask in near Patkura (4.7 km)
-GT36,ground truth,20.367938,86.263814,atlas: often (>=30 %); ask in near Nemalo (11.6 km)
-GT37,ground truth,20.641705,86.008531,atlas: often (>=30 %); ask in near Bhattasagar Square (6.0 km)
-GT38,ground truth,20.469996,86.173395,atlas: often (>=30 %); ask in near Nischintakoili (2.3 km)
-GT39,ground truth,20.401244,86.276881,atlas: often (>=30 %); ask in near Nemalo (10.8 km)
-GT40,ground truth,20.602502,85.919546,atlas: often (>=30 %); ask in near Choudwar (7.6 km)
-SR01,siren site,20.50289,86.41865,"rank 1: Fakirabad, covers 1,561 more people"
-SR02,siren site,20.31901,86.37564,"rank 2: near Patkura (8.5 km), covers 1,067 more people"
-SR03,siren site,20.3872,86.41953,"rank 3: near Patkura (1.5 km), covers 696 more people"
-SR04,siren site,20.33115,86.03182,"rank 4: near Gobindpur (1.1 km), covers 602 more people"
-SR05,siren site,20.63049,86.24689,"rank 5: near Balachandrapur (1.4 km), covers 565 more people"
-SR06,siren site,20.40471,86.38856,"rank 6: near Patkura (2.4 km), covers 565 more people"
-SR07,siren site,20.63012,86.12477,"rank 7: near Bhattasagar Square (7.0 km), covers 522 more people"
-SR08,siren site,20.45136,86.38491,"rank 8: near Fakirabad (6.7 km), covers 486 more people"
-SR09,siren site,20.63768,86.27285,"rank 9: near Balachandrapur (3.8 km), covers 481 more people"
-SR10,siren site,20.34158,86.38187,"rank 10: near Patkura (5.9 km), covers 469 more people"
-SR11,siren site,20.34478,86.33846,"rank 11: near Patkura (8.6 km), covers 393 more people"
-SR12,siren site,20.46579,85.87971,"rank 12: Badambadi, covers 378 more people"
-SR13,siren site,20.40844,86.41295,"rank 13: near Patkura (2.2 km), covers 366 more people"
-SR14,siren site,20.39099,86.44256,"rank 14: near Patkura (3.9 km), covers 364 more people"
-SR15,siren site,20.25983,86.44169,"rank 15: near Patkura (14.9 km), covers 279 more people"
+GT01,ground truth,20.53991,86.029907,atlas: never flooded; ask in near Tangi (4.1 km)
+GT02,ground truth,20.329164,86.377417,atlas: never flooded; ask in near Patkura (7.3 km)
+GT03,ground truth,20.525954,86.088884,atlas: never flooded; ask in near Salepur (5.1 km)
+GT04,ground truth,20.448769,85.869244,atlas: never flooded; ask in near Badambadi (2.7 km)
+GT05,ground truth,20.411891,86.365583,atlas: never flooded; ask in near Patkura (4.7 km)
+GT06,ground truth,20.304466,85.939058,atlas: never flooded; ask in near Bhingarapur (4.2 km)
+GT07,ground truth,20.387887,86.053668,atlas: never flooded; ask in near Kishannagar (4.7 km)
+GT08,ground truth,20.25097,85.93789,atlas: never flooded; ask in near Bhingarapur (1.6 km)
+GT09,ground truth,20.318284,85.894331,atlas: never flooded; ask in near Balikanthia (4.3 km)
+GT10,ground truth,20.356498,86.170934,atlas: never flooded; ask in near Nemalo (8.2 km)
+GT11,ground truth,20.279583,86.311921,atlas: rarely (<10 %); ask in near Jagatsinghpur (14.5 km)
+GT12,ground truth,20.441777,86.438126,atlas: rarely (<10 %); ask in near Patkura (5.8 km)
+GT13,ground truth,20.39213,86.399014,atlas: rarely (<10 %); ask in Patkura
+GT14,ground truth,20.463825,85.996448,atlas: rarely (<10 %); ask in near Jagatpur (6.3 km)
+GT15,ground truth,20.288905,86.292918,atlas: rarely (<10 %); ask in near Jagatsinghpur (12.6 km)
+GT16,ground truth,20.621271,86.347445,atlas: rarely (<10 %); ask in near Nikirai (6.5 km)
+GT17,ground truth,20.633745,86.258896,atlas: rarely (<10 %); ask in near Balachandrapur (2.7 km)
+GT18,ground truth,20.39787,86.337273,atlas: rarely (<10 %); ask in near Patkura (7.6 km)
+GT19,ground truth,20.423643,86.419021,atlas: rarely (<10 %); ask in near Patkura (4.5 km)
+GT20,ground truth,20.55264,86.358097,atlas: rarely (<10 %); ask in near Dhuria (2.8 km)
+GT21,ground truth,20.345835,85.879191,atlas: sometimes (10-30 %); ask in near Balikanthia (7.9 km)
+GT22,ground truth,20.402776,85.970394,atlas: sometimes (10-30 %); ask in near Kandarpur (4.7 km)
+GT23,ground truth,20.288954,86.037798,atlas: sometimes (10-30 %); ask in near Gobindpur (4.1 km)
+GT24,ground truth,20.573884,86.132349,atlas: sometimes (10-30 %); ask in near Mahanga (3.9 km)
+GT25,ground truth,20.500326,85.935606,atlas: sometimes (10-30 %); ask in Jagatpur
+GT26,ground truth,20.463742,86.150418,atlas: sometimes (10-30 %); ask in near Salepur (4.5 km)
+GT27,ground truth,20.64158,86.19282,atlas: sometimes (10-30 %); ask in near Balachandrapur (5.5 km)
+GT28,ground truth,20.630124,86.140477,atlas: sometimes (10-30 %); ask in near Mahanga (7.5 km)
+GT29,ground truth,20.52742,86.37988,atlas: sometimes (10-30 %); ask in Dhuria
+GT30,ground truth,20.637493,86.290745,atlas: sometimes (10-30 %); ask in near Balachandrapur (6.3 km)
+GT31,ground truth,20.27676,85.900371,atlas: often (>=30 %); ask in Balikanthia
+GT32,ground truth,20.444484,86.383472,atlas: often (>=30 %); ask in near Fakirabad (6.7 km)
+GT33,ground truth,20.43527,86.167062,atlas: often (>=30 %); ask in Nemalo
+GT34,ground truth,20.508202,86.414099,atlas: often (>=30 %); ask in Fakirabad
+GT35,ground truth,20.360662,86.296041,atlas: often (>=30 %); ask in near Patkura (12.1 km)
+GT36,ground truth,20.249727,85.883137,atlas: often (>=30 %); ask in near Balikanthia (3.6 km)
+GT37,ground truth,20.427815,86.085821,atlas: often (>=30 %); ask in Kishannagar
+GT38,ground truth,20.262807,86.015363,atlas: often (>=30 %); ask in near Gobindpur (7.2 km)
+GT39,ground truth,20.441254,86.064461,atlas: often (>=30 %); ask in near Kishannagar (3.8 km)
+GT40,ground truth,20.547107,85.820947,atlas: often (>=30 %); ask in near Gurudijhatia (2.4 km)
+SR01,siren site,20.50289,86.41865,"rank 1: Fakirabad, covers 1,794 more people"
+SR02,siren site,20.31901,86.37564,"rank 2: near Patkura (8.5 km), covers 1,160 more people"
+SR03,siren site,20.33115,86.03182,"rank 3: near Gobindpur (1.1 km), covers 787 more people"
+SR04,siren site,20.3872,86.41953,"rank 4: near Patkura (1.5 km), covers 760 more people"
+SR05,siren site,20.63012,86.12477,"rank 5: near Bhattasagar Square (7.0 km), covers 669 more people"
+SR06,siren site,20.63049,86.24689,"rank 6: near Balachandrapur (1.4 km), covers 555 more people"
+SR07,siren site,20.40471,86.38856,"rank 7: near Patkura (2.4 km), covers 554 more people"
+SR08,siren site,20.63768,86.27285,"rank 8: near Balachandrapur (3.8 km), covers 505 more people"
+SR09,siren site,20.45136,86.38491,"rank 9: near Fakirabad (6.7 km), covers 497 more people"
+SR10,siren site,20.34158,86.38187,"rank 10: near Patkura (5.9 km), covers 493 more people"
+SR11,siren site,20.49497,85.93546,"rank 11: Jagatpur, covers 487 more people"
+SR12,siren site,20.63137,86.22432,"rank 12: near Balachandrapur (2.3 km), covers 456 more people"
+SR13,siren site,20.34478,86.33846,"rank 13: near Patkura (8.6 km), covers 392 more people"
+SR14,siren site,20.40844,86.41295,"rank 14: near Patkura (2.2 km), covers 387 more people"
+SR15,siren site,20.39099,86.44256,"rank 15: near Patkura (3.9 km), covers 367 more people"
 RS01,river sensor bridge,20.45458,85.84814,"Devi River bridge, 2823 m, approaches dry in the 25-year flood: yes"
 RS02,river sensor bridge,20.44052,85.89012,"Kathajodi bridge, 869 m, approaches dry in the 25-year flood: yes"
 RS03,river sensor bridge,20.51335,85.932,"Birupa bridge, 543 m, approaches dry in the 25-year flood: yes"
 RS04,river sensor bridge,20.46498,86.07432,"Luna bridge, 776 m, approaches dry in the 25-year flood: no"
 RS05,river sensor bridge,20.36684,86.26424,"Mahanadi bridge, 458 m, approaches dry in the 25-year flood: yes"
 RS06,river sensor bridge,20.62609,86.32244,"Biropa bridge, 424 m, approaches dry in the 25-year flood: no"
-GB01,bank inspection / soil sample,20.429,85.909,"rank 1: behind-bank flood freq 4%, clay loam"
-GB02,bank inspection / soil sample,20.429,85.871,"rank 2: behind-bank flood freq 6%, clay loam"
-GB03,bank inspection / soil sample,20.492,85.832,"rank 3: behind-bank flood freq 2%, clay loam"
-GB04,bank inspection / soil sample,20.314,86.369,"rank 4: behind-bank flood freq 8%, clay loam"
-GB05,bank inspection / soil sample,20.511,85.918,"rank 5: behind-bank flood freq 1%, clay loam"
-GB06,bank inspection / soil sample,20.294,85.891,"rank 6: behind-bank flood freq 2%, clay loam"
-GB07,bank inspection / soil sample,20.314,86.398,"rank 7: behind-bank flood freq 1%, clay loam"
-GB08,bank inspection / soil sample,20.321,85.881,"rank 8: behind-bank flood freq 1%, clay loam"
-GB09,bank inspection / soil sample,20.639,86.282,"rank 9: behind-bank flood freq 4%, clay loam"
-GB10,bank inspection / soil sample,20.621,86.33,"rank 10: behind-bank flood freq 3%, clay loam"
-GB11,bank inspection / soil sample,20.314,86.322,"rank 11: behind-bank flood freq 6%, clay loam"
-GB12,bank inspection / soil sample,20.457,85.928,"rank 12: behind-bank flood freq 1%, clay loam"
-RL01,critical road link,20.38301,86.16167,"unclassified: 10,351 people's hospital route, 1.03 km flooded (T25)"
-RL02,critical road link,20.27157,86.02512,"unclassified: 9,421 people's hospital route, 0.34 km flooded (T25)"
-RL03,critical road link,20.45309,86.37705,"tertiary: 8,261 people's hospital route, 0.71 km flooded (T25)"
+GB01,bank inspection / soil sample,20.511,85.918,"rank 1: behind-bank flood freq 4%, clay loam"
+GB02,bank inspection / soil sample,20.492,85.832,"rank 2: behind-bank flood freq 3%, clay loam"
+GB03,bank inspection / soil sample,20.429,85.909,"rank 3: behind-bank flood freq 6%, clay loam"
+GB04,bank inspection / soil sample,20.429,85.871,"rank 4: behind-bank flood freq 7%, clay loam"
+GB05,bank inspection / soil sample,20.314,86.369,"rank 5: behind-bank flood freq 8%, clay loam"
+GB06,bank inspection / soil sample,20.321,85.881,"rank 6: behind-bank flood freq 2%, clay loam"
+GB07,bank inspection / soil sample,20.294,85.891,"rank 7: behind-bank flood freq 2%, clay loam"
+GB08,bank inspection / soil sample,20.257,85.881,"rank 8: behind-bank flood freq 1%, clay loam"
+GB09,bank inspection / soil sample,20.314,86.398,"rank 9: behind-bank flood freq 1%, clay loam"
+GB10,bank inspection / soil sample,20.314,86.322,"rank 10: behind-bank flood freq 7%, clay loam"
+GB11,bank inspection / soil sample,20.639,86.282,"rank 11: behind-bank flood freq 4%, clay loam"
+GB12,bank inspection / soil sample,20.621,86.33,"rank 12: behind-bank flood freq 4%, clay loam"
+RL01,critical road link,20.26608,86.36142,"secondary: 10,930 people's hospital route, 0.83 km flooded (T25)"
+RL02,critical road link,20.38261,86.1631,"unclassified: 10,351 people's hospital route, 1.68 km flooded (T25)"
+RL03,critical road link,20.27157,86.02512,"unclassified: 9,421 people's hospital route, 0.34 km flooded (T25)"
 RL04,critical road link,20.39945,86.25511,"unclassified: 7,657 people's hospital route, 0.14 km flooded (T25)"
-RL05,critical road link,20.34554,86.37918,"tertiary: 7,045 people's hospital route, 0.14 km flooded (T25)"
-RL06,critical road link,20.40675,86.38139,"tertiary: 6,371 people's hospital route, 2.06 km flooded (T25)"
+RL05,critical road link,20.45266,86.37807,"tertiary: 7,582 people's hospital route, 0.42 km flooded (T25)"
+RL06,critical road link,20.34554,86.37918,"tertiary: 7,045 people's hospital route, 0.14 km flooded (T25)"
 RL07,critical road link,20.46508,86.35512,"unclassified: 6,210 people's hospital route, 0.34 km flooded (T25)"
 RL08,critical road link,20.28453,86.44175,"residential: 6,171 people's hospital route, 0.03 km flooded (T25)"
-RL09,critical road link,20.38738,86.42615,"tertiary: 4,863 people's hospital route, 0.31 km flooded (T25)"
+RL09,critical road link,20.38692,86.42105,"tertiary: 4,863 people's hospital route, 0.16 km flooded (T25)"
 RL10,critical road link,20.52496,86.02748,"unclassified: 4,638 people's hospital route, 0.05 km flooded (T25)"
-WL01,well levels (ground advisory),20.3029,86.3751,near Patkura (10.2 km): 33% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL02,well levels (ground advisory),20.6188,86.242,Balachandrapur: 28% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL03,well levels (ground advisory),20.4029,86.3345,near Patkura (7.6 km): 33% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL04,well levels (ground advisory),20.4113,86.3926,near Patkura (2.7 km): 60% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL05,well levels (ground advisory),20.3901,86.4057,Patkura: 57% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL06,well levels (ground advisory),20.4333,86.4369,near Patkura (5.8 km): 63% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL07,well levels (ground advisory),20.4511,86.1323,near Salepur (4.4 km): 40% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
-WL08,well levels (ground advisory),20.4594,86.3606,near Fakirabad (7.7 km): 74% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL01,well levels (ground advisory),20.3029,86.3751,near Patkura (10.2 km): 37% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL02,well levels (ground advisory),20.6188,86.242,Balachandrapur: 30% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL03,well levels (ground advisory),20.4029,86.3345,near Patkura (7.6 km): 34% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL04,well levels (ground advisory),20.3901,86.4057,Patkura: 75% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL05,well levels (ground advisory),20.5662,86.3703,near Nikirai (3.0 km): 46% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL06,well levels (ground advisory),20.4113,86.3926,near Patkura (2.7 km): 63% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL07,well levels (ground advisory),20.2686,86.3697,near Patkura (14.0 km): 67% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
+WL08,well levels (ground advisory),20.4333,86.4369,near Patkura (5.8 km): 65% of people within 200 m of 25-yr flood water; measure wells at 0-500 m
 HF01,flooded health facility,20.40932,85.93741,"PHC, Bentkar"
-HF02,flooded health facility,20.32195,86.42415,"PHC, Hansura"
-HF03,flooded health facility,20.46205,86.35172,"Government hospital, Nanakar"
-HF04,flooded health facility,20.50871,86.41009,Bhumika Hospital
-HF05,flooded health facility,20.34104,86.38086,Sub Centre
-HF06,flooded health facility,20.51068,85.9146,Unique Hospital
+HF02,flooded health facility,20.60406,86.10328,"PHC, Samsarpur"
+HF03,flooded health facility,20.32195,86.42415,"PHC, Hansura"
+HF04,flooded health facility,20.46205,86.35172,"Government hospital, Nanakar"
+HF05,flooded health facility,20.50871,86.41009,Bhumika Hospital
+HF06,flooded health facility,20.34104,86.38086,Sub Centre
+HF07,flooded health facility,20.51068,85.9146,Unique Hospital

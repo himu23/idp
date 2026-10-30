@@ -11,6 +11,7 @@ best_fm_lio = max([get("lio", m) for m in FMS if get("lio", m)], key=lambda s: s
 unet_l = get("lio", "unet")
 AS = json.load(open(os.path.join(AT, "atlas_summary.json")))
 R20 = json.load(open(os.path.join(A, "radar20m.json")))
+R20N = json.load(open(os.path.join(A, "radar20m_r20.json"))) if os.path.exists(os.path.join(A, "radar20m_r20.json")) else {}
 EX = pd.read_csv(os.path.join(IM, "exposure_scenarios.csv")).set_index("scenario")
 TR = pd.read_csv(os.path.join(IM, "transport_scenarios.csv")).set_index("scenario")
 SIT = json.load(open(os.path.join(IM, "siting_summary.json")))
@@ -122,11 +123,16 @@ table(s, 7.2, 1.7, 5.7, [["Radar-only model (official test)", "IoU"],
                          ["TerraMind-B, 10 m", f"{R20['terramind']['native']:.3f}"],
                          ["Fusion (mean), 10 m", f"{R20['mean']['native']:.3f}"],
                          ["Fusion, 20 m input (atlas)", f"{R20['mean']['avg20']:.3f}"],
-                         [f"Fusion, 20 m, threshold {R20['threshold']:.2f} (val.)", f"{R20['calibrated_test_iou']:.3f}"]],
+                         [f"Fusion, 20 m, threshold {R20['threshold']:.2f} (val.)", f"{R20['calibrated_test_iou']:.3f}"],
+                         *([[f"Fusion trained at 20 m, threshold {R20N['threshold']:.2f}", f"{R20N['calibrated_test_iou']:.3f}"]] if R20N else [])],
       col_w=[4.4, 1.3], size=13)
 text(s, 7.2, 4.4, 5.7, 2.4, ["TerraMind is the only FM that takes radar alone natively",
-                             "Production model of the atlas = TerraMind-B + U-Net, radar only",
-                             "20 m input costs ~0.02 IoU, cuts the download 4×"], size=14, bullet=True)
+                             "Production model of the atlas = TerraMind-B + U-Net, radar only"
+                             + (", trained on 20 m input" if R20N and abs(AS.get("threshold", 0) - R20N.get("threshold", -1)) < 1e-9 else ""),
+                             (f"Trained at 20 m it beats the 10 m pair on 20 m input ({R20N['calibrated_test_iou']:.3f} vs "
+                              f"{R20['calibrated_test_iou']:.3f}); the 20 m overview cuts the download 4×"
+                              if R20N and R20N['calibrated_test_iou'] > R20['calibrated_test_iou'] else
+                              "20 m input costs ~0.02 IoU, cuts the download 4×")], size=14, bullet=True)
 
 # 7b training audit
 _aud = os.path.join(A, "audit_training.json")
@@ -206,6 +212,31 @@ if LRNS:
         f"{sc_.get('T5 heavy rain', {}).get('flood_km2', 0):.0f} km² with heavy rain: one model for the river forecast plus a rain gauge"],
          size=13, bullet=True)
 
+# 9c forecast model
+FCS = json.load(open(os.path.join(ROOT, "results", "forecast", "forecast_summary.json"))) \
+    if os.path.exists(os.path.join(ROOT, "results", "forecast", "forecast_summary.json")) else {}
+if FCS:
+    k_ = FCS["skill"]
+    s = slide("Forecasting the Naraj flow 1–3 days ahead",
+              f"Gradient boosting on upstream flows and catchment rain · trained {FCS['train_years'][0]}–{FCS['train_years'][1]}, "
+              f"tested on the monsoons of {FCS['test_years'][0]}–{FCS['test_years'][1]}")
+    table(s, 0.5, 1.5, 7.2, [["Lead", "Persistence", "Model", "Model + rain forecast", "2-yr flood caught / false"],
+                             *[[f"{L} day{'s' if L > 1 else ''}", f"{k_[f'lead_{L}d']['persistence']['nse']:.2f}",
+                                f"{k_[f'lead_{L}d']['boosted']['nse']:.2f}", f"{k_[f'lead_{L}d']['boosted_with_rain_forecast']['nse']:.2f}",
+                                f"{k_[f'lead_{L}d']['boosted_with_rain_forecast']['two_year_flood']['pod']:.0%} / "
+                                f"{k_[f'lead_{L}d']['boosted_with_rain_forecast']['two_year_flood']['far']:.0%}"] for L in (1, 2, 3)]],
+          col_w=[1.0, 1.4, 1.1, 1.8, 1.9], size=12)
+    fpic = os.path.join(ROOT, "results", "forecast", "forecast_naraj.png")
+    if os.path.exists(fpic):
+        picture(s, fpic, 0.5, 3.45, w=7.2)
+    text(s, 8.1, 1.5, 4.8, 5.4, [
+        "Nash–Sutcliffe efficiency of the daily flow (1 = perfect) on years the model never saw",
+        f"Three days ahead {k_['lead_3d']['boosted']['nse']:.2f} against {k_['lead_3d']['persistence']['nse']:.2f} for persistence",
+        f"One day ahead the 2-year flood is caught as often as by persistence with "
+        f"{k_['lead_1d']['boosted']['two_year_flood']['far']:.0%} instead of {k_['lead_1d']['persistence']['two_year_flood']['far']:.0%} false alarms",
+        "A rain forecast adds most where it matters: more 2-year floods caught 2–3 days ahead",
+        "Runs in the live feed; with Pravaah-type gauges upstream the same code trains on measured flows"], size=13, bullet=True)
+
 # 10 exposure table
 s = slide("What floods: people, farmland, roads, hospitals", "Per design flood; land outside the river bed and normal water")
 rows = [["Scenario", "Naraj flow (m³/s)", "Flooded land (km²)", "People", "Cropland (km²)", "Road km", "Health fac.", "Cut off from hospital"]]
@@ -280,7 +311,7 @@ text(s, 0.6, 5.85, 12.1, 1.1, [f"{OCN.get('systems_within_300km_since_2016', 0)}
 
 # 12e construction management
 lr_ = CMP.get("link_raising", {})
-s = slide("Construction management: when to build, what it costs", "42 years of flows and storm tracks; earthwork take-off for the critical links")
+s = slide("Construction management: when to build, what it costs", "29 years of flows, 46 years of storm tracks; earthwork take-off for the critical links")
 picture(s, os.path.join(AF, "construction_windows.png"), 0.4, 1.5, w=8.2)
 picture(s, os.path.join(AF, "gantt.png"), 0.4, 4.3, w=7.6)
 text(s, 8.8, 1.6, 4.2, 5.3, [f"Work window: {WWIN} (no flood days, few storms)",
@@ -296,6 +327,30 @@ text(s, 8.8, 1.6, 4.2, 5.3, [f"Work window: {WWIN} (no flood days, few storms)",
                              f"Deployment: 40 sirens cover {SIT['coverage']['1500']['share']:.0%} of exposed people at 1.5 km, "
                              f"{CMP.get('deployment', {}).get('sensor_sites', '-')} river sensors, {CMP.get('deployment', {}).get('crew_days', 0):.0f} crew-days"],
      size=13, bullet=True)
+
+# 12f flood risk
+RISKS = json.load(open(os.path.join(IM, "risk_economics.json"))) if os.path.exists(os.path.join(IM, "risk_economics.json")) else {}
+if RISKS:
+    e_, d_, r_ = RISKS["expected_annual_damage_rs_crore"], RISKS["daily_record"], RISKS["road_raising"]
+    s = slide("Flood risk in rupees and person-days",
+              f"JRC depth–damage for houses, paddy at the 2025-26 MSP, {d_['years'].replace('-', '–')} of daily flows through the impact table")
+    dm_ = [x for x in RISKS["damage_by_flood"] if x["T"] in (2, 5, 10)]
+    table(s, 0.5, 1.5, 7.4, [["Flood", "People on flooded land", "Houses (₹ cr)", "Paddy lost (ha)", "Paddy (₹ cr)", "Total (₹ cr)"],
+                             *[[{2: "2-year", 5: "5-year", 10: "10-year +"}[x["T"]], n(x["people_on_flooded_land"]),
+                                f"{x['houses_rs_crore']:.1f}", n(x["paddy_lost_ha"]), f"{x['paddy_rs_crore']:.1f}", f"{x['total_rs_crore']:.1f}"]
+                               for x in dm_]], col_w=[1.2, 1.6, 1.1, 1.3, 1.1, 1.1], size=12)
+    text(s, 0.5, 3.7, 7.4, 3.0, [
+        f"Expected damage ≈ ₹{e_['total_rs_crore']:.0f} crore a year (houses {e_['houses_rs_crore']:.1f}, paddy {e_['paddy_rs_crore']:.1f}): a lower bound",
+        f"Average year: {n(d_['per_year']['person_days_on_flooded_land'])} person-days on flooded land, "
+        f"{n(d_['per_year'].get('person_days_without_hospital_access', 0))} without road access to any hospital",
+        f"Warnings would reach 'Be prepared' on {d_['mean_days_per_year_at_level']['days_level_2_or_more']:.1f} days a year: rare enough to be heeded"],
+         size=13, bullet=True)
+    text(s, 8.3, 1.5, 4.6, 5.4, [
+        f"Raising the ten critical roads (₹{r_['cost_rs_crore']:.2f} crore) saves {n(r_['person_days_saved_per_year'])} person-days "
+        f"of hospital access a year: benefit / cost ≈ {r_['benefit_cost_ratio']:.0f} at the rural wage alone",
+        f"Hirakud: 1,000 m³/s off a 5-year peak keeps ~{n(RISKS['hirakud_1000_m3s_off_the_peak']['T5']['people_saved'])} people dry",
+        f"24 h of warning cuts damage ~30 % (Global Commission on Adaptation): ~₹{RISKS['warning_saving_rs_crore_per_year']:.0f} crore a year",
+        "Field interviews check the house and crop losses"], size=13, bullet=True)
 
 # 13 deployment
 s = slide("Deployment plan for a ClimMaTech-type system", "Sirens where exposed people live; one river sensor per distributary")
@@ -318,6 +373,98 @@ text(s, 8.3, 1.6, 4.6, 5.3, ["Input: forecast flow at Naraj (m³/s or lakh cusec
                              "Output: flood GeoTIFF, settlements GeoJSON (for Rakshak Control Centre / Aagah), text bulletin",
                              "Viewer: pick a design flood → flooded land, cut roads, villages, sirens, sensors",
                              "Fills the map layer ('River View') that ClimMaTech's architecture lists for flood risk"], size=14, bullet=True)
+
+# 14a live warnings, other basins
+BASK_LIVE = sorted(f_[:-5] for f_ in os.listdir(os.path.join(ROOT, "live", "basins"))
+                   if f_.endswith(".json") and f_ != "mahanadi.json") if os.path.isdir(os.path.join(ROOT, "live", "basins")) else []
+LIVES = json.load(open(os.path.join(ROOT, "live", "out", "mahanadi", "status.json"))) \
+    if os.path.exists(os.path.join(ROOT, "live", "out", "mahanadi", "status.json")) else {}
+if LIVES:
+    lf_ = LIVES["level_flows_m3s"]
+    off_ = [a_.get("headline") or a_["title"] for a_ in LIVES.get("official_alerts", [])[:2]]
+    s = slide("Live warnings from today's forecast",
+              f"python live/run_live.py · issued {LIVES['issued'][:16].replace('T', ' ')} IST · GloFAS ensemble, ECMWF rain, NDMA SACHET, CWC, Sentinel-1")
+    opic = os.path.join(ROOT, "live", "out", "mahanadi", "outlook.png")
+    if os.path.exists(opic):
+        picture(s, opic, 0.5, 1.5, w=7.4)
+    text(s, 0.5, 4.45, 7.4, 2.4, [
+        f"Today: {LIVES['level_name']} · Naraj {n(LIVES['today_m3s'])} m³/s, peak {n(LIVES['peak']['median_m3s'])} m³/s on "
+        f"{LIVES['peak']['date']} (wettest runs {n(LIVES['peak']['p90_m3s'])})",
+        *[f"Official: {t_[:110]}{'…' if len(t_) > 110 else ''}" for t_ in off_]], size=12, bullet=True)
+    text(s, 8.3, 1.5, 4.6, 3.0, [
+        "51 GloFAS runs → flow per day → flow–impact table → people, villages, hospital access per run",
+        f"Levels set by impact, beyond the ordinary monsoon; at Naraj Be aware {n(lf_.get('1'))}, Be prepared {n(lf_.get('2'))}, Act now {n(lf_.get('3'))} m³/s",
+        "Villages named with the day they flood or lose their hospital; CAP 1.2 alert + Atom feed for the Rakshak Control Centre",
+        "Plugins fail soft; about 15 s per basin on a laptop"], size=13, bullet=True)
+    _lst = [json.load(open(p_)) for p_ in (os.path.join(ROOT, "live", "out", k_, "status.json")
+                                           for k_ in ["mahanadi"] + BASK_LIVE) if os.path.exists(p_)]
+    if len(_lst) > 1:  # every basin in the feed, same run
+        table(s, 8.3, 4.75, 4.6, [["Basin", "Today (m³/s)", "10-day peak", "Level"]] +
+              [[s_["name"].replace(" delta", ""), n(s_["today_m3s"]), n(s_["peak"]["median_m3s"]), s_["level_name"]] for s_ in _lst],
+              col_w=[1.65, 0.85, 0.95, 1.15], size=11)
+
+import glob as _glob
+_rps = sorted(_glob.glob(os.path.join(ROOT, "live", "out", "replay_*", "mahanadi", "status.json")))
+REPS = json.load(open(_rps[-1])) if _rps else {}
+if REPS:
+    s = slide(f"Replay: the feed on the morning of {REPS['issued'][:10]}",
+              f"python live/run_live.py --replay {REPS['issued'][:10]} · the largest flood of the radar era, with the flows that came")
+    rpic = os.path.join(os.path.dirname(_rps[-1]), "outlook.png")
+    if os.path.exists(rpic):
+        picture(s, rpic, 0.5, 1.5, w=7.0)
+    table(s, 0.5, 4.35, 7.0, [["Radar pass", "Flow (m³/s)", "Box imaged", "Expected (km²)", "Seen (km²)"],
+                              *[[c["date"], n(c["flow_m3s"]), f"{c['coverage']:.0%}", n(c["expected_km2"]), n(c["observed_km2"])]
+                                for c in REPS.get("radar_check", [])]], col_w=[1.6, 1.4, 1.2, 1.5, 1.3], size=12)
+    _rc = [w for w in REPS.get("hospital_access_lost", []) if w["expected"]]
+    _mf = REPS.get("model_forecast", {}).get("naraj_m3s", {})
+    text(s, 7.9, 1.5, 5.0, 5.4, [
+        f"Level {REPS['level_name']}: Naraj peak {n(REPS['peak']['median_m3s'])} m³/s on {REPS['peak']['date']}",
+        f"{len([w for w in REPS['villages_to_warn'] if w['expected']])} villages named with the day the water reaches them; "
+        f"{len(_rc)} lose every hospital{' from ' + _rc[0]['expected'] if _rc else ''}",
+        *([f"Upstream-gauge model (without 2022): " + ", ".join(f"{d[5:]} {n(q)}" for d, q in _mf.items()) + " m³/s: 'Act now' 3 days ahead"]
+          if _mf else []),
+        "More land flooded after a week of heavy rain than at the river crest: the case for the rain-aware model"],
+         size=13, bullet=True)
+
+BASK = sorted(d_ for d_ in os.listdir(os.path.join(ROOT, "results", "basins"))
+              if os.path.exists(os.path.join(ROOT, "results", "basins", d_, "atlas", "atlas_summary.json"))) \
+    if os.path.isdir(os.path.join(ROOT, "results", "basins")) else []
+if BASK:
+    s = slide("The same pipeline on two more basins", "A box, a gauge and the flood season set up a basin; every Sentinel-1 pass since 2017, same radar models")
+    rows_ = [["Basin", "Passes", "Flooded at least once (km²)", "25-year flood: land (km²) / people", "Held-out high flows (IoU)"]]
+    keys_ = ["mahanadi"] + BASK
+    for i_, k__ in enumerate(keys_):
+        at_ = AT if k__ == "mahanadi" else os.path.join(ROOT, "results", "basins", k__, "atlas")
+        im_ = IM if k__ == "mahanadi" else os.path.join(ROOT, "results", "basins", k__, "impact")
+        a_ = json.load(open(os.path.join(at_, "atlas_summary.json")))
+        ex_ = json.load(open(os.path.join(im_, "exposure_summary.json")))["scenarios"].get("T25", {}) \
+            if os.path.exists(os.path.join(im_, "exposure_summary.json")) else {}
+        cfg_ = json.load(open(os.path.join(ROOT, "live", "basins", f"{k__}.json"))) \
+            if os.path.exists(os.path.join(ROOT, "live", "basins", f"{k__}.json")) else {"name": k__}
+        hf_ = a_["validation"]["high_flow_passes"]
+        lb_ = "≥ " if a_["gumbel"]["return_period_m3s"]["25"] > a_["largest_observed_predictor_m3s"] else ""  # beyond the record
+        rows_.append([cfg_["name"], n(a_["n_passes"]), n(a_["flooded_ever_km2"]),
+                      f"{lb_}{n(ex_.get('flood_km2', 0))} / {lb_}{n(ex_.get('people', 0))}", f"{hf_['model']['iou']:.2f} vs {hf_['climatology']['iou']:.2f}"])
+        mp_ = os.path.join(ROOT, "results", "basins", "_maps", f"{k__}.png")
+        if os.path.exists(mp_):  # fit each map in a 3.9 x 3.1 in box above the table, whatever the shape of its box
+            from PIL import Image as _Im
+            w0_, h0_ = _Im.open(mp_).size
+            sc_ = min(3.9 / w0_, 2.8 / h0_)
+            picture(s, mp_, 0.5 + i_ * 4.2 + (3.9 - w0_ * sc_) / 2, 1.5 + 2.8 - h0_ * sc_, w=w0_ * sc_)  # bottom-aligned
+            text(s, 0.5 + i_ * 4.2 + (3.9 - w0_ * sc_) / 2, 4.32, 3.9, 0.3, [cfg_["name"]], size=12, color=MUTED)
+    table(s, 0.5, 4.75, 12.3, rows_, col_w=[3.0, 1.4, 2.6, 3.0, 2.3], size=12)
+    text(s, 0.5, 6.55, 12.3, 0.4, ["≥: the 25-year flow is above the largest flow on a radar pass, so the map is a lower bound. "
+                                    "Maps: how often each pixel flooded, 2017–2026."], size=11)
+
+def _bname(k):
+    p_ = os.path.join(ROOT, "live", "basins", f"{k}.json")
+    return json.load(open(p_)).get("name", k) if os.path.exists(p_) else k
+
+
+def _bs2(k):
+    p_ = os.path.join(ROOT, "results", "basins", k, "impact", "s2_crosscheck.json")
+    return json.load(open(p_)).get("all/all_months", {}).get("iou") if os.path.exists(p_) else None
+
 
 # 14b what this adds to ClimMaTech
 _b25 = JI(os.path.join("bulletins", f"bulletin_{round(RP[25])}.json"))
@@ -364,11 +511,11 @@ picture(s, os.path.join(ROOT, "pinn", "results", "figures", "case3_trained_profi
 s = slide("Team and contributions", "Five students, seven specializations; each presents the part they built")
 table(s, 0.5, 1.5, 12.3, [
     ["Member", "Specializations", "What they built"],
-    ["Nikhil Upadhyay (lead)", "Water resources, Ocean", "Flow-to-flood model, design floods, travel time, Saint-Venant PINN, storm drivers; organises the visit"],
-    ["Vineet Jangir", "Remote sensing", "Benchmark of six foundation models (92 runs), fusion, the 20 m radar model"],
-    ["Prakhar Gupta", "Remote sensing", f"Flood atlas from {AS['n_passes']} Sentinel-1 passes, Sentinel-2 check, map viewer"],
-    ["Himanshu Shete", "Transportation, Structural", "Hospital access, critical links, flood depth, walls, bridge scour; integration of the impact chain, "
-                                                      "forecast-to-bulletin tool, website, report and slides"],
+    ["Nikhil Upadhyay (lead)", "Water resources, Ocean", "Flow-to-flood model, learned flow + rain model, Naraj flow forecast, design floods, watershed, Saint-Venant PINN, storm drivers; organises the visit"],
+    ["Vineet Jangir", "Remote sensing", "Benchmark of six foundation models (92 runs), fusion, radar models retrained at 20 m"],
+    ["Prakhar Gupta", "Remote sensing", f"Flood atlas from {AS['n_passes']} Sentinel-1 passes, Sentinel-2 check, two more basins, map viewer"],
+    ["Himanshu Shete", "Transportation, Structural", "Hospital access, critical links, flood depth, walls, bridge scour; integration: impact chain, "
+                                                      "live warning feed, flood-risk economics, bulletins with CAP alerts, training audit, partner gap analysis, website, report and slides"],
     ["Prabhat Kumar", "Geotechnical, Construction mgmt", "Bank screening, ground saturation, foundations; work windows, earthwork, siren and sensor plan"]],
       col_w=[2.6, 2.8, 6.9], size=13)
 
@@ -379,8 +526,21 @@ text(s, 0.6, 1.3, 12.1, 5.6, [
     "that one network takes radar alone when monsoon cloud removes the optical image.",
     f"The delta's flood atlas from {AS['n_passes']} radar passes turns a Naraj flow forecast into a map; on held-out years it beats "
     f"flood climatology at high flows ({hf['model']['iou']:.2f} vs {hf['climatology']['iou']:.2f}).",
+    *([f"Rain matters: a learned flow + rain + history model maps heavy-rain passes better "
+       f"({LRNS['pixel_iou']['heavy_rain_passes']['learned']['iou']:.2f} vs {LRNS['pixel_iou']['heavy_rain_passes']['trigger']['iou']:.2f}); "
+       "read the river forecast with the rain forecast."] if LRNS else []),
     f"In a 25-year flood about {n(EX.loc['T25']['people'])} people live on flooded land and {n(t25['hospital: people cut off'])} "
-    "lose road access to a hospital; the critical links and banks to inspect are listed with coordinates.",
-    "Deployment: siren and sensor sites, and a forecast-to-bulletin tool, ready for ClimMaTech's platform.",
-    "Next: the field visit closes the loop — accuracy at random points, measured discharge and roughness, soil classes."],
-     size=17, bullet=True)
+    "lose road access to a hospital; every specialization gets its answer from the same scenarios.",
+    f"About {JI('watershed_summary.json').get('median_share_hirakud_of_naraj_peak', 0.5):.0%} of a flood peak at Naraj comes from "
+    "Hirakud dam and the rest from the tributaries below it: watch both.",
+    "Checked: all 92 training runs re-verified; the published TerraMind scores reproduced within a point.",
+    *([f"Forecast and live feed: the Naraj flow 1–3 days ahead (efficiency {FCS['skill']['lead_3d']['boosted']['nse']:.2f} at 3 days vs "
+       f"{FCS['skill']['lead_3d']['persistence']['nse']:.2f}); each day's GloFAS ensemble becomes an impact-based warning with a CAP alert."]
+      if FCS else []),
+    *([f"Risk: at least ₹{RISKS['expected_annual_damage_rs_crore']['total_rs_crore']:.0f} crore of damage a year; raising ten roads repays "
+       f"~{RISKS['road_raising']['benefit_cost_ratio']:.0f}× in hospital access."] if RISKS else []),
+    *([f"Scales: the same pipeline mapped the " + " and the ".join(_bname(k_) for k_ in BASK) + " from every radar pass since 2017"
+       + (f" (Sentinel-2 agreement IoU {' and '.join(f'{_bs2(k_):.2f}' for k_ in BASK)})" if all(_bs2(k_) for k_ in BASK) else "")
+       + "; all run in the live feed."] if BASK else []),
+    "Ready for ClimMaTech: bulletins with CAP alerts, siren and gauge sites, map viewer. Next: the field visit closes the loop."],
+     size=15, bullet=True)

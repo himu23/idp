@@ -1,9 +1,9 @@
 #!/bin/bash
-# Second stage after run_atlas_pipeline.sh: depth, structures, ground saturation, ocean drivers, construction plan,
-# their figures, and the transport re-run (evacuation + delay metrics).
+# Second stage after run_atlas_pipeline.sh: depth, structures, ground saturation, ocean drivers, watershed shares,
+# construction plan, then the field check points (with well-level points), their figures and the map viewer.
 #   bash code/mahanadi/run_disciplines.sh <tag>
 H=/home1/vineet/floodfm
-TAG=${1:-final}
+TAG=${1:-r20}
 PY="nice $H/env/bin/python"
 C=$H/data/mahanadi_context
 export PYTHONWARNINGS=ignore ATLAS_DIR=$H/runs/_atlas/build_$TAG IMPACT_DIR=$H/runs/_atlas/impact_$TAG
@@ -14,6 +14,8 @@ for s in impact_depth impact_structures impact_ground; do
 done
 echo "== ocean $(date +%T)"
 $PY ocean_cyclones.py $C/ibtracs_NI.csv $C/rain.csv $C/discharge.csv || echo "FAILED ocean"
+echo "== watershed $(date +%T)"
+$PY watershed_share.py $C/discharge.csv || echo "FAILED watershed"
 echo "== construction $(date +%T)"
 $PY cm_plan.py $C/discharge.csv $C/ibtracs_NI.csv $H/runs/_atlas/figures_$TAG || echo "FAILED cm_plan"
 echo "== checkpoints (with well-level points) $(date +%T)"

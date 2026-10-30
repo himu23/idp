@@ -1,0 +1,9 @@
+MAHANADI DELTA - FLOOD OUTLOOK issued 2022-08-14T06:00:00+05:30 (next 10 days)
+Level: Act now (replay: the flows that came, as a perfect forecast)
+Naraj flow (the measure the atlas uses): today 16,032 m3/s; peak 28,378 m3/s on 2022-08-18 (90th percentile 28,378 m3/s)
+At the median peak: 240 km2 of land outside the river under water, about 30,427 people on it, 52,423 cut off from every hospital
+Villages with >= 10 % of people on flooded land, expected: near Bhattasagar Square (5.9 km) from 2022-08-14; near Bhattasagar Square (7.0 km) from 2022-08-14; near Patkura (9.3 km) from 2022-08-15; near Patkura (9.7 km) from 2022-08-16; near Patkura (9.1 km) from 2022-08-16; near Gobindpur (6.1 km) from 2022-08-16; near Patkura (2.7 km) from 2022-08-16; near Fakirabad (7.2 km) from 2022-08-16; near Patkura (1.5 km) from 2022-08-16; near Patkura (10.8 km) from 2022-08-16; near Patkura (14.6 km) from 2022-08-16; near Dhuria (8.6 km) from 2022-08-16
+Losing road access to every hospital (expected / possible): near Patkura (2.4 km) (2022-08-16); near Patkura (1.6 km) (2022-08-16); near Patkura (5.3 km) (2022-08-16); near Patkura (5.6 km) (2022-08-16); near Patkura (6.9 km) (2022-08-16); near Patkura (9.7 km) (2022-08-16); near Patkura (9.3 km) (2022-08-16); near Patkura (5.0 km) (2022-08-16)
+Named roads going under water (beyond the ordinary monsoon): NH16 from 13,002 m3/s; Left Puri Main Canal Road from 14,774 m3/s; Kalabuda Patkura Road from 18,386 m3/s; Bilahata kalabuda RIver Road from 22,704 m3/s
+Upstream-gauge model, daily Naraj flow: 2022-08-15 16,254 m3/s, 2022-08-16 20,554 m3/s, 2022-08-17 21,327 m3/s
+Student prototype (IIT Bombay CE IDP with ClimMaTech), not an official warning. Flood extents from the Sentinel-1 atlas 2017-2026; flows above the largest seen give lower bounds.

@@ -11,7 +11,13 @@ a private link).
 | Track | What | Where |
 |---|---|---|
 | Model selection | CNN, U-Net and 6 geospatial foundation models (Prithvi-EO-2.0, TerraMind, DOFA, Clay, Satlas, DeCUR), frozen and fine-tuned, 3 seeds, 2 protocols incl. an unseen Indian flood; fusion; radar vs optical; label efficiency (92 runs) | `floodfm/`, `scripts/`, `results/analysis` |
-| Radar model for the monsoon | Radar-only TerraMind-B + U-Net fusion, tested on 20 m input (`scripts/test_resolution.py`) | `results/analysis/radar20m.json` |
+| Radar model for the monsoon | Radar-only TerraMind-B + U-Net fusion, retrained on the 20 m radar the atlas reads (`floodfm/train.py --s1_res 20`), three seeds, scored by `scripts/test_resolution.py` and `scripts/summarise_r20_seeds.py` | `results/analysis/radar20m*.json`, report Appendix B |
+| Atlas comparison | The first atlas (10 m-trained pair) against the rebuilt one; Sentinel-2 agreement decided the switch | `scripts/compare_atlases.py`, `results/archive_atlas_10m/` |
+| Flow forecast | Naraj flow 1–3 days ahead from upstream flows and catchment rain (gradient boosting, tested on unseen monsoons) | `mahanadi/forecast_model.py`, `results/forecast/` |
+| Flow–impact tables | One sweep of the trigger map: flooded land, people, villages, hospital access, roads and facilities at every flow | `mahanadi/impact_curve.py`, `results/impact/impact_curve.csv` |
+| Live warnings | Today's GloFAS ensemble + ECMWF rain + official alerts → impact-based level, villages with dates, CAP alert, Atom feed; one plugin per data source | `live/` (see `live/README.md`) |
+| Risk and economics | Damage to houses and paddy, expected annual damage, person-days without hospital access, benefit–cost of road raising, Hirakud what-if | `mahanadi/risk_economics.py`, `results/impact/risk_economics.json` |
+| Other basins | Brahmani–Baitarani delta and Brahmaputra at Majuli: atlas, trigger map, design floods, exposure, live feed | `mahanadi/basins.py`, `server/run_basin*.sh`, `results/basins/` |
 | Mahanadi flood atlas | Every Sentinel-1 pass over the delta (Feb–Mar, Jun–Nov, 2017–Oct 2026) → water, flood frequency, river bed, swath-edge cleaning | `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `results/atlas` |
 | Flow → inundation | GloFAS discharge at Naraj, per-pixel trigger discharge, leave-one-year-out test (pixels and settlements), Gumbel design floods, travel time | `mahanadi/atlas_build.py`, `travel_time.py` |
 | Independent check | Sentinel-2 MNDWI within ±1 day of radar passes | `mahanadi/s2_crosscheck.py` |
@@ -30,14 +36,19 @@ a private link).
 ```
 PLAN.md             final-phase plan: grading criteria, refined problem statement, roles, timeline, risks
 floodfm/            shared package: data layer, model zoo (TerraTorch), trainer, metrics
-scripts/            build_cache, probe_models, eval_no_training, analyze, make_tables, jobqueue, test_resolution
-server/             setup scripts, job list, bg.sh (detached jobs)
+scripts/            build_cache, probe_models, eval_no_training, analyze, make_tables, jobqueue, test_resolution,
+                    audit_training, summarise_r20_seeds, compare_atlases
+server/             setup scripts, job lists, bg.sh (detached jobs), run_r20_candidate.sh, run_r20_seeds.sh,
+                    run_basins_pull.sh, run_basins_context.sh, run_basin_atlas.sh, run_live.sh
+live/               live warning feed: run_live.py, sources.py (plugins), levels.py, basins/, data/, out/
 mahanadi/           atlas_pull / atlas_infer / atlas_build, impact_exposure / transport / siting / geotech / depth /
                     structures / ground, ocean_cyclones, cm_plan, forecast_to_impact, travel_time, s2_crosscheck,
                     make_checkpoints, make_atlas_figures, make_discipline_figures, make_dashboard (+ template),
                     run_atlas_pipeline.sh, run_disciplines.sh; older event pilot (infer.py)
 results/analysis    benchmark tables and figures      results/atlas    atlas rasters (20 m GeoTIFF) and tables
 results/impact      impact tables, GeoJSON, bulletins  results/atlas_figures   maps, charts, dossier.pdf
+results/archive_atlas_10m   key results of the first atlas (10 m-trained radar pair), kept for comparison
+results/forecast    Naraj flow forecast skill        results/basins/<basin>   atlas and impact results of the other basins
 fieldkit/           FIELD_VISIT_KIT.md/.docx, Field_data_sheets.docx, templates/ (CSV sheets), analysis/ (7 scripts),
                     examples/ (made-up, EXAMPLE),
                     checkpoints/ (GPX, KML, CSV)
@@ -60,24 +71,41 @@ env/bin/python code/scripts/build_cache.py code data/sen1floods11_v1.1 data/cach
 env/bin/python code/scripts/eval_no_training.py code
 env/bin/python code/scripts/jobqueue.py code/server/jobs_main.txt 0,1,1
 env/bin/python code/scripts/analyze.py code
-env/bin/python code/scripts/test_resolution.py code runs/official_unet_s1_full_s0 runs/official_terramind_s1_full_s0
+env/bin/python code/scripts/test_resolution.py code runs/official_unet_s1_full_s0 runs/official_terramind_s1_full_s0 \
+    --json runs/_analysis/radar20m.json
 env/bin/python code/scripts/audit_training.py code          # re-checks every run, writes runs/_analysis/audit_training.json
 # Mahanadi atlas and impacts
 env/bin/python code/mahanadi/fetch_context.py --out data/mahanadi_context        # + fetch_osm_pbf.py if Overpass is down
 env/bin/python code/mahanadi/atlas_pull.py --out data/mahanadi_atlas20 --res 20 --months 2,3,6,7,8,9,10,11
-env/bin/python code/mahanadi/atlas_infer.py code data/mahanadi_atlas20 --out runs/_atlas/prob \
-    --runs runs/official_terramind_s1_full_s0 runs/official_unet_s1_full_s0
-bash code/mahanadi/run_atlas_pipeline.sh final && bash code/mahanadi/run_disciplines.sh final
-# after a change to an impact script only (skips the 26-min atlas build and the 18-min Sentinel-2 check):
-SKIP_BUILD=1 SKIP_S2=1 bash code/mahanadi/run_atlas_pipeline.sh final && bash code/mahanadi/run_disciplines.sh final
-ATLAS_DIR=runs/_atlas/build_final env/bin/python code/mahanadi/learned_flood_model.py --context data/mahanadi_context \n    --out runs/_atlas/learned_final                              # learned flow + rain model, ~35 min on 24 cores
-# radar pair retrained on 20 m input (server/jobs_r20.txt; report Appendix B): better on the atlas input. To swap it in:
-env/bin/python code/mahanadi/atlas_infer.py code data/mahanadi_atlas20 --out runs/_atlas/prob_r20     --runs runs/official_terramind_s1_full_s0_r20 runs/official_unet_s1_full_s0_r20
-# then in run_atlas_pipeline.sh use --prob runs/_atlas/prob_r20 and --thr 0.45 (chosen on validation), re-run both
-# pipeline scripts and the learned model, pull results/ and rebuild the report, slides and website
-# on this laptop: pull, then rebuild text, report and slides
+# radar pair retrained on 20 m input (seed 0; server/jobs_r20.txt lists these two and the seed 1-2 runs below)
+env/bin/python code/scripts/jobqueue.py code/server/jobs_r20.txt 0,1
+env/bin/python code/scripts/test_resolution.py code runs/official_terramind_s1_full_s0_r20 runs/official_unet_s1_full_s0_r20 \
+    --json runs/_analysis/radar20m_r20.json
+bash code/server/run_r20_candidate.sh     # maps all 590 passes with the 20 m pair, builds the atlas (threshold 0.45), Sentinel-2 check
+bash code/server/run_r20_seeds.sh         # seeds 1 and 2 at 10 m and 20 m, each pair scored
+env/bin/python code/scripts/summarise_r20_seeds.py
+SKIP_BUILD=1 SKIP_S2=1 bash code/mahanadi/run_atlas_pipeline.sh r20 && bash code/mahanadi/run_disciplines.sh r20
+ATLAS_DIR=runs/_atlas/build_r20 env/bin/python code/mahanadi/learned_flood_model.py --context data/mahanadi_context \
+    --out runs/_atlas/learned_r20                                # learned flow + rain model, ~32 min on 28 cores
+# Without SKIP_BUILD / SKIP_S2 the pipeline builds the atlas and runs the Sentinel-2 check itself (~45 min). PROB and THR
+# default to the 20 m pair and 0.45; the first atlas used PROB=runs/_atlas/prob THR=0.30 (prob from atlas_infer.py with
+# runs/official_terramind_s1_full_s0 runs/official_unet_s1_full_s0).
+# Pull build_r20 -> results/atlas, impact_r20 -> results/impact, figures_r20 -> results/atlas_figures,
+# checkpoints_r20 -> fieldkit/checkpoints, learned_r20 -> results/atlas/learned, dashboard_r20.html -> dashboard/index.html
+# flow-impact tables, flood depth for every design flood, risk economics and the flow forecast (minutes)
+cd code/mahanadi && ATLAS_DIR=/home1/vineet/floodfm/runs/_atlas/build_r20 IMPACT_DIR=/home1/vineet/floodfm/runs/_atlas/impact_r20 sh -c \
+    '../../env/bin/python impact_depth.py && ../../env/bin/python impact_curve.py && ../../env/bin/python risk_economics.py' && cd ../..
+env/bin/python code/mahanadi/forecast_model.py
+# other basins (mahanadi/basins.py): radar archive, context layers, atlas + exposure + tables + Sentinel-2 check
+bash code/server/run_basins_pull.sh && bash code/server/run_basins_context.sh
+bash code/server/run_basin_atlas.sh brahmani && bash code/server/run_basin_atlas.sh brahmaputra
+# on this laptop: pull runs/_atlas/build_<basin> and impact_<basin> into results/basins/<basin>/{atlas,impact}, then
+python live/make_basin_config.py mahanadi brahmani brahmaputra && python live/run_live.py
+python live/run_live.py --basin mahanadi --replay 2022-08-14   # the feed on the morning before the 2022 flood
+# compare with the archived first atlas, then rebuild text, report, website, slides and hand-outs
+python scripts/compare_atlases.py
 python scripts/make_tables.py results/analysis report/sections/02_tables.md
-python report/write_sections.py && python report/build_report.py && python report/build_slides.py && python report/build_website.py && python report/build_handouts.py
+python report/write_sections.py && python report/build_report.py && python report/build_website.py && python report/build_slides.py && python report/build_handouts.py
 ```
 
 A bulletin for any forecast: `python mahanadi/forecast_to_impact.py --lakh-cusec 9` (with `ATLAS_DIR` and `IMPACT_DIR`
@@ -85,6 +113,9 @@ pointing at the build and impact folders).
 
 ## Engineering notes worth keeping
 
+- Live warning levels count villages, hospital cut-offs, roads and health facilities beyond the ordinary monsoon
+  (the flow exceeded on a quarter of monsoon days, `baseline_m3s` in `live/basins/<basin>.json`). Without it the
+  Brahmani warned at 750 m³/s: a road without a mapped bridge cuts six villages off at almost any monsoon flow.
 - The mentor notebook filled missing VH radar with the VV mean (normalised value 1.31 instead of 0). Here every
   invalid pixel is filled with its own band mean before standardising, so it becomes exactly 0.
 - On the shared server, memory-mapped reads and CPU-side rotation starved the GPUs; chips are read with `os.pread`

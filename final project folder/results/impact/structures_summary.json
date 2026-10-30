@@ -7,17 +7,17 @@
    "115 mm wall, f_t 0.2 MPa": 0.65
   },
   "T5": {
-   "people_deeper_than_1m": 3159,
-   "people_deeper_than_0_6m": 4395
+   "people_deeper_than_1m": 3464,
+   "people_deeper_than_0_6m": 4798
   },
   "T25": {
-   "people_deeper_than_1m": 3626,
-   "people_deeper_than_0_6m": 5194
+   "people_deeper_than_1m": 4080,
+   "people_deeper_than_0_6m": 5867
   },
-  "settlements_with_5pct_people_deeper_1m_T25": 4,
+  "settlements_with_5pct_people_deeper_1m_T25": 6,
   "T100": {
-   "people_deeper_than_1m": 3626,
-   "people_deeper_than_0_6m": 5194
+   "people_deeper_than_1m": 4080,
+   "people_deeper_than_0_6m": 5867
   }
  },
  "bridges": {

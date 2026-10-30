@@ -1,18 +1,24 @@
 """Does a radar model trained at 10 m still work on 20 m radar resampled back to 10 m?
 
-    python scripts/test_resolution.py <code_dir> <run_dir> [<run_dir> ...]
+    python scripts/test_resolution.py <code_dir> <run_dir> [<run_dir> ...] [--json <out.json>]
 
 The Mahanadi atlas pulls Sentinel-1 from the 20 m COG overviews (4x less data; the 10 m pull was capped at
 ~4-8 MB/s from the server). This test degrades the Sen1Floods11 official test chips the same way (2 x 2 block
 average in linear power, or decimation like a nearest-neighbour overview) and up-samples bilinearly to 10 m,
 then compares pooled water IoU at threshold 0.5 with the native 10 m input.
 """
+import json
 import os
 import sys
 
 import numpy as np
 import torch
 
+OUT = None
+if "--json" in sys.argv:  # optional machine-readable copy of the printed table (runs/_analysis/radar20m*.json)
+    k = sys.argv.index("--json")
+    OUT = sys.argv[k + 1]
+    del sys.argv[k:k + 2]
 sys.path.insert(0, sys.argv[1])
 sys.path.insert(0, os.path.join(sys.argv[1], "mahanadi"))
 from floodfm.data import Cache  # noqa: E402
@@ -39,6 +45,7 @@ def degrade(s1, how):
 
 
 models = [load_model(run) for run in sys.argv[2:]]
+res = {}
 for how in ("native", "avg20", "nearest20"):
     probs = {name: [] for _, _, name in models}
     for i in test:
@@ -56,6 +63,7 @@ for how in ("native", "avg20", "nearest20"):
             v, w, pr = y != -1, y == 1, p >= 0.5
             tp += int((pr & w & v).sum()); fp += int((pr & ~w & v).sum()); fn += int((~pr & w & v).sum())
         print(f"{name:10s} {how:10s} IoU {tp / (tp + fp + fn):.3f}  precision {tp / (tp + fp):.3f}  recall {tp / (tp + fn):.3f}", flush=True)
+        res.setdefault(name, {})[how] = round(tp / (tp + fp + fn), 3)
 
 
 # Threshold for the production setting (20 m overview input, mean of the radar models), chosen on validation
@@ -86,3 +94,9 @@ if len(models) > 1:
     print("val sweep (mean, avg20):", {k: round(v, 3) for k, v in sweep.items()})
     iou, prec, rec = score(test, pt, best)
     print(f"chosen threshold {best}: test IoU {iou:.3f} precision {prec:.3f} recall {rec:.3f}", flush=True)
+    res.update(threshold=float(best), calibrated_test_iou=round(iou, 3), calibrated_precision=round(prec, 3),
+               calibrated_recall=round(rec, 3))
+if OUT:
+    res["source"] = "scripts/test_resolution.py " + " ".join(os.path.basename(r.rstrip("/")) for r in sys.argv[2:])
+    with open(OUT, "w") as f:
+        json.dump(res, f, indent=1)

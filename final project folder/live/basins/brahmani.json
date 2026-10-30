@@ -1,0 +1,100 @@
+{
+ "key": "brahmani",
+ "name": "Brahmani\u2013Baitarani delta",
+ "state": "Odisha",
+ "river": "Brahmani",
+ "gauge_name": "Jenapur",
+ "bbox": [
+  86.2,
+  20.58,
+  86.9,
+  21.08
+ ],
+ "gauge": "jenapur",
+ "gauges": {
+  "jenapur": [
+   20.825,
+   86.175
+  ],
+  "akhuapada": [
+   21.025,
+   86.175
+  ]
+ },
+ "rain_pts": [
+  [
+   20.7,
+   86.35
+  ],
+  [
+   20.7,
+   86.6
+  ],
+  [
+   20.7,
+   86.8
+  ],
+  [
+   20.95,
+   86.35
+  ],
+  [
+   20.95,
+   86.6
+  ],
+  [
+   20.95,
+   86.8
+  ]
+ ],
+ "districts": [
+  "Jajapur",
+  "Jajpur",
+  "Kendrapara",
+  "Bhadrak",
+  "Baleshwar",
+  "Balasore"
+ ],
+ "sachet": "odisha",
+ "predictor": "Q_same_day",
+ "predictor_days": 1,
+ "predictor_lag": 0,
+ "design_flows_m3s": {
+  "2": 4001,
+  "5": 5185,
+  "10": 5969,
+  "25": 6959,
+  "50": 7694,
+  "100": 8423
+ },
+ "largest_seen_m3s": 6108,
+ "high_flow_m3s": 2678,
+ "baseline_m3s": 1737,
+ "baseline": {
+  "settlements_10pct": 1.0,
+  "hospital_people_cut_off": 6722.0,
+  "hospital_settlements_cut_off": 6.0
+ },
+ "level_flows_m3s": {
+  "1": 3500.0,
+  "2": 3500.0,
+  "3": 4250.0
+ },
+ "atlas_passes": 394,
+ "atlas_threshold": 0.45,
+ "routing": true,
+ "tables": {
+  "impact_curve": "data/brahmani/impact_curve.csv",
+  "settlement_thresholds": "data/brahmani/settlement_thresholds.csv",
+  "road_cut_flows": "data/brahmani/road_cut_flows.csv",
+  "facility_thresholds": "data/brahmani/facility_thresholds.csv"
+ },
+ "sources": [
+  "glofas",
+  "rain",
+  "sachet",
+  "cwc",
+  "sentinel1"
+ ],
+ "forecast_model": false
+}

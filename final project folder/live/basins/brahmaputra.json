@@ -1,0 +1,96 @@
+{
+ "key": "brahmaputra",
+ "name": "Brahmaputra at Majuli",
+ "state": "Assam",
+ "river": "Brahmaputra",
+ "gauge_name": "Neamatighat",
+ "bbox": [
+  93.9,
+  26.7,
+  94.6,
+  27.3
+ ],
+ "gauge": "neamatighat",
+ "gauges": {
+  "neamatighat": [
+   26.925,
+   94.175
+  ]
+ },
+ "rain_pts": [
+  [
+   26.85,
+   94.05
+  ],
+  [
+   26.85,
+   94.3
+  ],
+  [
+   26.85,
+   94.5
+  ],
+  [
+   27.15,
+   94.05
+  ],
+  [
+   27.15,
+   94.3
+  ],
+  [
+   27.15,
+   94.5
+  ]
+ ],
+ "districts": [
+  "Majuli",
+  "Jorhat",
+  "Lakhimpur",
+  "Dhemaji",
+  "Sivasagar",
+  "Golaghat"
+ ],
+ "sachet": "assam",
+ "predictor": "Q_max_3d",
+ "predictor_days": 3,
+ "predictor_lag": 0,
+ "design_flows_m3s": {
+  "2": 29833,
+  "5": 34783,
+  "10": 38060,
+  "25": 42202,
+  "50": 45274,
+  "100": 48323
+ },
+ "largest_seen_m3s": 35891,
+ "high_flow_m3s": 22054,
+ "baseline_m3s": 17988,
+ "baseline": {
+  "settlements_10pct": 1.0,
+  "hospital_people_cut_off": 0.0,
+  "hospital_settlements_cut_off": 0.0
+ },
+ "level_flows_m3s": {
+  "1": 21500.0,
+  "2": 22750.0,
+  "3": 29000.0
+ },
+ "atlas_passes": 346,
+ "atlas_threshold": 0.45,
+ "routing": true,
+ "tables": {
+  "impact_curve": "data/brahmaputra/impact_curve.csv",
+  "settlement_thresholds": "data/brahmaputra/settlement_thresholds.csv",
+  "road_cut_flows": "data/brahmaputra/road_cut_flows.csv",
+  "facility_thresholds": "data/brahmaputra/facility_thresholds.csv"
+ },
+ "sources": [
+  "glofas",
+  "rain",
+  "sachet",
+  "cwc",
+  "sentinel1"
+ ],
+ "forecast_model": false
+}

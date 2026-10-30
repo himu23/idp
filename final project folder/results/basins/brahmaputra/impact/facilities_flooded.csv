@@ -1,0 +1,42 @@
+scenario,kind,name,amenity,lon,lat
+T5,health,"PHC, Disang Mukh",,94.5744,27.0632
+T5,health,Karatipar MPHC,,94.01289,26.91987
+T5,health,Khakandaguri MPHC,,93.9126,26.72953
+T5,health,Gorumora MPHC,,94.0621,26.78133
+T5,health,Ownamukh State Dispensary,clinic,94.16685,26.82562
+T10,health,"PHC, Disang Mukh",,94.5744,27.0632
+T10,health,"State DispensaryCH, Gormur",clinic,94.14338,26.97547
+T10,health,Karatipar MPHC,,94.01289,26.91987
+T10,health,"SHC, Boliaghat",,94.55551,26.96798
+T10,health,Khakandaguri MPHC,,93.9126,26.72953
+T10,health,Gorumora MPHC,,94.0621,26.78133
+T10,health,Ownamukh State Dispensary,clinic,94.16685,26.82562
+T25,health,"PHC, Disang Mukh",,94.5744,27.0632
+T25,health,"State DispensaryCH, Gormur",clinic,94.14338,26.97547
+T25,health,Karatipar MPHC,,94.01289,26.91987
+T25,health,"SHC, Boliaghat",,94.55551,26.96798
+T25,health,Khakandaguri MPHC,,93.9126,26.72953
+T25,health,Gorumora MPHC,,94.0621,26.78133
+T25,health,Ownamukh State Dispensary,clinic,94.16685,26.82562
+T50,health,"PHC, Disang Mukh",,94.5744,27.0632
+T50,health,"State DispensaryCH, Gormur",clinic,94.14338,26.97547
+T50,health,Karatipar MPHC,,94.01289,26.91987
+T50,health,"SHC, Boliaghat",,94.55551,26.96798
+T50,health,Khakandaguri MPHC,,93.9126,26.72953
+T50,health,Gorumora MPHC,,94.0621,26.78133
+T50,health,Ownamukh State Dispensary,clinic,94.16685,26.82562
+T100,health,"PHC, Disang Mukh",,94.5744,27.0632
+T100,health,"State DispensaryCH, Gormur",clinic,94.14338,26.97547
+T100,health,Karatipar MPHC,,94.01289,26.91987
+T100,health,"SHC, Boliaghat",,94.55551,26.96798
+T100,health,Khakandaguri MPHC,,93.9126,26.72953
+T100,health,Gorumora MPHC,,94.0621,26.78133
+T100,health,Ownamukh State Dispensary,clinic,94.16685,26.82562
+observed_20170709,health,"PHC, Disang Mukh",,94.5744,27.0632
+observed_20170709,health,Badhakora MPHC,,94.17685,27.27239
+observed_20170709,health,Keyamora MPHC,,93.90453,27.06288
+observed_20170709,health,Karatipar MPHC,,94.01289,26.91987
+observed_20170709,health,Ownamukh State Dispensary,clinic,94.16685,26.82562
+observed_20170709,school,Pahumara Secondary School,school,94.05286,27.20456
+rain_T5,health,"PHC, Disang Mukh",,94.5744,27.0632
+rain_T5,health,Ownamukh State Dispensary,clinic,94.16685,26.82562

@@ -79,9 +79,8 @@ validation score; the test tiles were used once, at the end.
 0.776. The small network won because water is spectrally simple and a few hundred labelled
 tiles are enough; the U-Net stayed ahead even with 10 % of the labels. Radar alone scores lower (about 0.65 on the
 official test, against 0.82–0.84 with radar and optical together), but it is the only thing that sees a monsoon
-flood, and TerraMind takes radar natively. **The model we use** is therefore the radar-only TerraMind + U-Net fusion: 0.646 IoU on
-the 20 m radar the atlas reads. Retrained directly at 20 m, the pair reaches 0.681, ready
-for the next atlas run.
+flood, and TerraMind takes radar natively. **The model we use** is therefore the radar-only TerraMind + U-Net fusion.
+Retrained directly on 20 m input it scores 0.681 IoU on the 20 m radar the atlas reads (the pair trained at 10 m: 0.646), so the atlas was rebuilt with it.
 
 **Was the training right?** A script re-checked all 92 runs from their saved outputs: correct settings, no tile in
 two splits, no Indian tile in leave-India-out training, selection on validation only, every score recomputed: no
@@ -93,59 +92,64 @@ optical) and 79.8 (radar only); the published paper reports 90.62 and 80.39.
 The model mapped every Sentinel-1 pass over the delta from 2017 to October 2026: 590 passes, 457 in the
 monsoon (June–November) and 133 in the dry season (February–March), at 20 m, about 5 seconds per pass on one GPU.
 Water in the dry season and the river bed (178 km²) are "normal water"; water outside them on a monsoon
-pass is **flood**. 905 km² flooded at least once. **Independent check:** for 60 passes a Sentinel-2
-image exists within a day. On clear pixels the two agree with IoU 0.49 on all water, but the radar finds only
+pass is **flood**. 1,137 km² flooded at least once. **Independent check:** for 60 passes a Sentinel-2
+image exists within a day. On clear pixels the two agree with IoU 0.56 on all water, but the radar finds only
 22% of the flood water Sentinel-2 sees: it misses shallow water among crops. Field points will check it again.
 
 ## 6. Part 3: from a river flow to a flood map
 
-**River flow** at Naraj, the head of the delta, comes from GloFAS, a global model (daily, 1984–2026); the measured
-CWC/WRD flows are requested. The flooded share of a pass follows the highest daily flow of the last five days
-(rank correlation 0.76).
+**River flow** at Naraj, the head of the delta, comes from GloFAS, a global model (daily, 1997–2026); the measured
+CWC/WRD flows are requested. The flooded share of a pass follows the highest daily flow of the last three days (rank correlation
+0.76).
 
 **Trigger discharge.** For each 20 m pixel we find the Naraj flow above which it is usually flooded. A forecast flow
 then gives a map: every pixel whose trigger is below the forecast. **Tested on years it never saw** (each year
-predicted from the other nine): IoU 0.23 over all monsoon passes against 0.14 for
-"flood where it usually floods", and 0.23 against 0.07 at high flows. Per village it flags
-17% of flooded villages. These scores are modest because floodplain flooding is patchy, and the honest
-summary is: *where* the delta floods is very predictable from its past (ranking AUC 0.91),
+predicted from the other nine): IoU 0.17 over all monsoon passes against 0.08 for
+"flood where it usually floods", and 0.20 against 0.04 at high flows. Per village it flags
+21% of flooded villages. These scores are modest because floodplain flooding is patchy, and the honest
+summary is: *where* the delta floods is very predictable from its past (ranking AUC 0.90),
 *how much* floods on a given day only partly.
 
-**Rain matters too.** The largest floods (September 2018 and 2021) came with heavy rain from Bay of Bengal
-depressions, not with the highest river flows. At the 5-year flow, a dry week floods 25 km² and a
-heavy-rain week 105 km² (past passes with similar flow and rain). A **learned model**
+**Rain matters too.** The largest floods (September 2021 and August 2020) came with heavy rain,
+not with the highest river flows. At the 5-year flow, a dry week floods 27 km² and a
+heavy-rain week 93 km² (past passes with similar flow and rain). A **learned model**
 (gradient boosting) that adds rain and each pixel's flood history to the flow does best on heavy-rain passes
-(0.22 against 0.17) and ranks land best (AUC 0.95).
+(0.22 against 0.15) and ranks land best (AUC 0.95).
 
-**Design floods.** A Gumbel fit to 42 yearly maxima gives 17,897 m³/s for the 2-year flood, 23,940 for the 5-year,
+**Forecasting the flow.** A model reads today's flows at Naraj, Tikarpara and below Hirakud and the rain on the catchment between them, and forecasts the Naraj flow one to three days ahead. On monsoons it never saw it scores an efficiency of 0.99, 0.94 and 0.89 (1 = perfect) against 0.96, 0.88 and 0.79 for assuming the flow stays as it is.
+
+**Design floods.** A Gumbel fit to 29 yearly maxima (1997–2025) gives 17,897 m³/s for the 2-year flood, 23,940 for the 5-year,
 32,997 for the 25-year and 40,470 for the 100-year. The largest flow in the radar record is
 28,378 m³/s, so maps for the 10- to 100-year floods are the same, a lower bound.
 
 ## 7. Part 4: the specializations, briefly
 
-- **Transportation:** roads as a network; in the 25-year flood 36,941 people lose road access to
-  every hospital and everyday trips grow by 12,023 person-hours a day; ten critical
+- **Transportation:** roads as a network; in the 25-year flood 52,423 people lose road access to
+  every hospital and everyday trips grow by 10,077 person-hours a day; ten critical
   roads carry most of the cut routes.
-- **Structural:** a 230 mm brick wall cracks at about a metre of water, and 3,626 people live where
+- **Structural:** a 230 mm brick wall cracks at about a metre of water, and 4,080 people live where
   the 25-year flood is that deep; bridge piers may scour 7–24 m below the flood level.
-- **Geotechnical:** twenty river-bank sites to inspect; 415,549 people in dry houses within 200 m of the
+- **Geotechnical:** twenty candidate river-bank sites, the top twelve on the field GPS file; 441,605 people in dry houses within 200 m of the
   flood on soft soil, where foundations weaken and later settle.
 - **Ocean:** 11 of the 20 largest floods followed a Bay of Bengal storm.
-- **Construction management:** build in December–April; raising 8 critical roads takes about
-  17,442 m³ of earthwork; a schedule for sirens and gauges.
+- **Construction management:** build in December–April; raising 10 critical roads takes about
+  27,603 m³ of earthwork; a schedule for sirens and gauges.
 - **Water resources and the watershed:** Hirakud dam controls about 59 % of the basin, but only about half of a
   flood peak at Naraj (median 48%) comes from it; the rest comes from the tributaries
   below the dam within a day.
 - **Remote sensing:** Parts 1 and 2.
+- **Risk in rupees:** flood depth times a published damage curve for houses, and flooded paddy at the support price: about ₹17 crore of damage a year (a lower bound). Raising the ten critical roads repays its cost about 17 times in hospital access alone.
 
 ## 8. Part 5: the tools
 
 - **Bulletin tool** (`mahanadi/forecast_to_impact.py`): type a forecast flow (m³/s or lakh cusec, optionally rain);
   get a flood map, the settlements to warn, the roads under water and a CAP alert, the format ClimMaTech's control
-  centre accepts. For the 25-year flow it names 24 settlements.
+  centre accepts. For the 25-year flow it names 32 settlements.
 - **Map viewer** (`dashboard/index.html`): every scenario with roads, sirens, gauges and banks; works offline.
-- **Siting:** 40 sirens reach 49% of exposed people at 1.5 km; one radar gauge on each distributary.
+- **Siting:** 40 sirens reach 48% of exposed people at 1.5 km; one radar gauge on each distributary.
 - **Website** (`website/`): the whole project in the partner's visual style.
+- **Live warnings** (`live/run_live.py`, about 15 seconds): reads today's GloFAS ensemble, ECMWF rain and the official alerts and writes the warning level, the villages to warn with dates, a CAP alert and an Atom feed. Levels are set by impact: 'Be aware' from 12,250 m³/s at Naraj, 'Be prepared' from 18,500, 'Act now' from 21,250. Each data source is a plugin (`live/sources.py`). `--replay 2022-08-14` shows what it would have said on that morning, before the largest flood of the radar era: 'Act now' for a 28,378 m³/s peak on 2022-08-18.
+- **Other basins:** the same pipeline mapped the Brahmani–Baitarani delta and the Brahmaputra at Majuli from every radar pass since 2017; both run in the live feed, 'Be aware' from 3,500 m³/s at Jenapur and 21,500 m³/s at Neamatighat.
 
 ## 9. Part 6: the field visit
 
@@ -175,7 +179,15 @@ asked: each one has a next step.
 - **Did you check the training?** Yes: 92 of 92 runs re-checked, no problems, published TerraMind scores reproduced.
 - **What does ClimMaTech get?** A flood-extent layer, bulletins with CAP alerts, a network of sites placed with data,
   and a field method to turn gauge readings into discharge.
-- **What is next?** The field visit, observed flows, the 20 m models in the atlas, Sentinel-2 labels for the delta.
+- **Is the live feed an official warning?** No. Its CAP alerts carry the status "Exercise"; it shows what an
+  impact-based service would say, for ClimMaTech and the district to adopt.
+- **Why is a village that floods every monsoon not in the warning?** Levels count what a flood adds to the ordinary
+  monsoon (the flow exceeded on a quarter of monsoon days, 6,682 m³/s at Naraj). A few
+  river-bank hamlets are wet at that flow every year; on the Brahmani a road with no mapped bridge cuts six villages off
+  at almost any monsoon flow, which is a road to raise, not a warning to issue.
+- **How far ahead can you warn?** GloFAS gives 30 days; our upstream-gauge model is good to about three days
+  (efficiency 0.89); the villages list says the first day each is expected to flood.
+- **What is next?** The field visit, observed flows, Sentinel-2 labels for the delta.
 
 ## 12. Where everything is
 
@@ -187,4 +199,5 @@ asked: each one has a next step.
 | Executive summary | `docs/EXECUTIVE_SUMMARY.docx` |
 | Field visit kit and GPS points | `fieldkit/` |
 | Map viewer and website | `dashboard/index.html`, `website/` |
+| Live warnings (run it before the presentation) | `live/` — `python live/run_live.py`, then open `live/out/index.html`; `live/README.md` |
 | How to re-run anything | `README.md` |

@@ -3,28 +3,28 @@
  "fine_soil_share_of_box": 0.941,
  "scenarios": {
   "T5": {
-   "zone_km2": 414.3,
-   "people_in_zone": 380300,
-   "people_on_flooded_land": 22545,
-   "advisory_settlements": 290
+   "zone_km2": 464.2,
+   "people_in_zone": 407037,
+   "people_on_flooded_land": 25384,
+   "advisory_settlements": 305
   },
   "T25": {
-   "zone_km2": 432.4,
-   "people_in_zone": 415549,
-   "people_on_flooded_land": 25163,
-   "advisory_settlements": 310
+   "zone_km2": 489.3,
+   "people_in_zone": 441605,
+   "people_on_flooded_land": 30427,
+   "advisory_settlements": 329
   },
   "T100": {
-   "zone_km2": 432.4,
-   "people_in_zone": 415549,
-   "people_on_flooded_land": 25163,
-   "advisory_settlements": 310
+   "zone_km2": 489.3,
+   "people_in_zone": 441605,
+   "people_on_flooded_land": 30427,
+   "advisory_settlements": 329
   },
   "freq10": {
-   "zone_km2": 318.7,
-   "people_in_zone": 299472,
-   "people_on_flooded_land": 11063,
-   "advisory_settlements": 185
+   "zone_km2": 366.1,
+   "people_in_zone": 291194,
+   "people_on_flooded_land": 11801,
+   "advisory_settlements": 177
   }
  },
  "foundation_example": {

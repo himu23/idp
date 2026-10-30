@@ -1,0 +1,106 @@
+{
+ "key": "mahanadi",
+ "name": "Mahanadi delta",
+ "state": "Odisha",
+ "river": "Mahanadi",
+ "gauge_name": "Naraj",
+ "bbox": [
+  85.8,
+  20.25,
+  86.45,
+  20.65
+ ],
+ "gauge": "naraj",
+ "gauges": {
+  "naraj": [
+   20.475,
+   85.775
+  ],
+  "tikarpara": [
+   20.58,
+   84.78
+  ],
+  "hirakud_below": [
+   21.5,
+   83.88
+  ]
+ },
+ "rain_pts": [
+  [
+   20.35,
+   85.9
+  ],
+  [
+   20.35,
+   86.1
+  ],
+  [
+   20.35,
+   86.3
+  ],
+  [
+   20.55,
+   85.9
+  ],
+  [
+   20.55,
+   86.1
+  ],
+  [
+   20.55,
+   86.3
+  ]
+ ],
+ "districts": [
+  "Cuttack",
+  "Kendrapara",
+  "Jagatsinghapur",
+  "Jagatsinghpur",
+  "Khordha",
+  "Puri",
+  "Jajapur",
+  "Jajpur"
+ ],
+ "sachet": "odisha",
+ "predictor": "Q_max_3d",
+ "predictor_days": 3,
+ "predictor_lag": 0,
+ "design_flows_m3s": {
+  "2": 17897,
+  "5": 23940,
+  "10": 27941,
+  "25": 32997,
+  "50": 36747,
+  "100": 40470
+ },
+ "largest_seen_m3s": 28378,
+ "high_flow_m3s": 9682,
+ "baseline_m3s": 6682,
+ "baseline": {
+  "settlements_10pct": 1.0,
+  "hospital_people_cut_off": 0.0,
+  "hospital_settlements_cut_off": 0.0
+ },
+ "level_flows_m3s": {
+  "1": 12250.0,
+  "2": 18500.0,
+  "3": 21250.0
+ },
+ "atlas_passes": 590,
+ "atlas_threshold": 0.45,
+ "routing": true,
+ "tables": {
+  "impact_curve": "data/mahanadi/impact_curve.csv",
+  "settlement_thresholds": "data/mahanadi/settlement_thresholds.csv",
+  "road_cut_flows": "data/mahanadi/road_cut_flows.csv",
+  "facility_thresholds": "data/mahanadi/facility_thresholds.csv"
+ },
+ "sources": [
+  "glofas",
+  "rain",
+  "sachet",
+  "cwc",
+  "sentinel1"
+ ],
+ "forecast_model": true
+}

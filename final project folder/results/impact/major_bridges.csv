@@ -1,40 +1,40 @@
 river,name,ref,highway,length_m,water_m,access_dry,km_from_naraj,lon,lat,people_in_hazard_10km
-Kathajodi,,NH16,trunk,869.1,559.4,True,12.6,85.89012,20.44052,2778
-,,NH16;NH55,trunk,2252.6,1714.3,True,14.4,85.91319,20.48236,2787
-,,,trunk_link,2240.1,2070.9,True,14.5,85.91372,20.48215,2765
-,,,primary,911.8,634.3,False,9.4,85.85562,20.43734,2309
-,,,tertiary,534.7,277.3,True,20.8,85.87591,20.31316,1740
-,Kuakhai River Bridge,NH16,trunk,525.9,267.9,True,20.8,85.87623,20.31287,1742
-Kathajodi,,NH16,trunk,880.2,652.8,True,12.7,85.89054,20.44005,2771
-Mahanadi,,,tertiary,226.3,177.1,False,60.9,86.35841,20.46189,6122
-Mahanadi,,,tertiary,304.7,167.1,False,60.8,86.35748,20.46425,5961
-Mahanadi,,,tertiary,501.2,275.2,False,68.0,86.42646,20.45084,6345
-,,,tertiary,652.5,415.2,False,25.9,86.00427,20.38501,1862
-,,,tertiary,773.4,753.5,False,33.3,86.09042,20.42964,1681
-Luna,,,tertiary,310.3,242.4,False,41.8,86.17528,20.45276,2042
-Luna,,,unclassified,775.9,736.1,False,31.2,86.07432,20.46498,1130
-,,,tertiary,359.5,289.6,False,65.0,86.3747,20.31625,7640
-,,,tertiary,245.9,137.7,False,60.3,86.34814,20.40377,6722
-Luna,,,unclassified,363.4,324.1,False,49.5,86.24967,20.46175,1298
-,,,tertiary,622.7,583.2,False,48.9,86.22785,20.36089,1993
-Birupa,,,secondary,280.3,106.3,False,38.5,86.11878,20.60203,1527
-,,,tertiary,409.9,299.9,False,41.4,86.16883,20.43168,2208
-Devi River,Netaji Subhash Chandra Bose Setu,,primary,2822.9,2374.0,True,8.0,85.84814,20.45458,2211
-,,NH16;NH55,trunk,2260.2,1473.6,True,14.5,85.91338,20.48225,2787
-Birupa,,NH16;NH55,trunk,542.9,118.5,True,16.9,85.932,20.51335,2453
-Mahanadi,Utkal Gourab Madhusudan Bridge,,primary,2579.8,1429.9,False,5.3,85.81971,20.49851,1302
-,Kuakhai River Bridge,NH16,trunk,534.7,188.1,True,20.8,85.87643,20.31277,1742
-,,,primary,1935.4,1875.5,True,13.6,85.90465,20.48711,2742
-Kathajodi,,,trunk_link,876.6,767.0,True,12.6,85.89039,20.44023,2775
-Biropa,,,tertiary,331.1,233.7,False,66.5,86.39459,20.61709,778
-Mahanadi,,,unclassified,458.5,299.0,True,52.4,86.26424,20.36684,2587
-Kathajodi,,,tertiary,491.6,403.1,False,33.4,86.03303,20.29694,2180
-Kathajodi,,,tertiary,674.0,356.8,True,24.1,85.97451,20.36593,1978
-,,,tertiary,537.0,169.1,False,14.5,85.90724,20.43383,2794
-Mahanadi,,,tertiary,246.8,187.6,False,64.7,86.37921,20.34381,8735
-,,,tertiary,1288.0,309.5,False,68.3,86.40545,20.30983,7289
-,,,unclassified,583.1,494.2,False,20.6,85.9612,20.4118,2245
-Biropa,,,unclassified,424.4,345.4,False,59.5,86.32244,20.62609,2002
-,,,residential,286.9,197.9,False,13.1,85.87099,20.39918,2562
-,,,unclassified,715.4,208.7,False,53.0,86.26346,20.3438,2672
-,,,unclassified,382.4,215.7,True,53.2,86.26655,20.34836,2706
+Kathajodi,,NH16,trunk,869.1,559.4,True,12.6,85.89012,20.44052,3425
+,,NH16;NH55,trunk,2252.6,1714.3,True,14.4,85.91319,20.48236,3454
+,,,trunk_link,2240.1,2070.9,True,14.5,85.91372,20.48215,3417
+,,,primary,911.8,634.3,False,9.4,85.85562,20.43734,2597
+,,,tertiary,534.7,277.3,True,20.8,85.87591,20.31316,1961
+,Kuakhai River Bridge,NH16,trunk,525.9,267.9,True,20.8,85.87623,20.31287,1962
+Kathajodi,,NH16,trunk,880.2,652.8,True,12.7,85.89054,20.44005,3417
+Mahanadi,,,tertiary,226.3,177.1,False,60.9,86.35841,20.46189,6994
+Mahanadi,,,tertiary,304.7,167.1,False,60.8,86.35748,20.46425,6811
+Mahanadi,,,tertiary,501.2,275.2,False,68.0,86.42646,20.45084,7232
+,,,tertiary,652.5,415.2,False,25.9,86.00427,20.38501,2427
+,,,tertiary,773.4,753.5,False,33.3,86.09042,20.42964,1895
+Luna,,,tertiary,310.3,242.4,False,41.8,86.17528,20.45276,2324
+Luna,,,unclassified,775.9,736.1,False,31.2,86.07432,20.46498,1169
+,,,tertiary,359.5,289.6,False,65.0,86.3747,20.31625,8656
+,,,tertiary,245.9,147.5,False,60.3,86.34814,20.40377,7344
+Luna,,,unclassified,363.4,304.5,False,49.5,86.24967,20.46175,1441
+,,,tertiary,622.7,583.2,False,48.9,86.22785,20.36089,2554
+Birupa,,,secondary,280.3,125.6,False,38.5,86.11878,20.60203,2104
+,,,tertiary,409.9,299.9,False,41.4,86.16883,20.43168,2568
+Devi River,Netaji Subhash Chandra Bose Setu,,primary,2822.9,2374.0,True,8.0,85.84814,20.45458,2526
+,,NH16;NH55,trunk,2260.2,1473.6,True,14.5,85.91338,20.48225,3454
+Birupa,,NH16;NH55,trunk,542.9,118.5,True,16.9,85.932,20.51335,3011
+Mahanadi,Utkal Gourab Madhusudan Bridge,,primary,2579.8,1429.9,False,5.3,85.81971,20.49851,1555
+,Kuakhai River Bridge,NH16,trunk,534.7,188.1,True,20.8,85.87643,20.31277,1962
+,,,primary,1935.4,1875.5,True,13.6,85.90465,20.48711,3418
+Kathajodi,,,trunk_link,876.6,767.0,True,12.6,85.89039,20.44023,3420
+Biropa,,,tertiary,331.1,233.7,False,66.5,86.39459,20.61709,944
+Mahanadi,,,unclassified,458.5,299.0,True,52.4,86.26424,20.36684,3130
+Kathajodi,,,tertiary,491.6,403.1,False,33.4,86.03303,20.29694,2727
+Kathajodi,,,tertiary,674.0,356.8,True,24.1,85.97451,20.36593,2604
+,,,tertiary,537.0,169.1,False,14.5,85.90724,20.43383,3410
+Mahanadi,,,tertiary,246.8,187.6,False,64.7,86.37921,20.34381,9827
+,,,tertiary,1288.0,309.5,False,68.3,86.40545,20.30983,8310
+,,,unclassified,583.1,494.2,False,20.6,85.9612,20.4118,2822
+Biropa,,,unclassified,424.4,345.4,False,59.5,86.32244,20.62609,2168
+,,,residential,286.9,217.7,False,13.1,85.87099,20.39918,2797
+,,,unclassified,715.4,208.7,False,53.0,86.26346,20.3438,3206
+,,,unclassified,382.4,215.7,True,53.2,86.26655,20.34836,3238

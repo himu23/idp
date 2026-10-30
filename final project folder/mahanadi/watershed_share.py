@@ -1,9 +1,9 @@
 """How much of a Naraj flood peak comes from Hirakud dam, and how much from the catchment below it.
 
-    IMPACT_DIR=runs/_atlas/impact_final python mahanadi/watershed_share.py data/mahanadi_context/discharge.csv
+    IMPACT_DIR=runs/_atlas/impact_r20 python mahanadi/watershed_share.py data/mahanadi_context/discharge.csv
 
 GloFAS v4 daily flows just below Hirakud and at Naraj (Open-Meteo flood API, fetch_context.py). For every complete year
-1984-2025 the flow below Hirakud on the day before the Naraj annual peak (one day = the travel time of travel_time.py)
+1997-2025 the flow below Hirakud on the day before the Naraj annual peak (one day = the travel time of travel_time.py)
 is divided by the peak; the July-September means give the share of the ordinary monsoon flow.
 Output: <IMPACT_DIR>/watershed_summary.json
 """

@@ -3,57 +3,40 @@ T2,health,"PHC, Bentkar",,85.93741,20.40932
 T2,health,"PHC, Hansura",,86.42415,20.32195
 T2,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
 T2,health,Bhumika Hospital,hospital,86.41009,20.50871
-T2,health,Unique Hospital,hospital,85.9146,20.51068
-T2,school,,college,85.85081,20.33529
 T5,health,"PHC, Bentkar",,85.93741,20.40932
+T5,health,"PHC, Samsarpur",,86.10328,20.60406
 T5,health,"PHC, Hansura",,86.42415,20.32195
 T5,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
 T5,health,Bhumika Hospital,hospital,86.41009,20.50871
 T5,health,Unique Hospital,hospital,85.9146,20.51068
-T5,school,Capital High School,school,85.84044,20.27951
-T5,school,Choudwar Womens' College,college,85.91579,20.52705
-T5,school,,school,85.82,20.26187
-T5,school,,college,85.85081,20.33529
 T10,health,"PHC, Bentkar",,85.93741,20.40932
+T10,health,"PHC, Samsarpur",,86.10328,20.60406
 T10,health,"PHC, Hansura",,86.42415,20.32195
 T10,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
 T10,health,Bhumika Hospital,hospital,86.41009,20.50871
 T10,health,Sub Centre,,86.38086,20.34104
 T10,health,Unique Hospital,hospital,85.9146,20.51068
-T10,school,Capital High School,school,85.84044,20.27951
-T10,school,Choudwar Womens' College,college,85.91579,20.52705
-T10,school,,school,85.82,20.26187
-T10,school,,college,85.85081,20.33529
 T25,health,"PHC, Bentkar",,85.93741,20.40932
+T25,health,"PHC, Samsarpur",,86.10328,20.60406
 T25,health,"PHC, Hansura",,86.42415,20.32195
 T25,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
 T25,health,Bhumika Hospital,hospital,86.41009,20.50871
 T25,health,Sub Centre,,86.38086,20.34104
 T25,health,Unique Hospital,hospital,85.9146,20.51068
-T25,school,Capital High School,school,85.84044,20.27951
-T25,school,Choudwar Womens' College,college,85.91579,20.52705
-T25,school,,school,85.82,20.26187
-T25,school,,college,85.85081,20.33529
 T50,health,"PHC, Bentkar",,85.93741,20.40932
+T50,health,"PHC, Samsarpur",,86.10328,20.60406
 T50,health,"PHC, Hansura",,86.42415,20.32195
 T50,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
 T50,health,Bhumika Hospital,hospital,86.41009,20.50871
 T50,health,Sub Centre,,86.38086,20.34104
 T50,health,Unique Hospital,hospital,85.9146,20.51068
-T50,school,Capital High School,school,85.84044,20.27951
-T50,school,Choudwar Womens' College,college,85.91579,20.52705
-T50,school,,school,85.82,20.26187
-T50,school,,college,85.85081,20.33529
 T100,health,"PHC, Bentkar",,85.93741,20.40932
+T100,health,"PHC, Samsarpur",,86.10328,20.60406
 T100,health,"PHC, Hansura",,86.42415,20.32195
 T100,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
 T100,health,Bhumika Hospital,hospital,86.41009,20.50871
 T100,health,Sub Centre,,86.38086,20.34104
 T100,health,Unique Hospital,hospital,85.9146,20.51068
-T100,school,Capital High School,school,85.84044,20.27951
-T100,school,Choudwar Womens' College,college,85.91579,20.52705
-T100,school,,school,85.82,20.26187
-T100,school,,college,85.85081,20.33529
 freq10,health,"PHC, Bentkar",,85.93741,20.40932
 freq10,health,"PHC, Hansura",,86.42415,20.32195
 freq10,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
@@ -62,17 +45,18 @@ freq10,health,Bhumika Hospital,hospital,86.41009,20.50871
 freq10,health,Unique Hospital,hospital,85.9146,20.51068
 freq10,health,Shree Narayana Speech And Hearing Centre,clinic,85.88144,20.31799
 freq10,school,,school,85.81158,20.29466
-freq10,school,Capital High School,school,85.84044,20.27951
 freq10,school,Choudwar Womens' College,college,85.91579,20.52705
-freq10,school,,college,85.85081,20.33529
+observed_20180908,health,"CHC, Patkura",,86.40704,20.38927
 observed_20180908,health,"PHC, Bentkar",,85.93741,20.40932
 observed_20180908,health,"PHC, Sanatpur",,86.16579,20.42567
 observed_20180908,health,"PHC, Hansura",,86.42415,20.32195
-observed_20180908,health,"Government hospital, Nanakar",hospital,86.35172,20.46205
+observed_20180908,health,Hamdard Unani Clinic,clinic,86.42401,20.51074
+observed_20180908,health,Karuna Hospital,hospital,86.42674,20.50088
 observed_20180908,health,Bhumika Hospital,hospital,86.41009,20.50871
-observed_20180908,health,Unique Hospital,hospital,85.9146,20.51068
+observed_20180908,health,Sub Centre,,86.40245,20.36376
 observed_20180908,school,Capital High School,school,85.84044,20.27951
-observed_20180908,school,Kendriya Vidyalaya No. 1,school,85.84301,20.28166
 observed_20180908,school,Choudwar Womens' College,college,85.91579,20.52705
-observed_20180908,school,,college,85.85081,20.33529
-observed_20180908,school,Sainik School Bhubaneswar,school,85.83974,20.31376
+rain_T5,health,"PHC, Bentkar",,85.93741,20.40932
+rain_T5,health,"PHC, Hansura",,86.42415,20.32195
+rain_T5,health,Bhumika Hospital,hospital,86.41009,20.50871
+rain_T5,health,Unique Hospital,hospital,85.9146,20.51068

@@ -17,15 +17,15 @@ DeCUR) against CNN and U-Net baselines on Sen1Floods11 (92 training runs, three 
 no model saw in training (Assam 2016), U-Net reached IoU 0.770 and the best foundation
 model 0.747; fusing U-Net, CNN and the best-validated foundation model reached 0.776.
 Because monsoon floods are under cloud, the operational model is a radar-only fusion of TerraMind-B and U-Net
-(IoU 0.646 on 20 m radar). Applied to 590 Sentinel-1 passes from
+(IoU 0.681 on 20 m radar, trained on 20 m input). Applied to 590 Sentinel-1 passes from
 2017 to 2026, it gives a flood atlas of the delta. Linking the atlas to GloFAS discharge at
 Naraj, each 20 m pixel receives the flow at which it starts to flood, so a discharge forecast becomes a flood map;
-on years held out from fitting, this map beats flood climatology at high flows (IoU 0.23 vs
-0.07). For the 25-year flood (32,997 m³/s) about 25,163 people live on
-flooded land, 32 km of road is under water and 36,941 people in
-32 settlements lose road access to any hospital. A learned model that adds local
+on years held out from fitting, this map beats flood climatology at high flows (IoU 0.20 vs
+0.04). For the 25-year flood (32,997 m³/s) about 30,427 people live on
+flooded land, 39 km of road is under water and 52,423 people in
+41 settlements lose road access to any hospital. A learned model that adds local
 rain and each pixel's flood history to the river flow maps held-out heavy-rain passes better still (IoU
-0.22 against 0.17). The same scenarios are carried
+0.22 against 0.15). A gradient-boosted model forecasts the Naraj flow one to three days ahead from the upstream flows and the catchment rain (Nash-Sutcliffe efficiency 0.99, 0.94 and 0.89 on monsoons it never saw, against 0.96, 0.88 and 0.79 for persistence), and a live feed turns each day's GloFAS ensemble into an impact-based warning with a CAP alert. The same pipeline mapped the Brahmani–Baitarani delta and the Brahmaputra at Majuli from every Sentinel-1 pass since 2017. Flood damage to houses and paddy comes to about ₹17 crore a year (a lower bound), and raising ten critical roads repays its cost 17 times in hospital access alone. The same scenarios are carried
 through seven civil-engineering specializations: hospital and shelter access and travel delay (transportation), wall
 failure depth and IRC:78 bridge scour (structural), river banks to inspect and ground saturation under houses that
 stay dry (geotechnical), Bay of Bengal storms as a flood driver (ocean), work windows, earthwork for raising critical
@@ -42,10 +42,10 @@ flood warning, road network, river-bank screening
 
 | Member | Specializations | What they built | Report | At the site |
 |---|---|---|---|---|
-| Nikhil Upadhyay (lead) | Water resources, Ocean | Flow-to-flood model, rain analogs, design floods and travel time, Saint-Venant PINN; storm drivers; field-visit organisation and WRD/CWC contacts | §5, §6.3–6.5, §7.6 | Discharge, slope, Manning's n (B, C); WRD/CWC interviews |
-| Vineet Jangir | Remote sensing | Benchmark of six foundation models against CNN and U-Net (92 runs), fusion, radar model for 20 m input | §4, §6.1 | Ground-truth points (A) |
-| Prakhar Gupta | Remote sensing | Flood atlas from all Sentinel-1 passes, Sentinel-2 cross-check, map viewer | §6.1–6.2 | Ground-truth points, GPS and photo log (A) |
-| Himanshu Shete | Transportation systems, Structural | Road-network model (hospital and shelter access, travel delay, critical links), flood depth, wall and IRC:78 scour checks; integration of the impact chain, forecast-to-bulletin tool, project website, report and slides | §7.1–7.3, §9.1–9.2 | Bridge inspections, foundation levels, road closures (D); evening data runs |
+| Nikhil Upadhyay (lead) | Water resources, Ocean | Flow-to-flood model, rain analogs, learned flow + rain model, Naraj flow forecast model, design floods and travel time, the watershed analysis, Saint-Venant PINN; storm drivers; field-visit organisation and WRD/CWC contacts | §5, §6.3–6.6, §7.6, §7.8 | Discharge, slope, Manning's n (B, C); WRD/CWC interviews |
+| Vineet Jangir | Remote sensing | Benchmark of six foundation models against CNN and U-Net (92 runs), fusion, radar models retrained on 20 m input | §4, §6.1, Appendix B | Ground-truth points (A) |
+| Prakhar Gupta | Remote sensing | Flood atlas from all Sentinel-1 passes, Sentinel-2 cross-check, atlases of the two other basins, map viewer | §6.1–6.2, §6.8 | Ground-truth points, GPS and photo log (A) |
+| Himanshu Shete | Transportation systems, Structural | Road-network model (hospital and shelter access, travel delay, critical links), flood depth, wall and IRC:78 scour checks; integration of the impact chain, forecast-to-bulletin tool with CAP alerts, live warning feed with data plugins, flood-risk economics, training audit, gap analysis against the partner's services, project website, report and slides | §7.1–7.3, §7.9, §9.1–9.2, §9.6–9.7, Appendix A | Bridge inspections, foundation levels, road closures (D); evening data runs |
 | Prabhat Kumar | Geotechnical, Construction technology and management | Bank screening, ground-saturation advisory, foundation and drawdown checks; work windows, earthwork, deployment quantities and schedule; siren and sensor siting | §7.4–7.5, §7.7, §9.3–9.4 | Bank inspection, soil samples and lab tests, well levels, site sheets (E, F, H) |
 
 ## 1. Introduction
@@ -78,10 +78,13 @@ plan where warnings and sensors should go.* Concretely we
    flood atlas, and check it against Sentinel-2 images taken within a day (§6);
 3. link the atlas to river discharge at Naraj, so that a discharge forecast becomes an inundation map, and test
    that link on years it was not fitted on (§6);
-4. translate inundation into engineering impacts: people and buildings, roads and bridges (transportation and
-   structures), river banks (geotechnical) (§7);
-5. plan siren and river-sensor sites for a ClimMaTech-type deployment (§9); and
-6. check and calibrate all of this with measurements and interviews at the site (§8).
+4. translate inundation into what it means for each of the department's specializations: people and roads
+   (transportation), walls and bridges (structural), river banks and foundations (geotechnical), storms (ocean),
+   when and at what cost to build (construction management) and the watershed above the delta (water resources) (§7);
+5. plan siren and river-sensor sites for a ClimMaTech-type deployment (§9);
+6. forecast the Naraj flow days ahead, run the warning on live data, put the flood risk in rupees and repeat the
+   method on two more basins (§6.7–6.8, §7.9, §9.7); and
+7. check and calibrate all of this with measurements and interviews at the site (§8).
 
 ### 1.2 Stakeholders
 
@@ -133,6 +136,14 @@ mentor notebook, with two protocols designed to answer the Indian question hones
 | F14 | Work windows, earthwork for raising critical links, deployment quantities and schedule | construction technology & management | §7.7 |
 | F15 | Field visit: measure, ask, and feed the results back into the models | all | §8 |
 | F16 | Siren and river-sensor siting; forecast-to-bulletin tool; integration with the ClimMaTech platform | construction planning | §9 |
+| F17 | A learned model that adds local rain and flood history to the river flow | hydrology, AI | §6.6 |
+| F18 | The watershed above the delta: how much of a flood peak comes from Hirakud dam and how much from the tributaries below it | water resources | §7.8 |
+| F19 | Check every training run, reproduce published scores, retrain the radar models at the atlas resolution | AI / remote sensing | Appendices A–B |
+| F20 | Read the partner's services and list, with evidence, what this project adds | all | §9.6 |
+| F21 | Forecast the Naraj flow one to three days ahead from upstream flows and catchment rain, tested on unseen monsoons | water resources, AI | §6.7 |
+| F22 | Repeat the atlas and its link to river flow on two more basins | remote sensing, hydrology | §6.8 |
+| F23 | Flood risk in rupees and person-days; benefit–cost of raising critical roads; what dam operation saves | structural, transportation, construction management, water resources | §7.9, C.9 |
+| F24 | A live warning service: today's forecasts and official alerts in, an impact-based warning, CAP alert and feed out | all | §9.7 |
 
 ## 2. Data
 
@@ -186,7 +197,7 @@ UTM 45N grid at 10 m for single events and 20 m for the atlas). All sources are 
 | Sentinel-1 RTC γ⁰ (VV, VH), every pass in Feb–Mar and Jun–Nov, 2017 – Oct 2026, three tracks (descending 48 and 121, ascending 85), Sentinel-1A/B/D | Microsoft Planetary Computer, `sentinel-1-rtc` | flood atlas (§6) |
 | Sentinel-2 L2A (B03, B11, scene classification) within ±1 day of a radar pass | Planetary Computer, `sentinel-2-l2a` | independent optical check (§6.2) |
 | JRC Global Surface Water occurrence 1984–2021 | Planetary Computer, `jrc-gsw` | normal rivers and lakes |
-| River discharge, daily, Naraj / Tikarpara / below Hirakud, 1984–2026 | GloFAS v4 reanalysis via the Open-Meteo flood API | discharge-to-inundation model, design floods |
+| River discharge, daily, Naraj / Tikarpara / below Hirakud, 1997–2026 (the API has no earlier values at these cells) | GloFAS v4 reanalysis via the Open-Meteo flood API | discharge-to-inundation model, design floods |
 | Rainfall, daily, mean of 6 points over the delta, 2016–2026 | ERA5 via the Open-Meteo archive API | second flood driver (§6.4) |
 | Population 2020 (3″ grid) | JRC GHSL GHS-POP R2023A | people exposed, settlements |
 | Building footprints | Microsoft Global ML Building Footprints (incomplete here: ~120 k) | mapped buildings exposed |
@@ -195,9 +206,15 @@ UTM 45N grid at 10 m for single events and 20 m for the atlas). All sources are 
 | Soil sand / silt / clay, 0–30 cm | ISRIC SoilGrids 2.0 (250 m) | bank screening (§7.4) |
 | Roads (with node ids), railways, waterways | OpenStreetMap via Overpass | network analysis, bridges |
 | Places, hospitals and clinics, schools, embankments, shelters | OpenStreetMap, Geofabrik eastern-India extract (the Overpass servers were overloaded) | destinations, names |
-
 | Cyclone and depression tracks, North Indian Ocean, 1980–2025 | IBTrACS v4 (NOAA NCEI) | storm drivers (§7.6), work windows (§7.7) |
 | Basin areas: Hirakud catchment about 83,400 km², whole Mahanadi basin about 141,600 km² | published figures (sources differ by about 2 %) | watershed view (§7.8) |
+| Rainfall, daily, mean of 8 points over the catchment between Hirakud and Naraj, 1984–2026 | ERA5 via the Open-Meteo archive API | flow forecast (§6.7) |
+| River-flow forecast: GloFAS v4 control run and 50 ensemble members, 30 days | Open-Meteo flood API | live warnings (§9.7) |
+| Rain forecast, ECMWF IFS 0.25°, 16 days | Open-Meteo forecast API | live warnings (§9.7) |
+| Official alerts (IMD, CWC, SDMA) as CAP | NDMA SACHET feed of the state | live warnings (§9.7) |
+| CWC stations above warning level | CWC flood-forecasting portal | live warnings (§9.7) |
+| Depth–damage curve for houses in Asia; rural housing assistance; Odisha rice yield; paddy support price | JRC (Huizinga et al. 2017); PMAY-G (₹1.20 lakh); RBI Handbook 2023-24 (2,081 kg/ha); MSP 2025-26 (₹2,369 a quintal) | flood risk in rupees (§7.9) |
+| The same layers for the Brahmani–Baitarani delta (86.20–86.90 °E, 20.58–21.08 °N) and the Brahmaputra around Majuli (93.90–94.60 °E, 26.70–27.30 °N) | as above; JRC occurrence for both boxes | other basins (§6.8) |
 
 Optical images on the large flood dates were 61–95 % cloud over the box, so the atlas uses radar only.
 
@@ -210,8 +227,8 @@ Optical images on the large flood dates were 61–95 % cloud over the box, so th
 | Statistics and learning on tables | scikit-learn (logistic-regression fusion layer, gradient-boosted flood model, ROC AUC), pandas, numpy |
 | Maps and documents | matplotlib, Leaflet 1.9.4 (map viewer), pandoc / python-docx / python-pptx (report and slides) |
 | Compute | IIT Bombay lab server: 2 GPUs, 32 CPU cores, 62 GB memory; the benchmark cache sat in RAM because the data disks are slow |
-| Data volume | Sen1Floods11 hand-labelled set 446 chips; Mahanadi radar archive 590 passes at 20 m (about 11 GB); atlas probability maps about 1.7 GB |
-| Run times | one benchmark run 10–40 minutes; one radar pass mapped in about 5 s on one GPU; atlas build about 26 minutes; impact chain about 5 minutes; learned flood model about 27 minutes on 28 cores |
+| Data volume | Sen1Floods11 hand-labelled set 446 chips; Mahanadi radar archive 590 passes at 20 m (about 11 GB); atlas probability maps about 1.7 GB; each further basin a similar archive |
+| Run times | one benchmark run 2–6 minutes for the U-Net and 5–31 minutes for a foundation model (the range follows the shared server's load); one radar pass mapped in about 5 s on one GPU; atlas build about 26 minutes; impact chain about 5 minutes; learned flood model about 27 minutes on 28 cores; flow–impact sweep about 9 s; flow-forecast models about 15 s on 32 cores; one live run about 15 s per basin |
 
 ## 3. Methods
 
@@ -293,10 +310,10 @@ Code: `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `s2_crossche
    download four-fold, which mattered because the lab server's connection to the archive ran at 4–8 MB/s.
 2. **Production model.** The mean water probability of the two radar-only models of §4 (TerraMind-B and U-Net,
    official split), each run at 10 m on the up-sampled pass with overlapping 512 × 512 windows, averaged back to
-   20 m. Fed with 20 m data this way, the pair scores 0.640 on the official Sen1Floods11 test at threshold 0.5,
-   and 0.646 at threshold 0.30, the threshold chosen on the validation set (`scripts/test_resolution.py`;
-   native 10 m: 0.664). RTC γ⁰ is shifted to σ⁰ by −0.97 dB. A pair retrained directly on 20 m input scores 0.681
-   and is ready for the next atlas run (Appendix B).
+   20 m. Trained at 10 m and fed with 20 m data this way, the pair scores 0.640 on the official Sen1Floods11 test
+   (0.646 at the validation threshold 0.30; native 10 m: 0.664). Retrained with the radar degraded to 20 m exactly as
+   the archive's overview is made, the same pair scores 0.681 at its validation threshold 0.45, better on all three
+   seeds (Appendix B); the atlas was rebuilt with this pair. RTC γ⁰ is shifted to σ⁰ by −0.97 dB.
 3. **Normal water** of each year = water in at least half of that year's February–March passes, or JRC
    occurrence ≥ 50 %. **Flood** on a monsoon pass = water and not normal water of that year. Flood frequency =
    flooded passes / valid passes per pixel.
@@ -316,7 +333,7 @@ Code: `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `s2_crossche
    window chosen like the flow predictor); and flood climatology (flooded when the pixel's frequency in the other
    years ≥ 50 %).
 7. **Design floods.** Gumbel distribution (method of moments) fitted to GloFAS annual maxima at Naraj
-   (1984–2025); maps for 2- to 100-year flows. Above the largest flow in the radar record the map is a lower
+   (1997–2025, 29 years); maps for 2- to 100-year flows. Above the largest flow in the radar record the map is a lower
    bound.
 8. **Independent optical check.** Sentinel-2 L2A within ±1 day of a radar pass, clear pixels only (scene classes
    vegetation, bare, water), water = MNDWI > 0; agreement with the radar atlas on the same pixels.
@@ -324,6 +341,14 @@ Code: `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `s2_crossche
    pixel and pass, with the flow and 7-day rain of the pass, its month and radar track, and the pixel's training-year
    trigger flow, flood frequencies, height above and distance to the river bed as inputs; the physical direction of
    each input is imposed. Tested leave-one-year-out against the trigger map and climatology on the same passes (§6.6).
+10. **Flow forecast.** One gradient-boosted regression per lead time (1–3 days) of the change in the Naraj flow, from
+   the flows at Naraj, Tikarpara and below Hirakud, ERA5 catchment rain and the season; trained 1997–2015, tested on
+   the monsoons of 2016–2026 against persistence and linear routing (§6.7).
+11. **Flow–impact tables.** The trigger map swept once over flows from 500 m³/s to the 100-year flow, every 250 m³/s:
+   flooded land, people, villages with 10 % of their people on flooded land, health facilities and schools near water,
+   roads cut (≥ 20 m of an edge under water) and people cut off from every hospital, and per village, road and facility
+   the flow at which it is hit (`mahanadi/impact_curve.py`; it reproduces the design-flood numbers of §7 exactly). The
+   live warnings (§9.7) and the risk estimate (§7.9) read these tables.
 
 ### 3.6 Engineering impact analyses
 
@@ -341,6 +366,7 @@ at least 10 % of monsoon passes); code in `mahanadi/impact_*.py`, `ocean_cyclone
 | Construction technology and management | Monthly flood and storm climatology for work windows; earthwork for raising critical links; deployment quantities and schedule |
 | Water resources and the watershed | GloFAS flows below Hirakud, at Tikarpara and at Naraj: travel time, design floods and the share of a flood peak from each part of the basin |
 | Siting (deployment) | Sirens by greedy maximal coverage of exposed people at 1.0 / 1.5 / 2.0 km; one river gauge per distributary on the bridge nearest Naraj with dry approaches |
+| Risk and economics (structural, transportation, construction management) | Depth × JRC depth–damage curve for houses; flooded paddy at the support price; expected annual damage; 29 years of daily flows through the flow–impact table; benefit–cost of raising the critical links |
 
 Chapter 7 gives the results briefly; Appendix C has the formulas, parameters and full tables.
 
@@ -356,10 +382,12 @@ Chapter 7 gives the results briefly; Appendix C has the formulas, parameters and
 | Prithvi, TerraMind and U-Net with 10, 25 and 50 % of the labels, 2 seeds | 18 | Do foundation models need fewer labels | §4.7 |
 | **Benchmark total** (all re-checked, Appendix A) | **92** | | |
 | Fusion layers (logistic regression on validation predictions) | one per seed and protocol | Does combining models help | §4.4 |
-| Radar pair retrained on 20 m input | 2 | The input resolution of the atlas | Appendix B |
+| Radar pair retrained on 20 m input (seed 0), and seeds 1–2 of the pair at 10 m and at 20 m | 10 | The input resolution of the atlas, and its spread over seeds | Appendix B |
+| Naraj flow forecast: one model per lead time (1, 2, 3 days), without and with the rain of the coming days | 6 | How far ahead the flow can be known | §6.7 |
 | Learned flow + rain + history flood model: 10 held-out years and a final model, without and with physical constraints | 22 | Can flow, rain and flood history together map a pass better than flow alone | §6.6 |
 | PINN for the Saint-Venant equations, case 3 retrained (Adam + L-BFGS-B, and Adam only) | 2 | Does the mentor's physics-informed network reproduce and transfer | §5 |
 | Inference: every Sentinel-1 pass through both radar models | 1,180 maps | The flood atlas | §6.1 |
+| Inference: every pass of the two other basins through the same pair | two maps per pass | Their atlases | §6.8 |
 
 ## 4. Results: which model maps Indian flood water best?
 
@@ -427,8 +455,8 @@ fine-tuned model) and are reproduced by `scripts/analyze.py` and `scripts/make_t
   its training set and 14 in its validation set.
 - With ~250 labelled chips and all 15 bands available, pre-training on large unlabelled archives did not
   beat a well-trained U-Net for this task. Water has a strong spectral signature (NDWI alone reaches 0.65–0.76),
-  and a 7.8 M-parameter network learns it from a few hundred chips. Training time: 3 min for U-Net,
-  6–15 min for the foundation models on one GPU.
+  and a 7.8 M-parameter network learns it from a few hundred chips. Training time: 2–6 min for U-Net,
+  5–31 min for the foundation models on one GPU of the shared server.
 
 The project scope listed CROMA, Galileo and TerraFM. None of them is in the backbone registry of TerraTorch
 1.2.13 (1,467 backbones checked), the framework that gives all models here the same decoder, loss and data
@@ -513,7 +541,8 @@ operational flood map has to work from radar; Section 6 therefore uses the radar
 
 - Choosing the decision threshold on validation (0.33–0.60 for the trained models) changes test IoU by
   less than 0.01; 0.5 is adequate for trained models. It matters for index methods (MNDWI 0.506 → 0.602) and for
-  degraded input (the 20 m radar model of §6, where 0.3 is chosen).
+  degraded input (on the 20 m radar of §6, 0.30 for the pair trained at 10 m and 0.45 for the pair retrained at
+  20 m that maps the atlas).
 - Water that is not JRC permanent water (closer to "flood") scores about 0.05 lower than all water for every
   model (U-Net 0.722 vs 0.770 on Assam).
 - By event (Table F): Mekong, Nigeria and Sri Lanka score above 0.9 and India 0.86–0.92; Ghana (0.53–0.66), Paraguay and
@@ -558,7 +587,8 @@ not more label-efficient than a U-Net.
 2. **Model for the monsoon (radar only)**: radar-only models score 0.65 on the official split and 0.51 on
    Assam. TerraMind-B is the only foundation model here that takes radar alone as a native input; averaged
    with a radar-only U-Net it gives 0.664 (official test), better than either alone (0.654, 0.649). This
-   radar fusion is the production model of the Mahanadi atlas (§6).
+   radar fusion, retrained on the 20 m radar the atlas reads (Appendix B), is the production model of the
+   Mahanadi atlas (§6).
 3. **The foundation model's value in this project** is not a higher score on Sen1Floods11; it is that one
    pre-trained network takes optical, radar or both without redesign, which is what an operational system
    that loses its optical images under monsoon cloud needs.
@@ -674,7 +704,7 @@ observations are noise-free (SNR 500 dB), so robustness to real gauge error is u
 
 ### 6.1 The atlas
 
-The production model of §4.8 (mean of the radar-only TerraMind-B and U-Net, threshold 0.30) was run on
+The production model of §4.8 (mean of the radar-only TerraMind-B and U-Net, retrained on 20 m input as in Appendix B, threshold 0.45) was run on
 **590 Sentinel-1 passes** (133 in February–March, 457 in June–November,
 2017–2026; tracks ascending 85: 184; descending 48: 211; descending 121: 195; platforms S1A 521, S1B 41, S1D 28).
 A pass is all slices of one satellite overpass; together they give a water map of the delta every 2–6 days in the
@@ -686,20 +716,20 @@ edge is removed: a first version showed a diagonal stripe of false floods along 
 
 ![Flood frequency 2017–2026](../results/atlas_figures/atlas_frequency_map.png)
 
-- Land flooded on at least one pass: 905 km²; in at least 20 % of monsoon passes:
-  27 km².
-- The largest flood seen on a near-complete pass was on 2018-09-08 (275 km² of flooded land).
+- Land flooded on at least one pass: 1,137 km²; in at least 20 % of monsoon passes:
+  26 km².
+- The largest flood seen on a near-complete pass was on 2018-09-08 (278 km² of flooded land).
 - The flooded fraction of each pass follows the Naraj flow. Spearman ρ by predictor:
-  same-day flow 0.75, previous-day flow 0.76, 3-day peak 0.76, 5-day peak 0.76, 7-day peak 0.75; the 5-day peak is used
-  (floodplains drain slowly, so the map follows the recent peak more than the flow of the day).
+  same-day flow 0.758, previous-day flow 0.760, 3-day peak 0.765, 5-day peak 0.764, 7-day peak 0.760; the 3-day peak is used
+  (the five are practically tied: floodplains drain slowly, so any recent peak works).
 
 ### 6.2 Independent check with Sentinel-2
 
 For 60 radar passes of June–November a Sentinel-2 image was taken within one day with enough clear
 sky (most of them at the end of the monsoon). On the pixels that are clear in the optical image, radar water agrees with
-optical water (MNDWI > 0) with IoU **0.49**; taking the optical map as reference, the radar map has
-precision 0.60 and recall 0.73. For water outside the normal-water mask — the flood
-part — agreement drops to IoU 0.18 (precision 0.51, recall 0.22): the
+optical water (MNDWI > 0) with IoU **0.56**; taking the optical map as reference, the radar map has
+precision 0.75 and recall 0.69. For water outside the normal-water mask — the flood
+part — agreement drops to IoU 0.20 (precision 0.63, recall 0.22): the
 radar misses much of the shallow water that the optical image sees among crops and on water-logged fields, where the crop
 canopy dominates the radar echo. MNDWI has errors of its own (0.65 on the Sen1Floods11 official test, and wet soil
 reads as water), so neither map is truth; but the low flood-part recall says the radar atlas under-states shallow
@@ -711,7 +741,7 @@ field flooding and is most reliable for open water. The field points (§8.3) are
 
 Every pixel gets the Naraj flow above which it is flooded (§3.5). The map reads directly as "at this forecast
 flow, this land goes under". The river-driven score separates land that floods with the river from land that is wet
-in the monsoon whatever the river does: 662 km² has AUC ≥ 0.75, i.e. it floods mainly at
+in the monsoon whatever the river does: 749 km² has AUC ≥ 0.75, i.e. it floods mainly at
 high river flow, including fields far from the channels that flood when high river stages block their drainage.
 
 ![River-driven flooding](../results/atlas_figures/atlas_river_driven.png)
@@ -723,55 +753,55 @@ alone.
 
 | Year | Passes | Largest flood on a pass (km²) | IoU, discharge model | IoU, climatology |
 |---|---|---|---|---|
-| 2017 | 39 | 53 | 0.21 | 0.19 |
-| 2018 | 57 | 276 | 0.17 | 0.11 |
-| 2019 | 63 | 78 | 0.26 | 0.16 |
-| 2020 | 46 | 204 | 0.20 | 0.10 |
-| 2021 | 46 | 267 | 0.16 | 0.12 |
-| 2022 | 43 | 218 | 0.32 | 0.13 |
-| 2023 | 41 | 50 | 0.30 | 0.24 |
-| 2024 | 43 | 39 | 0.26 | 0.24 |
-| 2025 | 45 | 72 | 0.26 | 0.18 |
-| 2026 | 34 | 154 | 0.20 | 0.09 |
+| 2017 | 39 | 81 | 0.17 | 0.14 |
+| 2018 | 57 | 278 | 0.13 | 0.06 |
+| 2019 | 63 | 129 | 0.18 | 0.09 |
+| 2020 | 46 | 377 | 0.14 | 0.06 |
+| 2021 | 46 | 411 | 0.10 | 0.07 |
+| 2022 | 43 | 280 | 0.28 | 0.08 |
+| 2023 | 41 | 87 | 0.25 | 0.16 |
+| 2024 | 43 | 61 | 0.21 | 0.16 |
+| 2025 | 45 | 114 | 0.20 | 0.10 |
+| 2026 | 34 | 246 | 0.16 | 0.05 |
 
-Over all 457 monsoon passes the discharge model reaches IoU 0.23 (precision
-0.57, recall 0.27) against 0.14 for
-climatology. **On the 85 high-flow passes (Naraj ≥ 9,682 m³/s, the top 10 % of monsoon
-days), the ones that matter for warnings, it reaches 0.23 against 0.07**
-(recall 0.29 vs 0.07): climatology misses the extra land that only
-floods in big years. Predicted and observed flooded area correlate with r = 0.45.
+Over all 457 monsoon passes the discharge model reaches IoU 0.17 (precision
+0.55, recall 0.20) against 0.08 for
+climatology. **On the 66 high-flow passes (Naraj ≥ 9,682 m³/s, the top 10 % of monsoon
+days), the ones that matter for warnings, it reaches 0.20 against 0.04**
+(recall 0.25 vs 0.04): climatology misses the extra land that only
+floods in big years. Predicted and observed flooded area correlate with r = 0.39.
 
 Pixel IoU is a hard score here: the observed map is itself a radar map with ~0.65 IoU, and floodplain flooding is
 patchy. A warning is issued per village, so the same held-out test was scored per settlement (1,082
 settlements; flagged when at least 10 % of the people are on flooded land). **On high-flow passes the trigger map
-flagged 17% of the settlements that were actually flooded (POD), with 65% false alarms (FAR),
-CSI 0.13; climatology: POD 3%, FAR 23%, CSI 0.03.** Over all monsoon
-passes: POD 18%, FAR 57%, CSI 0.14.
+flagged 21% of the settlements that were actually flooded (POD), with 62% false alarms (FAR),
+CSI 0.16; climatology: POD 2%, FAR 40%, CSI 0.02.** Over all monsoon
+passes: POD 19%, FAR 57%, CSI 0.15.
 
 **Where versus how much.** Ranking the pixels of each held-out pass, the flood frequency of the other years reaches
-ROC AUC 0.93 (high flows 0.91), the trigger map
-0.79 and the flow-and-rain analogs 0.80. *Where* the delta floods is
+ROC AUC 0.91 (high flows 0.90), the trigger map
+0.72 and the flow-and-rain analogs 0.77. *Where* the delta floods is
 very predictable from its past; *how much* of it floods on a given day is only partly predictable from river flow.
 Both layers are kept: the frequency map says where to prepare, the trigger map says at which flow to act.
 
-**The river is not the only driver.** The largest flood extents in the record came with moderate Naraj flows:
-8 September 2018 and 14–16 September 2021, when depressions brought 100–160 mm of rain a day over the delta
-(ERA5). A map driven by Naraj flow alone cannot predict those. The same held-out test was therefore repeated with
+**The river is not the only driver.** The largest flood extents in the record came with moderate Naraj
+flows (the largest flow seen is 28,378 m³/s): 14 September 2021 (411 km², Naraj flow 11,614 m³/s, 231 mm of ERA5 rain in the week before, with a Bay of Bengal depression) and 26 August 2020 (377 km², Naraj flow 14,487 m³/s, 187 mm of ERA5 rain in the week before). A map driven by Naraj flow
+alone cannot predict those. The same held-out test was therefore repeated with
 analog maps: for each pass of the held-out year, the 7 training passes most similar in flow (or in flow and
 7-day rain) are looked up, and land flooded on at least half of them is predicted
 flooded.
 
 | Method | IoU, all passes | IoU, high flow (≥ 9,682 m³/s) | IoU, heavy rain (≥ 135 mm in 7 days) | Settlements, high flow: POD / FAR | Settlements, heavy rain: POD / FAR |
 |---|---|---|---|---|---|
-| Trigger map (flow only) | 0.23 | 0.23 | 0.17 | 17% / 65% | 14% / 70% |
-| Analogs on flow | 0.21 | 0.20 | 0.16 | 9% / 68% | 6% / 56% |
-| Analogs on flow + local rain | 0.21 | 0.20 | 0.17 | 5% / 78% | 2% / 84% |
-| Flood climatology | 0.14 | 0.07 | 0.05 | 3% / 23% | 2% / 17% |
+| Trigger map (flow only) | 0.17 | 0.20 | 0.15 | 21% / 62% | 14% / 63% |
+| Analogs on flow | 0.16 | 0.18 | 0.13 | 14% / 58% | 8% / 46% |
+| Analogs on flow + local rain | 0.17 | 0.19 | 0.16 | 12% / 67% | 10% / 65% |
+| Flood climatology | 0.08 | 0.04 | 0.03 | 2% / 40% | 1% / 50% |
 
-On the heavy-rain passes the best method is the flow-only trigger map (IoU 0.17), and
-adding rain to the analogs leaves their IoU about the same as the trigger map's:
+On the heavy-rain passes the best method is the flow-and-rain analogs (IoU 0.16), and
+adding rain to the analogs raises their IoU from 0.13 to 0.16, only 0.01 above the trigger map:
 at the scale of single passes rain is hard to use because the observed maps are noisy. The effect of rain is clear
-when the same method is asked about the same river flow. With the same analog method and the 5-year flow (23,940 m³/s), a dry week (20 mm of rain) gives 25 km² of flooded land with 5,021 people on it; a week with 171 mm (the monsoon 95th percentile) gives 105 km² and 11,802 people.
+when the same method is asked about the same river flow. With the same analog method and the 5-year flow (23,940 m³/s), a dry week (20 mm of rain) gives 27 km² of flooded land with 5,232 people on it; a week with 171 mm (the monsoon 95th percentile) gives 93 km² and 13,540 people.
 For warnings this means the river forecast has to be read together with the rainfall forecast, which the ClimMaTech
 app already carries.
 
@@ -780,16 +810,16 @@ app already carries.
 
 ### 6.5 Design floods and travel time
 
-Gumbel fit to 42 GloFAS annual maxima at Naraj (1984–2025):
+Gumbel fit to 29 GloFAS annual maxima at Naraj (1997–2025):
 
 | Return period (years) | Naraj flow (m³/s) | (lakh cusec) | Flooded land (km²) |
 |---|---|---|---|
-| 2 | 17,897 | 6.3 | 38 |
-| 5 | 23,940 | 8.5 | 203 |
-| 10 | 27,941 | 9.9 | 216 |
-| 25 | 32,997 | 11.7 | 216 (lower bound) |
-| 50 | 36,747 | 13.0 | 216 (lower bound) |
-| 100 | 40,470 | 14.3 | 216 (lower bound) |
+| 2 | 17,897 | 6.3 | 50 |
+| 5 | 23,940 | 8.5 | 218 |
+| 10 | 27,941 | 9.9 | 240 |
+| 25 | 32,997 | 11.7 | 240 (lower bound) |
+| 50 | 36,747 | 13.0 | 240 (lower bound) |
+| 100 | 40,470 | 14.3 | 240 (lower bound) |
 
 The largest flow in the radar record is 28,378 m³/s; above it the map cannot grow
 further and is a lower bound (25-yr, 50-yr, 100-yr).
@@ -797,7 +827,7 @@ further and is a lower bound (25-yr, 50-yr, 100-yr).
 Day-to-day changes of flow below Hirakud correlate best with those at Naraj
 1 day later (r = 0.47),
 and those at Tikarpara on the same day (r = 0.93),
-in June–October 1984–2025 (daily data resolve only whole days). A release seen by a spillway sensor at Hirakud
+in June–October 1997–2025 (daily data resolve only whole days). A release seen by a spillway sensor at Hirakud
 therefore gives about a day of lead time for the delta, on top of the hydrological forecast.
 
 ### 6.6 A learned flow + rain + history model
@@ -812,31 +842,89 @@ on the same held-out passes. Cells give IoU (precision / recall).
 
 | Held-out passes | Learned model | Trigger map | Flood climatology |
 |---|---|---|---|
-| All monsoon passes (457) | 0.24 (0.51 / 0.32) | 0.23 (0.57 / 0.27) | 0.14 (0.64 / 0.15) |
-| High flow (85) | 0.24 (0.43 / 0.35) | 0.23 (0.51 / 0.29) | 0.07 (0.82 / 0.07) |
-| Heavy rain (46) | 0.22 (0.40 / 0.33) | 0.17 (0.49 / 0.21) | 0.05 (0.75 / 0.05) |
-| Settlements, high flow: POD / FAR | 21% / 71% | 17% / 65% | 3% / 23% |
-| Settlements, heavy rain: POD / FAR | 18% / 76% | 14% / 70% | 2% / 17% |
-| Ranking AUC, all / high flow | 0.95 / 0.93 | 0.79 / 0.76 | 0.93 / 0.91 |
+| All monsoon passes (457) | 0.20 (0.45 / 0.27) | 0.17 (0.55 / 0.20) | 0.08 (0.61 / 0.09) |
+| High flow (66) | 0.24 (0.40 / 0.37) | 0.20 (0.50 / 0.25) | 0.04 (0.86 / 0.04) |
+| Heavy rain (46) | 0.22 (0.36 / 0.35) | 0.15 (0.50 / 0.18) | 0.03 (0.78 / 0.03) |
+| Settlements, high flow: POD / FAR | 28% / 71% | 21% / 62% | 2% / 40% |
+| Settlements, heavy rain: POD / FAR | 23% / 74% | 14% / 63% | 1% / 50% |
+| Ranking AUC, all / high flow | 0.95 / 0.92 | 0.72 / 0.72 | 0.91 / 0.90 |
 
 The learned model is better than the trigger map on all passes and on heavy-rain passes. At village level, at high flows, it catches more flooded villages
-than the trigger map (21% against 17%) and raises
+than the trigger map (28% against 21%) and raises
 more false alarms (71% against
-65%); the critical success index, which weighs both, is 0.14 against
-0.13. It ranks flood-prone land
+62%); the critical success index, which weighs both, is 0.17 against
+0.16. It ranks flood-prone land
 best of the three
 (ROC AUC 0.95). The physical direction of each input is imposed (more flow or rain, a
 flow further above the trigger or a pixel that flooded more often never lowers the probability):
-a first run without these constraints scored 0.233 IoU but gave less flooded land for heavy than for typical rain at the 25-year flow (108 against 121 km²), which a warning map must never do.
+a first run without these constraints (on the earlier atlas of Appendix B) scored 0.233 IoU but gave less flooded land for heavy than for typical rain at the 25-year flow (108 against 121 km²), which a warning map must never do.
 The inputs it leans on most (drop in held-out ranking AUC when each is shuffled):
-flood frequency 0.163; Naraj flow 0.030; 7-day rain 0.022; month 0.008; elevation 0.008. Fitted on all years, it floods
-44 km² at the 5-year flow in a dry week,
-64 km² with typical rain and 172 km²
-with heavy rain (August, averaged over the three radar tracks; typical rain = median 7-day rain of the monsoon passes (58 mm); heavy rain = monsoon 95th percentile (171 mm)), the same roughly four-fold effect of rain as the analog maps of §6.4.
+flood frequency 0.138; Naraj flow 0.036; 7-day rain 0.032; month 0.016; radar track 0.014. Fitted on all years, it floods
+30 km² at the 5-year flow in a dry week,
+44 km² with typical rain and 142 km²
+with heavy rain (August, averaged over the three radar tracks; typical rain = median 7-day rain of the monsoon passes (58 mm); heavy rain = monsoon 95th percentile (171 mm)), a roughly five-fold
+effect of rain between a dry and a heavy-rain week (the analog maps of §6.4 give three-fold: 27 against 93 km²).
 For a warning system this is the model that takes both of
 ClimMaTech's inputs, the river forecast and a rain-gauge or forecast rain total, and returns one map.
 
-### 6.7 Limits
+### 6.7 Forecasting the flow at Naraj
+
+A flood map is only as early as the flow forecast behind it. The trigger map turns a Naraj flow into a map; this
+section asks how far ahead that flow can be known from what is measured upstream today. Water reaches Naraj from the
+Hirakud reach and the Tel and Ong tributaries in about a day (§6.5), so the flows at Naraj, Tikarpara and below Hirakud
+on the issue day and the two days before, their last-day changes, ERA5 rain over the catchment between Hirakud and Naraj
+(eight points; the day, the day before, 3- and 7-day sums) and the season predict the change in the Naraj flow one,
+two and three days ahead. One gradient-boosted model per lead time (scikit-learn HistGradientBoosting,
+`mahanadi/forecast_model.py`) was trained on 1997–2015 and tested on the June–November
+days of 2016–2026, which it never saw. Baselines: persistence (the flow stays as it is)
+and linear routing (log-flows at the three gauges). A second variant adds the rain of the coming days as if it were
+forecast perfectly, the most a rain forecast can add.
+
+| Lead | Persistence | Linear routing | Model (KGE) | Model + rain forecast | 2-year flood, persistence: caught / false | Model | Model + rain forecast |
+|---|---|---|---|---|---|---|---|
+| 1 day | 0.963 | 0.980 | 0.987 (0.99) | 0.988 | 77% / 23% | 77% / 0% | 77% / 5% |
+| 2 days | 0.882 | 0.882 | 0.941 (0.97) | 0.948 | 58% / 42% | 62% / 33% | 73% / 32% |
+| 3 days | 0.788 | 0.747 | 0.885 (0.94) | 0.892 | 42% / 58% | 50% / 50% | 58% / 38% |
+
+Cells give Nash–Sutcliffe efficiency of the daily flow (1 = perfect), and for the 17,897 m³/s
+two-year flow the share of exceedance days caught and the share of forecast exceedances that were false. The model keeps
+its skill where persistence fades: three days ahead its efficiency is 0.89 against
+0.79, and one day ahead it catches the two-year flood as often as persistence with
+0% instead of 23% false alarms.
+A rain forecast adds little to the efficiency but most where it matters: two and three days ahead it raises the
+two-year floods caught from 62% to 73%
+and from 50% to 58%.
+The flows are GloFAS reanalysis, the series the atlas is fitted on; with CWC records or Pravaah-type gauges upstream the
+same code trains on measured flows, and the forecast runs in the live feed of §9.7 next to the GloFAS ensemble.
+
+![Two test monsoons: the Naraj flow and the forecasts made one and three days earlier](../results/forecast/forecast_naraj.png)
+
+### 6.8 The same pipeline on two more basins
+
+Nothing in the method is specific to the Mahanadi. A basin is a box, a GloFAS cell on the main river (checked by its
+mean flow), the months of the dry season and of the flood season (`mahanadi/basins.py`). The Brahmani–Baitarani delta
+next door (Jajpur, Kendrapara and Bhadrak districts) and the Brahmaputra around Majuli in Assam, the region of the
+benchmark's unseen Indian flood, went through the same chain: every Sentinel-1 pass since 2017 at 20 m, the production
+radar pair at threshold 0.45, the trigger map with its held-out-year test, Gumbel design floods, exposure, the
+flow-impact tables of §9.7 and the Sentinel-2 check (`server/run_basins_pull.sh`, `run_basins_context.sh`,
+`run_basin_atlas.sh`).
+
+| Basin | Gauge | Passes | Flooded at least once (km²) | 25-year flow (m³/s) | Flooded land, 25-year (km²) | People on it | Held-out high flows: trigger vs climatology (IoU) | Sentinel-2 agreement (IoU) |
+|---|---|---|---|---|---|---|---|---|
+| Mahanadi delta | Mahanadi at Naraj | 590 | 1,137 | 32,997 | 240 | 30,427 | 0.20 vs 0.04 | 0.56 |
+| Brahmani–Baitarani delta | Brahmani at Jenapur | 394 | 2,277 | 6,959 | 950 | 129,662 | 0.17 vs 0.01 | 0.65 |
+| Brahmaputra at Majuli | Brahmaputra at Neamatighat | 346 | 2,145 | 42,202 | 1,120 | 77,655 | 0.31 vs 0.05 | 0.67 |
+
+**Brahmani–Baitarani delta.** 394 usable passes; 2,277 km² flooded at least once; the largest flood seen, on 2026-08-16, covered 1,168 km² with 131,620 people on it. The 25-year flow (6,959 m³/s) maps 950 km² with 129,662 people, a lower bound because the largest flow on a pass was 6,108 m³/s; warnings start at 3,500, 3,500 and 4,250 m³/s.
+
+**Brahmaputra at Majuli.** 346 usable passes; 2,145 km² flooded at least once; the largest flood seen, on 2017-07-09, covered 1,246 km² with 137,306 people on it. The 25-year flow (42,202 m³/s) maps 1,120 km² with 77,655 people, a lower bound because the largest flow on a pass was 35,891 m³/s; warnings start at 21,500, 22,750 and 29,000 m³/s.
+
+The Brahmani–Baitarani delta is fed by two rivers and the trigger map is fitted on the Brahmani alone, so floods that
+the Baitarani drives are predicted less well; the Brahmaputra floodplain is braided and its char islands move between
+years. Both basins run in the live feed under the same impact-based rule, counted beyond what an ordinary monsoon
+already floods (§9.7).
+
+### 6.9 Limits
 
 - **Discharge is modelled (GloFAS), not gauged.** CWC/WRD daily flows at Naraj are the first thing to request
   (§8.1); with them the trigger map is refitted in minutes.
@@ -846,6 +934,8 @@ ClimMaTech's inputs, the river forecast and a rain-gauge or forecast rain total,
 - **Paddy**: transplanted paddy holds water in July–August. Land whose wetness does not follow the river (low
   river-driven score) should not trigger river-flood warnings.
 - **Flows beyond the record** (rarer than the largest flood seen since 2017) are lower bounds.
+- **The flow forecast is scored against GloFAS itself** (§6.7): its skill against measured Naraj flows is unknown
+  until CWC records or upstream gauges arrive, and GloFAS's own forecast skill at Naraj has not been verified here.
 
 ## 7. Seven specializations, one flood
 
@@ -859,20 +949,21 @@ roughly a 10-year flood) bounds what the atlas can map, so they are lower bounds
 | Specialization | Question | Method | Headline result (25-year flood unless stated) | Field check (§8) | Owner |
 |---|---|---|---|---|---|
 | Remote sensing | Which model maps Indian floods through cloud? | Benchmark of 6 FMs vs CNN/U-Net; Sentinel-1 atlas; Sentinel-2 check | U-Net 0.770, best FM 0.747 (unseen flood); 590 passes mapped | 40 random ground-truth points | Vineet, Prakhar |
-| Water resources | Which flow floods which land? | GloFAS + ERA5, trigger discharge, held-out years, Gumbel | High-flow IoU 0.23 vs 0.07 climatology; 25-yr flow 32,997 m³/s | Discharge, Manning's n | Nikhil |
-| Transportation systems | Who loses the road to a hospital or shelter? | OSM road graph, flooded edges cut, Dijkstra | 36,941 people cut off from any hospital; 12,023 extra person-hours of travel a day | Road closures at critical links | Himanshu |
-| Structural | Where do walls crack; how deep must piers go? | DEM flood depth, wall moment check, IRC:78 Lacey scour | 3,626 people where depth ≥ 1 m; pier scour 7–24 m below HFL (100-yr, a quarter of the flow) | Deck clearance, HFL marks, foundation levels | Himanshu |
-| Geotechnical | Which banks fail; which dry houses sit on soaked ground? | Bank screening; 200 m saturation advisory; bearing / settlement checks | 415,549 people in the advisory zone; bearing loss 55 % when soaked | Soil samples, well levels, slopes | Prabhat |
+| Water resources | Which flow floods which land? | GloFAS + ERA5, trigger discharge, held-out years, Gumbel | High-flow IoU 0.20 vs 0.04 climatology; 25-yr flow 32,997 m³/s | Discharge, Manning's n | Nikhil |
+| Transportation systems | Who loses the road to a hospital or shelter? | OSM road graph, flooded edges cut, Dijkstra | 52,423 people cut off from any hospital; 10,077 extra person-hours of travel a day | Road closures at critical links | Himanshu |
+| Structural | Where do walls crack; how deep must piers go? | DEM flood depth, wall moment check, IRC:78 Lacey scour | 4,080 people where depth ≥ 1 m; pier scour 7–24 m below HFL (100-yr, a quarter of the flow) | Deck clearance, HFL marks, foundation levels | Himanshu |
+| Geotechnical | Which banks fail; which dry houses sit on soaked ground? | Bank screening; 200 m saturation advisory; bearing / settlement checks | 441,605 people in the advisory zone; bearing loss 55 % when soaked | Soil samples, well levels, slopes | Prabhat |
 | Ocean | What do Bay of Bengal storms add? | IBTrACS tracks vs atlas; flood drivers | 37 systems within 300 km since 2016; 11 of the 20 largest floods followed one | Interviews on surge and tidal drainage | Nikhil |
-| Construction technology & management | When to build, what it costs, in what order | Flood/storm climatology, earthwork take-off, BoQ, schedule | Work window December–April; 17,442 m³ to raise 8 critical links, 2 more need a bridge or vented causeway | Site sheets for sensors/sirens | Prabhat |
+| Construction technology & management | When to build, what it costs, in what order | Flood/storm climatology, earthwork take-off, BoQ, schedule | Work window December–April; 27,603 m³ to raise 10 critical links, all by embankment (largest raise 2.1 m) | Site sheets for sensors/sirens | Prabhat |
+| Risk and economics (cross-cutting) | What do floods cost, and what is protection worth? | Depth–damage curve, paddy at the support price, 29 years of daily flows through the flow–impact table | ₹17 crore of damage a year; raising the critical links repays 17 times | Losses in the interviews | Himanshu, Prabhat |
 
 ### 7.1 Exposure: who and what is on flooded land
 
 **Why it matters.** A warning has to say who is at risk, not how many square kilometres flood. **What we did.** Each
 scenario was overlaid with population (GHSL), settlements, farmland (WorldCover), roads, railways, bridges, hospitals
-and schools (OpenStreetMap). **What we found.** The 25-year flood covers 216 km² of land with
-25,163 people on it, 24 settlements with at least 10 % of their people on flooded land,
-164 km² of cropland and 32 km of road. Most flooded land is farmland; the people
+and schools (OpenStreetMap). **What we found.** The 25-year flood covers 240 km² of land with
+30,427 people on it, 32 settlements with at least 10 % of their people on flooded land,
+182 km² of cropland and 39 km of road. Most flooded land is farmland; the people
 exposed live in villages at its edges, which is why the viewer and the bulletin list settlements, not totals.
 
 ### 7.2 Transportation systems
@@ -882,9 +973,9 @@ exposed live in villages at its edges, which is why the viewer and the bulletin 
 **Why it matters.** A flooded road is a lost hospital trip, a blocked evacuation and a long detour to market.
 **What we did.** The OpenStreetMap road network became a graph; flooded sections were cut and shortest paths to
 hospitals, towns and dry schools compared with dry weather. **What we found.** In the 25-year flood
-36,941 people in 32 settlements lose road access to
-any hospital, 24,345 more reach one only by a detour, and everyday trips grow
-by about 12,023 person-hours a day. Ten critical links carry most of the cut-off routes (C.2). **At the site:** road
+52,423 people in 41 settlements lose road access to
+any hospital, 20,605 more reach one only by a detour, and everyday trips grow
+by about 10,077 person-hours a day. Ten critical links carry most of the cut-off routes (C.2). **At the site:** road
 closures at those links.
 
 ### 7.3 Structural
@@ -895,14 +986,14 @@ closures at those links.
 depth from the ground elevation at the flood edge; a bending check of unreinforced brick walls; IRC:78 scour at
 11 major bridges. **What we found.** A 230 mm brick wall cracks at about
 0.8–1.0 m of water, and
-3,626 people live where the 25-year flood is a metre deep or more. Pier scour reaches
+4,080 people live where the 25-year flood is a metre deep or more. Pier scour reaches
 7–24 m below the high flood
 level if a branch carries a quarter of the 100-year flow; how the flow splits between branches is the missing input.
 **At the site:** flood marks, deck clearance and foundation levels.
 
 ### 7.4 Geotechnical: river banks
 
-**Why it matters.** Embankment breaches cause the worst local floods. **What we did.** 663 one-kilometre
+**Why it matters.** Embankment breaches cause the worst local floods. **What we did.** 664 one-kilometre
 bank cells were ranked by how often water stands behind the bank, in how many years, how erodible the soil is and how
 many people live nearby. **What we found.** Twenty inspection sites at least 3 km apart (map and list in C.4);
 SoilGrids at 250 m cannot tell one bank from another, so the field samples and lab tests decide. **At the site:** bank
@@ -914,8 +1005,8 @@ inspection, slopes and soil samples.
 
 **Why it matters.** Floodwater raises the groundwater under dry houses nearby: foundations weaken while it is high and
 settle when it drops. **What we did.** An advisory zone of dry land within 200 m of flood water on fine-grained soil,
-with textbook bearing-capacity and settlement checks. **What we found.** 415,549 people
-(310 settlements) live in the zone in the 25-year flood; soaking cuts the bearing
+with textbook bearing-capacity and settlement checks. **What we found.** 441,605 people
+(329 settlements) live in the zone in the 25-year flood; soaking cuts the bearing
 capacity of a strip footing on silty sand by about 55 %, and a 2 m
 drop of the water table settles soft clay by 20 to 39 mm.
 **At the site:** water levels in village wells at 0–500 m from the flood edge.
@@ -927,7 +1018,7 @@ drop of the water table settles soft clay by 20 to 39 mm.
 **Why it matters.** Bay of Bengal cyclones and depressions bring the heaviest rain, and surge and tide hold back the
 drainage of the lower delta. **What we did.** IBTrACS storm tracks were matched to the radar floods. **What we found.**
 37 systems passed within 300 km since 2016; of the 20 largest floods,
-11 followed one, 14 came with heavy rain and 18 with a high river.
+11 followed one, 13 came with heavy rain and 15 with a high river.
 **At the site:** interviews on surge and tide-locked drainage.
 
 ### 7.7 Construction technology and management
@@ -936,17 +1027,16 @@ drainage of the lower delta. **What we did.** IBTrACS storm tracks were matched 
 
 **Why it matters.** Protection and sensors must be built outside the flood season, in the right order and within a
 budget. **What we did.** Monthly flood and storm climatology, an earthwork take-off for raising the critical links,
-deployment quantities and a schedule. **What we found.** The work window is December–April. Raising 8
-critical links takes about 17,442 m³ of earthwork (about ₹0.61 crore
-at an assumed ₹350/m³); 2 more would need raises above 3 m, that is a bridge or a vented
-causeway. Installing 40 sirens and 6 river gauges takes about
+deployment quantities and a schedule. **What we found.** The work window is December–April. Raising 10
+critical links takes about 27,603 m³ of earthwork (about ₹0.97 crore
+at an assumed ₹350/m³); none needs more than 2.1 m, so all are road embankments and none needs a bridge or a vented causeway. Installing 40 sirens and 6 river gauges takes about
 78 crew-days. **At the site:** access, mounting and signal at the proposed sites.
 
 ### 7.8 Water resources and the watershed
 
 **Why it matters.** The delta's floods are set upstream, by releases from Hirakud dam and by rain on the uncontrolled
 tributaries below it, so a warning for the delta is a warning about the whole watershed. **What we did.** GloFAS
-flows below Hirakud, at Tikarpara and at Naraj (1984–2025) were compared at the annual flood peak and over the monsoon
+flows below Hirakud, at Tikarpara and at Naraj (1997–2025) were compared at the annual flood peak and over the monsoon
 (C.8), next to the travel times and design floods of §6.5. **What we found.** Hirakud controls about 59 % of the basin
 (83,400 of about 141,600 km²) and passes 60% of the July–September flow at Naraj, but only a median
 48% of the annual flood peak (29 years): the other half comes from the
@@ -954,6 +1044,21 @@ roughly 58,000 km² below the dam, within about a day. A delta warning therefore
 gauges on the tributaries below it, and watershed measures in that lower catchment (land cover, soil conservation, small
 storages) act on the frequent floods more than on the rare largest ones. **At the site:** discharge and Manning's n at a
 road bridge; the WRD's account of gate operations.
+
+### 7.9 Flood risk in rupees and person-days
+
+**Why it matters.** Protection and warnings compete for money with everything else a district builds, so the hazard
+has to be put in rupees and in days of life disrupted. **What we did.** Flood depth (§7.3) times the JRC depth–damage
+curve for houses in Asia gives the houses damaged; flooded paddy at Odisha's yield and the support price gives the crop
+lost; every day of 1997–2025 (29 years) at Naraj, run through the flow–impact table, gives what an average year costs (C.9).
+**What we found.** Expected flood damage is about ₹17 crore a year (houses ₹4.2
+crore, paddy ₹12.9 crore), a lower bound because floods above the largest seen are. An average year
+brings 438,978 person-days on flooded land and 131,511
+person-days without road access to any hospital. Raising the ten critical links (§7.7) cuts the latter to
+54,811; valued only at the rural wage, that repays the earthwork
+17 times. Every 1,000 m³/s that Hirakud keeps off a 5-year peak keeps about 1,535
+people dry. The impact-based warning levels of §9.7 would have reached "Be prepared" on 3.8
+days a year on average, so warnings stay rare. **At the site:** the farmers' and householders' losses in the interviews.
 
 ## 8. Field visit: what we measure, whom we ask, and what it changes
 
@@ -963,7 +1068,7 @@ The full protocols, equipment and safety rules are in `fieldkit/FIELD_VISIT_KIT.
 files in `fieldkit/templates/`; every sheet has an analysis script in `fieldkit/analysis/`, tested on made-up
 example sheets (`fieldkit/examples/`, marked EXAMPLE, never reported as results).
 
-> **Status (29 Oct 2026):** visit being arranged with Prof. Basudev Biswal (Mahanadi basin project) and ClimMaTech.
+> **Status (30 Oct 2026):** visit being arranged with Prof. Basudev Biswal (Mahanadi basin project) and ClimMaTech.
 > Sections 8.3–8.7 are filled in from the field sheets after the visit; until then they state the method only.
 
 ### 8.1 Where and with whom
@@ -983,7 +1088,7 @@ impact results by `mahanadi/make_checkpoints.py`:
 |---|---|---|---|
 | GT | 40 | Ground-truth points | Random, 10 in each atlas class (never / < 10 % / 10–30 % / ≥ 30 % of passes flooded), within 150 m of a road and 1 km of a settlement, ≥ 2 km apart |
 | SR | 15 | Siren sites | Top of the greedy coverage list (§9) |
-| RS | per river | River-sensor bridges | One per main distributary (§9) |
+| RS | 6 | River-sensor bridges | One per main distributary: the bridge nearest Naraj with dry approaches (§9) |
 | GB | 12 | Bank inspection and soil sampling | Top of the geotechnical screening (§7.4) |
 | RL | 10 | Critical road links | Flooded links carrying most people's hospital route (§7.2) |
 | HF | ≤ 10 | Health facilities flooded in the 25-year flood | §7.1 |
@@ -1001,7 +1106,7 @@ between radar passes, flooded paddy, water under tree cover, memory of the wrong
 
 *What it changes:* the accuracy statement that goes with the map to ClimMaTech; if misses cluster in short
 floods, the atlas needs the denser 6-day revisit of Sentinel-1C/D; if false alarms cluster on paddy, the
-river-driven mask (§6.4) must be applied before warnings. The flood-mark heights are compared with the DEM-based
+river-driven mask (§6.3) must be applied before warnings. The flood-mark heights are compared with the DEM-based
 depth (§7.3): the wall screening and the road-raising earthwork (§7.7) scale with that depth.
 
 ### 8.4 Discharge and roughness at a bridge  *(to be filled after the visit)*
@@ -1042,7 +1147,9 @@ security, permissions; interview notes in `interviews.csv`.
 
 *What it changes:* sites without signal or without flood-time access are dropped from the deployment plan (§9);
 the engineers' rule of thumb for "which flow at Naraj floods which villages" is compared with the trigger-
-discharge map (§6.3); the constraints heard in the interviews are written into the problem statement (§1.1).
+discharge map (§6.3) and with the levels of the live warning (§9.7); the house and paddy losses people report for 2020
+and 2022 check the damage estimate (§7.9); the constraints heard in the interviews are written into the problem
+statement (§1.1).
 
 ### 8.8 Groundwater beside the flood  *(to be filled after the visit)*
 
@@ -1067,6 +1174,8 @@ ClimMaTech / CWC forecast of Naraj flow ──► forecast_to_impact.py ──�
    (m³/s or lakh cusec, lead time)            trigger map + impacts    settlements to warn (GeoJSON) ──► Rakshak Control Centre, Aagah
                                                                        roads under water, bulletin text ──► district / OSDMA
 Sentinel-1 pass (every 2-6 days) ──► atlas_infer.py ──► observed flood map ──► refit trigger map each season
+GloFAS ensemble + ECMWF rain + SACHET/CWC alerts ──► live/run_live.py (daily) ──► impact-based level, villages with dates,
+                                                                                  CAP alert + Atom feed ──► Rakshak Control Centre
 ```
 
 ### 9.2 Forecast-to-bulletin tool
@@ -1077,26 +1186,26 @@ analogs) runs in seconds. Output for the 5-year flow (23,940 m³/s; the 25-year 
 
 ```
 MAHANADI DELTA - EXPECTED FLOODING FOR A NARAJ FLOW OF 23,940 m3/s (8.5 lakh cusec), lead time 24 h
-(flow = highest daily flow over 5 days at Naraj, the measure the atlas is fitted on; method: trigger-discharge map, river flow only)
-Expected flooded land: 203 km2
-People living on that land: 22,545
-Settlements with at least 10 % of people on flooded land: 20
-  - near Patkura (9.7 km): about 321 people (46% of 704) at 20.3133 N, 86.3615 E
-  - near Biridi (1.4 km): about 309 people (54% of 574) at 20.3319 N, 86.0429 E
-  - near Bhattasagar Square (7.0 km): about 234 people (15% of 1,613) at 20.6301 N, 86.1248 E
-  - near Patkura (2.7 km): about 152 people (24% of 647) at 20.4002 N, 86.3823 E
-  - near Patkura (1.5 km): about 78 people (28% of 281) at 20.3855 N, 86.3917 E
+(flow = highest daily flow over 3 days at Naraj, the measure the atlas is fitted on; method: trigger-discharge map, river flow only)
+Expected flooded land: 218 km2
+People living on that land: 25,384
+Settlements with at least 10 % of people on flooded land: 24
+  - near Biridi (1.4 km): about 403 people (70% of 574) at 20.3319 N, 86.0429 E
+  - near Patkura (9.7 km): about 341 people (48% of 704) at 20.3133 N, 86.3615 E
+  - near Bhattasagar Square (7.0 km): about 263 people (16% of 1,613) at 20.6301 N, 86.1248 E
+  - near Choudwar (4.0 km): about 143 people (21% of 694) at 20.5588 N, 85.8918 E
+  - near Patkura (2.7 km): about 129 people (20% of 647) at 20.4002 N, 86.3823 E
+  - near Patkura (1.5 km): about 90 people (32% of 281) at 20.3855 N, 86.3917 E
+  - near Fakirabad (7.2 km): about 89 people (13% of 706) at 20.4445 N, 86.4497 E
   - near Dhuria (8.6 km): about 76 people (14% of 529) at 20.4610 N, 86.3444 E
-  - near Choudwar (4.0 km): about 75 people (11% of 694) at 20.5588 N, 85.8918 E
-  - near Patkura (14.6 km): about 71 people (16% of 440) at 20.2606 N, 86.4338 E
-  - near Patkura (9.3 km): about 65 people (25% of 269) at 20.3113 N, 86.3760 E
-  - near Patkura (10.8 km): about 62 people (25% of 247) at 20.3116 N, 86.3447 E
-  - near Patkura (9.1 km): about 59 people (23% of 253) at 20.3116 N, 86.4309 E
-  - near Nemalo (1.2 km): about 58 people (14% of 414) at 20.4409 N, 86.1674 E
-  - near Gobindpur (2.2 km): about 48 people (15% of 326) at 20.3460 N, 86.0320 E
-  - near Patkura (14.9 km): about 47 people (13% of 352) at 20.2562 N, 86.4195 E
-  - near Bhattasagar Square (5.9 km): about 44 people (11% of 417) at 20.6256 N, 86.1147 E
-Main roads under water: 10.9 km
+  - near Patkura (9.3 km): about 75 people (28% of 269) at 20.3113 N, 86.3760 E
+  - near Patkura (9.1 km): about 74 people (30% of 253) at 20.3116 N, 86.4309 E
+  - near Gobindpur (2.6 km): about 72 people (28% of 260) at 20.3515 N, 86.0166 E
+  - near Biridi (7.9 km): about 69 people (14% of 481) at 20.2658 N, 86.0652 E
+  - near Bhattasagar Square (5.9 km): about 69 people (17% of 417) at 20.6256 N, 86.1147 E
+  - near Patkura (10.8 km): about 67 people (27% of 247) at 20.3116 N, 86.3447 E
+  - near Nemalo (1.2 km): about 65 people (16% of 414) at 20.4409 N, 86.1674 E
+Main roads under water: 11.4 km; named sections: Right Puri Main Canal Road 0.8 km
 Source: Sentinel-1 flood atlas 2017-2026 + GloFAS discharge (IIT Bombay IDP prototype). Not an official warning.
 ```
 
@@ -1105,30 +1214,30 @@ roads cut, the settlements list (click to zoom), siren and sensor sites and the 
 
 ### 9.3 Siren sites
 
-Greedy maximal coverage of the 27,371 people living on land flooded in the 25-year flood or in at
-least 10 % of monsoon passes. With 40 sirens the share covered is 34%, 49%
-and 62% for an audible range of 1.0, 1.5 and 2.0 km. At 1.5 km: 10 sirens cover 26%,
-20 cover 37%. Exposed people are spread thinly over many
+Greedy maximal coverage of the 32,388 people living on land flooded in the 25-year flood or in at
+least 10 % of monsoon passes. With 40 sirens the share covered is 32%, 48%
+and 62% for an audible range of 1.0, 1.5 and 2.0 km. At 1.5 km: 10 sirens cover 24%,
+20 cover 35%. Exposed people are spread thinly over many
 small settlements, so the first sirens give most of the benefit; the rest is better reached by phone alerts (Aagah)
 than by more sirens.
 
 | Rank | Settlement | Location | New people covered | Cumulative share |
 |---|---|---|---|---|
-| 1 | Fakirabad | 20.5029 N, 86.4186 E | 1,561 | 6% |
-| 2 | near Patkura (8.5 km) | 20.3190 N, 86.3756 E | 1,067 | 10% |
-| 3 | near Patkura (1.5 km) | 20.3872 N, 86.4195 E | 696 | 12% |
-| 4 | near Gobindpur (1.1 km) | 20.3312 N, 86.0318 E | 602 | 14% |
-| 5 | near Balachandrapur (1.4 km) | 20.6305 N, 86.2469 E | 565 | 16% |
-| 6 | near Patkura (2.4 km) | 20.4047 N, 86.3886 E | 565 | 18% |
-| 7 | near Bhattasagar Square (7.0 km) | 20.6301 N, 86.1248 E | 522 | 20% |
-| 8 | near Fakirabad (6.7 km) | 20.4514 N, 86.3849 E | 486 | 22% |
-| 9 | near Balachandrapur (3.8 km) | 20.6377 N, 86.2729 E | 481 | 24% |
-| 10 | near Patkura (5.9 km) | 20.3416 N, 86.3819 E | 469 | 26% |
-| 11 | near Patkura (8.6 km) | 20.3448 N, 86.3385 E | 393 | 27% |
-| 12 | Badambadi | 20.4658 N, 85.8797 E | 378 | 28% |
-| 13 | near Patkura (2.2 km) | 20.4084 N, 86.4129 E | 366 | 30% |
-| 14 | near Patkura (3.9 km) | 20.3910 N, 86.4426 E | 364 | 31% |
-| 15 | near Patkura (14.9 km) | 20.2598 N, 86.4417 E | 279 | 32% |
+| 1 | Fakirabad | 20.5029 N, 86.4186 E | 1,794 | 6% |
+| 2 | near Patkura (8.5 km) | 20.3190 N, 86.3756 E | 1,160 | 9% |
+| 3 | near Gobindpur (1.1 km) | 20.3312 N, 86.0318 E | 787 | 12% |
+| 4 | near Patkura (1.5 km) | 20.3872 N, 86.4195 E | 760 | 14% |
+| 5 | near Bhattasagar Square (7.0 km) | 20.6301 N, 86.1248 E | 669 | 16% |
+| 6 | near Balachandrapur (1.4 km) | 20.6305 N, 86.2469 E | 555 | 18% |
+| 7 | near Patkura (2.4 km) | 20.4047 N, 86.3886 E | 554 | 19% |
+| 8 | near Balachandrapur (3.8 km) | 20.6377 N, 86.2729 E | 505 | 21% |
+| 9 | near Fakirabad (6.7 km) | 20.4514 N, 86.3849 E | 497 | 22% |
+| 10 | near Patkura (5.9 km) | 20.3416 N, 86.3819 E | 493 | 24% |
+| 11 | Jagatpur | 20.4950 N, 85.9355 E | 487 | 26% |
+| 12 | near Balachandrapur (2.3 km) | 20.6314 N, 86.2243 E | 456 | 27% |
+| 13 | near Patkura (8.6 km) | 20.3448 N, 86.3385 E | 392 | 28% |
+| 14 | near Patkura (2.2 km) | 20.4084 N, 86.4129 E | 387 | 29% |
+| 15 | near Patkura (3.9 km) | 20.3910 N, 86.4426 E | 367 | 30% |
 
 ### 9.4 River-sensor bridges
 
@@ -1149,7 +1258,8 @@ documentation); the field protocol B–C measures exactly these at one bridge (�
 
 ### 9.5 Rolling it out
 
-1. **Season 0 (now)**: hand the trigger map, bulletin tool and viewer to ClimMaTech; refit with CWC/WRD observed flows.
+1. **Season 0 (now)**: hand the trigger map, bulletin tool, live feed and viewer to ClimMaTech; run the live feed every
+   morning; refit with CWC/WRD observed flows.
 2. **Before the next monsoon**: field-verified siren and sensor sites (§8.7); first sensors at the heads of the
    Mahanadi and Kathajodi branches.
 3. **During the monsoon**: map every new Sentinel-1 pass (6 s per pass on the lab GPU, ~2 min to download) and compare
@@ -1165,16 +1275,81 @@ gap found and what this project adds, with the number behind it.
 
 | Their service | Gap | What this project adds | Evidence |
 |---|---|---|---|
-| River View (platform layer: "a live map-based view of river levels and flood risk") | No flood-extent layer behind the map | Flood frequency, trigger flow and impact layers for the Mahanadi delta | 590 passes; held-out IoU 0.23 vs 0.07 at high flows |
-| AI forecasting, 30 min to 48 h ahead | A forecast level is not a list of villages | Forecast-to-bulletin tool: map, settlements to warn, roads under water | 25-year flow: 216 km², 25,163 people, 24 settlements |
+| River View (platform layer: "a live map-based view of river levels and flood risk") | No flood-extent layer behind the map | Flood frequency, trigger flow and impact layers for the Mahanadi delta | 590 passes; held-out IoU 0.20 vs 0.04 at high flows |
+| AI forecasting, 30 min to 48 h ahead | A forecast level is not a list of villages | Forecast-to-bulletin tool and a daily live feed with impact-based levels; a 1–3 day Naraj forecast from upstream flows (§6.7, §9.7) | 25-year flow: 240 km², 30,427 people, 32 settlements; forecast efficiency 0.99 / 0.94 / 0.89 at 1 / 2 / 3 days |
 | Research group, satellite reconstructions | Flood width measured by hand at 36 cross-sections; optical pass 75–79 % cloud, only radar pass two days early | Benchmarked radar model that maps every Sentinel-1 pass automatically, through cloud | 92 audited runs (Appendix A); ~5 s per pass |
-| Solution pages, network design | Layouts drawn as illustrations | Data-backed siting of sirens and river gauges with coordinates | 40 sirens reach 49% of exposed people at 1.5 km; 6 sensor bridges |
+| Solution pages, network design | Layouts drawn as illustrations | Data-backed siting of sirens and river gauges with coordinates | 40 sirens reach 48% of exposed people at 1.5 km; 6 sensor bridges |
 | Pravaah discharge | Needs a surveyed cross-section and a surface-to-mean velocity factor | Field protocols B and C measure both, plus Manning's n | §8.4; scripts in `fieldkit/analysis/` |
-| Varshaq rain gauge | Rain not linked to flooded land | Rain-aware flood maps (analogs, learned model §6.6) | 5-year flow: 25 km² dry week vs 105 km² heavy rain |
-| Flood-warning solution and Aagah app ("time to evacuate populations, reroute traffic, and secure critical infrastructure") | Which people, which roads | Settlements to warn, roads that close, villages that lose their hospital, in every bulletin | 32 settlements lose hospital access (25-year flood) |
-| Rakshak Control Centre ("draw an area, pick districts, or upload your own boundaries"; accepts CAP) | Alert areas drawn by hand | Every forecast also writes a CAP 1.2 alert with one area per settlement to warn | `bulletin_<flow>.cap.xml`; 24 areas for the 25-year flow |
+| Varshaq rain gauge | Rain not linked to flooded land | Rain-aware flood maps (analogs, learned model §6.6) | 5-year flow: 27 km² dry week vs 93 km² heavy rain |
+| Flood-warning solution and Aagah app ("time to evacuate populations, reroute traffic, and secure critical infrastructure") | Which people, which roads | Settlements to warn, roads that close, villages that lose their hospital, in every bulletin | 41 settlements lose hospital access (25-year flood) |
+| Rakshak Control Centre ("draw an area, pick districts, or upload your own boundaries"; accepts CAP) | Alert areas drawn by hand | Every forecast also writes a CAP 1.2 alert with one area per settlement to warn, listed in an Atom feed the centre can subscribe to | `bulletin_<flow>.cap.xml`; 32 areas for the 25-year flow |
 | Dam and reservoir solution | Level at the dam, not the water spread | The same radar model can map reservoir area on every pass (next step: Hirakud) | — |
-| Installation and O&M | Timing against floods and storms | Work window and schedule from 42 years of flows and storm tracks | December–April; 78 crew-days |
+| Installation and O&M | Timing against floods and storms | Work window and schedule from 29 years of flows and 46 years of storm tracks | December–April; 78 crew-days |
+
+### 9.7 The live warning service
+
+The bulletin tool of §9.2 needs someone to type a flow. The live service (`live/`) reads the forecasts itself, every
+time it runs, from sources that need no login, each a plugin that fails soft (`live/sources.py`):
+
+| Plugin | Source | What it gives |
+|---|---|---|
+| glofas | GloFAS v4 through the Open-Meteo flood API | the Naraj flow 30 days ahead: control run and 50 ensemble members; the upstream gauges |
+| rain | ECMWF IFS 0.25° through the Open-Meteo forecast API | daily rain over the delta and over the catchment, 16 days ahead |
+| sachet | NDMA SACHET CAP feed of the state | official IMD, CWC and SDMA alerts, matched to the basin's districts |
+| cwc | CWC flood-forecasting portal | stations now above warning level (answers from Indian networks) |
+| sentinel1 | Planetary Computer catalogue | the latest radar pass over the basin, to map the flood actually there |
+
+For each of the 51 runs and each day the flow measure the atlas uses (the 3-day peak at Naraj) is looked up in the
+flow–impact table that `mahanadi/impact_curve.py` sweeps once from the trigger map: flooded land, people on it, villages
+with 10 % of their people on flooded land, people cut off from every hospital, and per village the flow at which that
+happens (the sweep reproduces the design-flood numbers of §7 exactly). The warning level is set by impact, as in
+impact-based forecasting: "Be aware" from 5,000 people on flooded land or three villages (12,250 m³/s at Naraj),
+"Be prepared" from 10,000 people or the first village cut off from every hospital (18,500 m³/s), "Act now" from
+25,000 people or 20,000 cut off (21,250 m³/s), each with the share of the 51 runs that reach it. Villages,
+hospital cut-offs, roads and health facilities count beyond the ordinary monsoon: what is already wet or cut at the flow
+exceeded on a quarter of monsoon days (6,682 m³/s at Naraj) belongs to the season, not to a
+flood. A few river-bank hamlets get wet every monsoon, and on the Brahmani a road without a mapped bridge cuts six
+villages off at almost any monsoon flow: a road to raise, not a warning. The output
+is a bulletin naming each village with the first day it is expected (median run) or possible (wettest runs), the
+villages that lose their hospital, the roads that close and the health facilities at risk; a CAP 1.2 alert (status
+"Exercise") from "Be aware" upwards; an Atom index of the alerts, the way CAP feeds are published, for the Rakshak
+Control Centre to subscribe to; and a status board. A run takes about 15 seconds on a laptop; on the lab server
+`server/run_live.sh` is ready to run every morning from one cron line (README).
+
+The run of 2026-10-31 01:58 IST: Naraj 2,923 m³/s, peaking near 3,810 m³/s
+on 2026-11-01 (wettest runs 3,836), level "No flood impact"; the upstream-gauge model of §6.7 gave 2026-10-31 2,526, 2026-11-01 3,078, 2026-11-02 2,762 m³/s for the next three days. The state feed carried
+10 official alerts, among them: Moderate Rain, Thundershower with wind speed 30-40kmph is very likely to occur at many places over Anugul, Baleshwar, Bhadrak, Cuttack, Dhenkanal, …; Moderate Rain with squally wind 30-40 kmph  is very likely to occur at isolated places over Baleshwar, Bhadrak, Cuttack(Including Cuttack City), ….
+
+Every basin of §6.8 runs in the same feed with its own tables and the same rule (`live/basins/<basin>.json`, written by
+`live/make_basin_config.py`). The flows at which each level starts, and the run of 2026-10-31:
+
+| Basin | Gauge (flow measure) | Ordinary monsoon (m³/s) | Be aware from (m³/s) | Be prepared from | Act now from | Flow today | Level today |
+|---|---|---|---|---|---|---|---|
+| Mahanadi delta | Naraj (3-day peak) | 6,682 | 12,250 | 18,500 | 21,250 | 2,923 | No flood impact |
+| Brahmani–Baitarani delta | Jenapur (same-day flow) | 1,737 | 3,500 | 3,500 | 4,250 | 442 | No flood impact |
+| Brahmaputra at Majuli | Neamatighat (3-day peak) | 17,988 | 21,500 | 22,750 | 29,000 | 2,971 | No flood impact |
+
+On the Brahmani the first village cut off from every hospital comes at the same flow as the first 5,000 people on
+flooded land, so "Be aware" and "Be prepared" start together; on the Brahmaputra "Act now" starts near the 2-year flood
+(29,833 m³/s), as
+it should on a river island that floods most years.
+
+**Replay of the largest flood of the radar era.** `python live/run_live.py --replay 2022-08-14` runs the
+feed as it would have run on the morning of 2022-08-14, with the flows that came as a perfect forecast:
+level "Act now" for a Naraj peak of 28,378 m³/s on 2022-08-18, 31 villages named with
+the day the water reaches them, and 41 villages that lose road access to every hospital from 2022-08-16.
+The upstream-gauge model of §6.7, trained without 2022, forecast 16,254 m³/s for 2022-08-15, 20,554 m³/s for 2022-08-16, 21,327 m³/s for 2022-08-17: lower than the flows that came (a steep rise is the hardest case), but already above the 'Act now' flow three days ahead.
+The radar passes of the following days, against the flooded land the bulletin expected at their flow:
+
+| Radar pass | Naraj flow (m³/s) | Box imaged | Flooded land expected (km²) | Seen by radar (km²) |
+|---|---|---|---|---|
+| 2022-08-16 | 24,603 | 71% | 218 | 280 |
+| 2022-08-18 | 28,378 | 100% | 240 | 125 |
+| 2022-08-21 | 26,914 | 90% | 228 | 67 |
+
+More land was under water on the first pass, after 177 mm of rain in a week, than at the river crest two days later,
+when the rain water had drained: the flow-only map is too small before the crest and too large after it. This is the
+case for the rain-aware model of §6.6 in the feed, and for mapping each new radar pass as soon as it arrives.
 
 ## 10. Discussion, limitations and conclusions
 
@@ -1192,7 +1367,8 @@ The atlas turns a free, global archive into a local hazard layer: which land flo
 flow. The trigger-discharge map is the piece a point-forecast system lacks, and it was tested the way it would be
 used: predicting a year it had not seen, from discharge alone. The impact analyses put the map into civil-engineering
 terms — hospitals cut off, critical links, banks to inspect, siren and sensor sites — with coordinates that can be
-checked in the field.
+checked in the field. The flow forecast and the live feed turn the map into a daily service that names villages and
+dates, and the risk estimate puts the hazard in rupees and person-days, the terms in which protection is funded.
 
 ### 10.3 Limitations
 
@@ -1205,11 +1381,16 @@ checked in the field.
 - The road model treats any 20 m of water as a closure and ignores depth; the bank screening uses 250 m soil data.
 - Pass-level prediction is modest (pixel IoU ~0.2, settlement POD well below half): floodplain flooding is patchy, the
   observed maps are themselves radar maps, and local rain and storms — not only the Naraj flow — drive the largest
-  floods. Past flood frequency ranks where land floods best (ROC AUC 0.91–0.93);
-  the trigger map adds at which flow it floods (AUC 0.76–0.79), so the two are used together.
+  floods. Past flood frequency ranks where land floods best (ROC AUC 0.90–0.91);
+  the trigger map adds at which flow it floods (AUC 0.72), so the two are used together.
 - Flood depth comes from a 30 m surface model (~2 m vertical error); wall screening, scour and foundation numbers
   use typical parameters (masonry tension, bed size, soil strength) and an unknown flow split between distributaries,
   all of which the field visit and the lab replace.
+- The money figures use a continental depth–damage curve, the public housing grant as the value of a house, an
+  assumed 4.4 people per household and a simple paddy-loss rule; they are lower bounds to be checked against the
+  losses people report (§8.7).
+- The live warning levels are proposed thresholds; GloFAS's own forecast skill at Naraj and the flow forecast of §6.7
+  have not been checked against measured flows.
 
 ### 10.4 Conclusions
 
@@ -1219,25 +1400,32 @@ checked in the field.
 2. A radar-only fusion of TerraMind and U-Net maps the Mahanadi delta through monsoon cloud; 590 passes
    from 2017 to 2026 form the atlas.
 3. A per-pixel trigger discharge turns a Naraj flow forecast into a flood map and beats climatology on held-out years
-   at high flows (0.23 vs 0.07).
-4. In a 25-year flood about 25,163 people live on flooded land and 36,941 lose
+   at high flows (0.20 vs 0.04).
+4. In a 25-year flood about 30,427 people live on flooded land and 52,423 lose
    road access to a hospital; the links, banks, siren sites and sensor bridges to act on are listed.
 5. Local rain and Bay of Bengal storms, not only the river, drive the largest floods of the delta; a warning has to
-   read the river forecast together with the rainfall forecast.
+   read the river forecast together with the rainfall forecast. A learned model that adds rain and each pixel's flood
+   history to the flow maps held-out heavy-rain passes better than the trigger map
+   (0.22 vs 0.15).
 6. The same scenarios give each specialization its answer: who loses the road to a hospital or shelter
    (transportation), where walls crack and how deep scour reaches (structural), which banks to inspect and which dry
-   houses sit on soaked ground (geotechnical), how storms add to floods (ocean), and when and at what earthwork the
-   critical links can be raised (construction management).
-7. The field visit is designed to measure what these numbers depend on and to change them where they are wrong.
-
+   houses sit on soaked ground (geotechnical), how storms add to floods (ocean), when and at what earthwork the
+   critical links can be raised (construction management), and where a flood peak comes from: about half from
+   Hirakud dam and half from the tributaries below it (water resources).
+7. Every one of the 92 training runs was re-checked from its saved outputs and the published TerraMind scores were
+   reproduced within a point, so the benchmark can be relied on.
+8. The Naraj flow can be forecast one to three days ahead from today's upstream flows and catchment rain (efficiency 0.89 three days ahead against 0.79 for persistence), and a live feed turns each day's GloFAS ensemble into an impact-based warning, a CAP alert and a list of villages and roads with dates.
+9. The pipeline is not specific to the Mahanadi: the Brahmani–Baitarani delta and the Brahmaputra at Majuli were mapped from every radar pass since 2017 with the same models and joined the live feed.
+10. Flood damage to houses and paddy is at least ₹17 crore a year; raising the ten critical roads repays its cost about 17 times in hospital access alone, so it is the first protection measure to fund.
+10. The field visit is designed to measure what these numbers depend on and to change them where they are wrong.
 ### 10.5 Next steps, by specialization
 
 | Specialization | Next step | Why |
 |---|---|---|
 | Remote sensing | Add SWOT water-surface elevations (2023–) and NISAR L-band (2025–) | Depth from measured water levels instead of a surface model; flooding under crops and trees |
 | Water resources | Refit with observed CWC/WRD flows; calibrate a 2-D HEC-RAS model of the delta against the atlas | A physics-based inundation model that can go beyond the floods seen since 2017 |
-| Transportation | Time-dependent closures during flood onset; school and market (mandi) access; evacuation timing vs warning lead time | When, not only whether, villages are cut off |
-| Structural | Depth–damage curves for kutcha and pucca houses (Census housing types) → expected annual damage | Money at risk, for cost–benefit of road raising and embankments |
+| Transportation | Evacuation routing and shelter capacity from the live cut-off dates (§9.7); school and market (mandi) access | Who to move first, and where to |
+| Structural | Local depth–damage curves for kutcha and pucca houses from the field survey, replacing the continental JRC curve of §7.9 | A damage estimate fitted to the delta's houses |
 | Geotechnical | 2-D seepage analysis of the top-ranked embankments with lab permeability; bank-line migration from Landsat 1990– | Piping and erosion risk with numbers, not ranks |
 | Ocean | Paradip tide-gauge and surge hindcasts; sea-level-rise scenarios for drainage of the lower delta | Compound river–rain–surge flooding |
 | Construction technology & management | Life-cycle cost and O&M plan of the sensor network; procurement through GeM; contract packaging for road raising | From a plan to a project ClimMaTech and WRD can execute |
@@ -1252,9 +1440,9 @@ protocol (U-Net 0.770, best foundation model 0.747, fusion
 0.776 IoU on an unseen Indian flood), build a radar-only flood atlas of the
 Mahanadi delta from 590 Sentinel-1 passes (2017–2026), and link it to river
 discharge at Naraj through a per-pixel trigger discharge. On held-out years the resulting flow-to-flood maps reach IoU
-0.23 at high flows against 0.07 for flood climatology. Combined with road
+0.20 at high flows against 0.04 for flood climatology. Combined with road
 networks and population, they identify the people cut off from hospitals, critical road links and river banks for
-inspection, giving point-forecast early-warning systems the spatial impact layer they lack.
+inspection, giving point-forecast early-warning systems the spatial impact layer they lack. A gradient-boosted model forecasts the Naraj flow one to three days ahead (Nash–Sutcliffe efficiency 0.99–0.89 on unseen monsoons), and a live feed turns each day's GloFAS ensemble into impact-based warnings published as CAP alerts.
 
 ## Appendix A. Verification of the training
 
@@ -1315,7 +1503,37 @@ overview is made (2 × 2 average in linear power, bilinear back to 10 m; `floodf
 | 20 m overview (the atlas input) | 0.640 | 0.695 |
 | 20 m overview, threshold from validation | 0.646 (at 0.30) | 0.681 (at 0.45) |
 
-The 20 m-trained pair is better on the atlas input and can replace the current models in the next atlas run (re-inference of the 590 passes takes about an hour).
+The 20 m-trained pair is better on the atlas input, so the atlas was rebuilt with it (all 590 passes mapped again,
+threshold 0.45); every Mahanadi result in this report comes from the rebuilt atlas. The independent
+Sentinel-2 check decided it:
+
+| Atlas built with | Sentinel-2, all water: IoU (precision / recall) | Sentinel-2, flood water: IoU (precision / recall) | Held-out high flow: trigger map vs climatology (IoU) | Villages at high flow: POD / FAR | Land flooded at least once (km²) |
+|---|---|---|---|---|---|
+| 10 m-trained pair (threshold 0.30) | 0.487 (0.60 / 0.73) | 0.180 (0.51 / 0.22) | 0.225 vs 0.070 | 17% / 65% | 905 |
+| 20 m-trained pair (threshold 0.45) | 0.563 (0.75 / 0.69) | 0.196 (0.63 / 0.22) | 0.198 vs 0.038 | 21% / 62% | 1,137 |
+
+The Sentinel-2 check is the like-for-like comparison, because the optical reference is the same for both atlases: the
+rebuilt atlas agrees better on all water and on flood water, mainly because it reports less false water (higher
+precision). The held-out scores are not like for like, because each atlas is scored against its own observed maps.
+The rebuilt atlas sees more flooded land, much of it rain-fed (the flooded share of a pass follows the 7-day rain with
+rank correlation 0.51, against 0.38 before), which the river flow alone predicts
+less well, so the trigger map's pixel score falls while its lead over climatology and its village-level skill improve. The flow
+predictor is chosen by rank correlation and moved from the 5-day peak flow to the
+3-day peak flow (rank correlation 0.765 against 0.764, practically a tie), so
+66 rather than 85 passes count as high flow. The earlier atlas is kept in
+`results/archive_atlas_10m/`.
+
+**Three seeds.** Seeds 1 and 2 of both radar models were trained at 10 m and at 20 m (`server/run_r20_seeds.sh`) and each
+pair scored the same way; the threshold is chosen on validation for every pair.
+
+| Seed | 10 m-trained pair, 20 m input | same, threshold from validation | 20 m-trained pair, 20 m input | same, threshold from validation |
+|---|---|---|---|---|
+| 0 | 0.640 | 0.646 | 0.695 | 0.681 |
+| 1 | 0.673 | 0.666 | 0.684 | 0.684 |
+| 2 | 0.651 | 0.654 | 0.673 | 0.667 |
+| Mean ± sd | 0.655 ± 0.014 | 0.655 ± 0.008 | 0.684 ± 0.009 | 0.677 ± 0.007 |
+
+Training at 20 m wins on every seed, by 0.022 IoU on average with the threshold from validation: the gain is well outside the seed-to-seed spread.
 
 ## Appendix C. Engineering details of the seven specializations
 
@@ -1330,14 +1548,14 @@ clinics, 103 schools). All areas exclude the river bed and normal water.
 
 | Scenario | Flooded land (km²) | People on flooded land | Settlements ≥ 10 % flooded | Cropland (km²) | Road under water, km (main roads) | Rail (km) | Bridges with flooded approach | Health facilities | Schools |
 |---|---|---|---|---|---|---|---|---|---|
-| 2-year | 38 | 6,086 | 1 | 16 | 3 (0) | 0.0 | 37 | 5 | 1 |
-| 5-year | 203 | 22,545 | 20 | 152 | 30 (11) | 0.0 | 72 | 5 | 4 |
-| 10-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| 25-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| 50-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| 100-year | 216 | 25,163 | 24 | 164 | 32 (13) | 0.0 | 74 | 6 | 4 |
-| flooded in ≥ 10 % of passes | 48 | 11,063 | 3 | 19 | 14 (3) | 0.0 | 56 | 7 | 4 |
-| largest seen (2018-09-08) | 275 | 28,826 | 14 | 232 | 23 (8) | 0.0 | 89 | 6 | 5 |
+| 2-year | 50 | 7,837 | 4 | 24 | 6 (1) | 0.0 | 46 | 4 | 0 |
+| 5-year | 218 | 25,384 | 24 | 165 | 34 (11) | 0.3 | 71 | 6 | 0 |
+| 10-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| 25-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| 50-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| 100-year | 240 | 30,427 | 32 | 182 | 39 (14) | 0.3 | 79 | 7 | 0 |
+| flooded in ≥ 10 % of passes | 54 | 11,801 | 3 | 27 | 20 (7) | 0.1 | 62 | 7 | 2 |
+| largest seen (2018-09-08) | 278 | 39,367 | 38 | 231 | 35 (11) | 0.4 | 97 | 8 | 2 |
 
 Most flooded land is cropland; the people exposed live in villages on slightly higher ground at the edge of the
 flooded fields, which is why a settlement-level list (viewer, bulletin tool) is more useful to a district officer
@@ -1350,38 +1568,38 @@ than a total. Mapped building footprints are incomplete here (Microsoft: 120,647
 
 | Scenario | Road cut (km) | Settlements cut off from any hospital/clinic | People cut off | People reaching one only by a detour ≥ 5 min | Median detour (min) | People cut off from any town |
 |---|---|---|---|---|---|---|
-| 2-year | 3 | 0 | 0 | 802 | 7.5 | 0 |
-| 5-year | 42 | 32 | 36,941 | 23,140 | 7.9 | 39,073 |
-| 10-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| 25-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| 50-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| 100-year | 44 | 32 | 36,941 | 24,345 | 9.1 | 40,836 |
-| flooded in ≥ 10 % of passes | 17 | 0 | 0 | 9,998 | 11.7 | 0 |
-| largest seen (2018-09-08) | 31 | 21 | 15,784 | 30,475 | 9.6 | 24,732 |
+| 2-year | 8 | 0 | 0 | 802 | 7.5 | 0 |
+| 5-year | 48 | 39 | 51,155 | 20,287 | 8.3 | 63,788 |
+| 10-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| 25-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| 50-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| 100-year | 54 | 41 | 52,423 | 20,605 | 7.6 | 65,056 |
+| flooded in ≥ 10 % of passes | 25 | 1 | 521 | 802 | 7.5 | 521 |
+| largest seen (2018-09-08) | 49 | 43 | 49,742 | 32,621 | 11.7 | 95,950 |
 
 Graph: 147,729 nodes, 156,647 edges, 6,383 km; 364 hospital/clinic
 nodes and 6 towns; settlements farther than 500 m from the main network are not routed.
 
-- **Evacuation**: schools serve as relief camps. In the 25-year flood 97 of the
-  mapped schools stay dry and 40,836 people can reach none of them by
+- **Evacuation**: schools serve as relief camps. In the 25-year flood 101 of the
+  mapped schools stay dry and 65,056 people can reach none of them by
   road. OpenStreetMap maps only about a hundred schools here (every village has one), so travel times to shelters
   need the official OSDMA shelter list; the cut-off count is the robust part.
 - **Everyday travel**: with an assumed 0.2 trips per person per day to the nearest town, the detours of the 25-year
-  flood add about 12,023 person-hours of travel a day — the cost that does not appear in damage figures.
+  flood add about 10,077 person-hours of travel a day — the cost that does not appear in damage figures.
 - **Critical links** (flooded sections carrying the most people's dry-weather route to the nearest hospital; raising
   or protecting these keeps the most people connected; earthwork in C.7):
 
 | Rank | Road | Class | People routed | Flooded length (km) | Location |
 |---|---|---|---|---|---|
-| 1 | (unnamed) | unclassified | 10,351 | 1.03 | 20.3830 N, 86.1617 E |
-| 2 | (unnamed) | unclassified | 9,421 | 0.34 | 20.2716 N, 86.0251 E |
-| 3 | (unnamed) | tertiary | 8,261 | 0.71 | 20.4531 N, 86.3770 E |
+| 1 | (unnamed) | secondary | 10,930 | 0.83 | 20.2661 N, 86.3614 E |
+| 2 | (unnamed) | unclassified | 10,351 | 1.68 | 20.3826 N, 86.1631 E |
+| 3 | (unnamed) | unclassified | 9,421 | 0.34 | 20.2716 N, 86.0251 E |
 | 4 | (unnamed) | unclassified | 7,657 | 0.14 | 20.3995 N, 86.2551 E |
-| 5 | (unnamed) | tertiary | 7,045 | 0.14 | 20.3455 N, 86.3792 E |
-| 6 | (unnamed) | tertiary | 6,371 | 2.06 | 20.4067 N, 86.3814 E |
+| 5 | (unnamed) | tertiary | 7,582 | 0.42 | 20.4527 N, 86.3781 E |
+| 6 | (unnamed) | tertiary | 7,045 | 0.14 | 20.3455 N, 86.3792 E |
 | 7 | (unnamed) | unclassified | 6,210 | 0.34 | 20.4651 N, 86.3551 E |
 | 8 | (unnamed) | residential | 6,171 | 0.03 | 20.2845 N, 86.4417 E |
-| 9 | (unnamed) | tertiary | 4,863 | 0.31 | 20.3874 N, 86.4262 E |
+| 9 | (unnamed) | tertiary | 4,863 | 0.16 | 20.3869 N, 86.4210 E |
 | 10 | (unnamed) | unclassified | 4,638 | 0.05 | 20.5250 N, 86.0275 E |
 
 ### C.3 Structural
@@ -1396,8 +1614,8 @@ nodes and 6 towns; settlements farther than 500 m from the main network are not 
   cracks when this exceeds f_t t²/6. With flexural tension f_t = 0.1–0.2 MPa the critical depth is
   0.81–1.03 m for a 230 mm wall and
   0.51–0.65 m for a 115 mm wall (self-weight
-  ignored, conservative). **3,626 people** live where the 25-year flood is 1 m deep
-  or more (5,194 at 0.6 m or more); mud walls weaken with soaking at any depth.
+  ignored, conservative). **4,080 people** live where the 25-year flood is 1 m deep
+  or more (5,867 at 0.6 m or more); mud walls weaken with soaking at any depth.
   The settlements are listed in `results/impact/wall_risk_settlements.csv`.
 - **Bridge scour** (IRC:78, Lacey): d_sm = 1.34 (D_b²/K_sf)^(1/3), D_b = Q / linear waterway, K_sf = 1.76 √d_m
   (d_m = 0.3 mm until the field sieve gives the bed size); maximum scour 2.0 d_sm at piers, 1.27 d_sm at abutments,
@@ -1425,9 +1643,9 @@ nodes and 6 towns; settlements farther than 500 m from the main network are not 
   (20.48 N, 85.91 E). Shares of 25 % and 75 % are in
   `bridge_scour.csv`. Pier foundations must reach well below these depths; the PWD
   foundation levels collected at the site close the check.
-- **Clearance and facilities**: 74 bridge segments have flood water within 60 m
-  of an end; deck clearance above HFL is checked against IRC:5 at the site (§8.5). 6
-  hospitals/clinics and 4 schools have flood water within 60 m; 0.0 km of railway is
+- **Clearance and facilities**: 79 bridge segments have flood water within 60 m
+  of an end; deck clearance above HFL is checked against IRC:5 at the site (§8.5). 7
+  hospitals/clinics and 0 schools have flood water within 60 m; 0.3 km of railway is
   under water.
 
 ![Bridge scour screening](../results/atlas_figures/bridge_scour.png)
@@ -1436,23 +1654,23 @@ nodes and 6 towns; settlements farther than 500 m from the main network are not 
 
 ![River-bank inspection priority](../results/atlas_figures/geotech_map.png)
 
-663 one-kilometre cells contain river bank. SoilGrids gives clay loam (456), clay (165), silty clay loam (34), silty clay (8)
+664 one-kilometre cells contain river bank. SoilGrids gives clay loam (454), clay (166), silty clay loam (36), silty clay (8)
 — too coarse to tell one bank from another, which is why the field samples matter. OpenStreetMap maps only
 12 embankment segments (1.8 km), so the screening works from the river-bed
 outline (the WRD embankment inventory is requested in §8.1). The field list is the 20 highest cells at least 3 km apart:
 
 | Rank | Location | Water behind the bank (share of passes) | Years with water behind the bank | Texture (sand/silt/clay %) | People within 2 km |
 |---|---|---|---|---|---|
-| 1 | 20.4290 N, 85.9090 E | 4% | 10 | clay loam (29/37/34) | 68,934 |
-| 2 | 20.4290 N, 85.8710 E | 6% | 10 | clay loam (29/36/34) | 22,047 |
-| 3 | 20.4920 N, 85.8320 E | 2% | 9 | clay loam (30/37/33) | 93,127 |
-| 4 | 20.3140 N, 86.3690 E | 8% | 10 | clay loam (22/44/34) | 18,481 |
-| 5 | 20.5110 N, 85.9180 E | 1% | 6 | clay loam (29/38/32) | 53,829 |
-| 6 | 20.2940 N, 85.8910 E | 2% | 9 | clay loam (36/30/34) | 13,872 |
-| 7 | 20.3140 N, 86.3980 E | 1% | 8 | clay loam (21/44/34) | 23,281 |
-| 8 | 20.3210 N, 85.8810 E | 1% | 5 | clay loam (37/30/33) | 24,225 |
-| 9 | 20.6390 N, 86.2820 E | 4% | 9 | clay loam (25/38/37) | 18,192 |
-| 10 | 20.6210 N, 86.3300 E | 3% | 9 | clay loam (24/37/39) | 17,936 |
+| 1 | 20.5110 N, 85.9180 E | 4% | 10 | clay loam (29/38/32) | 53,829 |
+| 2 | 20.4920 N, 85.8320 E | 3% | 10 | clay loam (30/37/33) | 93,127 |
+| 3 | 20.4290 N, 85.9090 E | 6% | 10 | clay loam (29/37/34) | 68,934 |
+| 4 | 20.4290 N, 85.8710 E | 7% | 10 | clay loam (29/36/34) | 22,047 |
+| 5 | 20.3140 N, 86.3690 E | 8% | 10 | clay loam (22/44/34) | 18,481 |
+| 6 | 20.3210 N, 85.8810 E | 2% | 10 | clay loam (37/30/33) | 24,225 |
+| 7 | 20.2940 N, 85.8910 E | 2% | 9 | clay loam (36/30/34) | 13,872 |
+| 8 | 20.2570 N, 85.8810 E | 1% | 8 | clay loam (34/34/32) | 14,397 |
+| 9 | 20.3140 N, 86.3980 E | 1% | 8 | clay loam (21/44/34) | 23,281 |
+| 10 | 20.3140 N, 86.3220 E | 7% | 10 | clay loam (23/40/37) | 14,275 |
 
 Laboratory plan: wet sieving (IS 2720 Part 4), liquid / plastic limits (IS 2720 Part 5), IS 1498 class, Kenney–Lau
 internal stability and a piping flag (`soil_gradation.py`); bank slopes measured at the site give the factor of
@@ -1469,10 +1687,10 @@ lose bearing capacity while it is wet and settle when the water table falls back
 
 | Scenario | Advisory zone (km²) | People in the zone | People on flooded land | Settlements with ≥ 25 % of people in the zone |
 |---|---|---|---|---|
-| 5-year | 414 | 380,300 | 22,545 | 290 |
-| 25-year | 432 | 415,549 | 25,163 | 310 |
-| 100-year | 432 | 415,549 | 25,163 | 310 |
-| flooded in ≥ 10 % of passes | 319 | 299,472 | 11,063 | 185 |
+| 5-year | 464 | 407,037 | 25,384 | 305 |
+| 25-year | 489 | 441,605 | 30,427 | 329 |
+| 100-year | 489 | 441,605 | 30,427 | 329 |
+| flooded in ≥ 10 % of passes | 366 | 291,194 | 11,801 | 177 |
 
 What the advisory means for a typical house foundation (strip footing 1 m wide at 1 m depth; textbook parameters to be
 replaced by the lab results, `foundation_checks.py`):
@@ -1494,32 +1712,32 @@ The 200 m distance is a screening value; the water levels in village wells at in
 ![Flood drivers](../results/atlas_figures/flood_drivers.png)
 
 37 cyclones and depressions passed within 300 km of the delta since 2016
-(IBTrACS). Of the 20 largest floods seen by radar, 18 came with a high Naraj flow (≥ 9,682 m³/s, the
-monsoon 90th percentile), 14 with heavy rain (≥ 135 mm in 7 days) and
+(IBTrACS). Of the 20 largest floods seen by radar, 15 came with a high Naraj flow (≥ 9,682 m³/s, the
+monsoon 90th percentile), 13 with heavy rain (≥ 135 mm in 7 days) and
 11 within a week of a Bay of Bengal system:
 
 | Date | Flooded land (km²) | Naraj flow (m³/s) | Rain (mm) | System | Drivers |
 |---|---|---|---|---|---|
-| 2021-09-14 | 267 | 11,614 | 231 | depression (unnamed) | river + rain + cyclone/depression |
-| 2022-08-16 | 218 | 24,603 | 177 | depression (unnamed) | river + rain + cyclone/depression |
-| 2020-08-26 | 204 | 15,523 | 187 |  | river + rain |
-| 2018-09-08 | 276 | 15,030 | 159 | depression (unnamed) | river + rain + cyclone/depression |
-| 2021-09-16 | 250 | 15,380 | 242 | depression (unnamed) | river + rain + cyclone/depression |
-| 2018-09-12 | 145 | 15,030 | 117 | depression (unnamed) | river + cyclone/depression |
-| 2021-09-19 | 182 | 15,380 | 175 | depression (unnamed) | river + rain + cyclone/depression |
-| 2026-08-14 | 138 | 9,682 | 187 |  | river + rain |
-| 2018-09-06 | 137 | 14,157 | 186 | depression (unnamed) | river + rain + cyclone/depression |
-| 2026-07-26 | 154 | 5,283 | 259 |  | rain |
-| 2026-08-02 | 121 | 14,893 | 155 |  | river + rain |
-| 2026-10-01 | 119 | 19,497 | 56 |  | river |
-| 2020-09-07 | 100 | 13,676 | 42 |  | river |
-| 2020-08-31 | 123 | 23,226 | 139 |  | river + rain |
-| 2018-10-14 | 127 | 6,901 | 145 | Titli | rain + cyclone/depression |
-| 2022-08-18 | 118 | 28,378 | 141 | depression (unnamed) | river + rain + cyclone/depression |
-| 2019-08-14 | 78 | 10,888 | 74 | depression (unnamed) | river + cyclone/depression |
-| 2025-07-31 | 72 | 16,217 | 85 | depression (unnamed) | river + cyclone/depression |
-| 2019-09-13 | 70 | 19,453 | 59 |  | river |
-| 2020-08-28 | 99 | 20,136 | 180 |  | river + rain |
+| 2021-09-14 | 411 | 11,614 | 231 | depression (unnamed) | river + rain + cyclone/depression |
+| 2020-08-26 | 377 | 14,487 | 187 |  | river + rain |
+| 2022-08-16 | 280 | 24,603 | 177 | depression (unnamed) | river + rain + cyclone/depression |
+| 2018-09-06 | 222 | 13,867 | 186 | depression (unnamed) | river + rain + cyclone/depression |
+| 2018-09-12 | 212 | 13,645 | 117 | depression (unnamed) | river + cyclone/depression |
+| 2026-07-26 | 246 | 5,283 | 259 |  | rain |
+| 2018-09-08 | 278 | 15,030 | 159 | depression (unnamed) | river + rain + cyclone/depression |
+| 2021-09-16 | 271 | 15,380 | 242 | depression (unnamed) | river + rain + cyclone/depression |
+| 2026-08-14 | 174 | 9,682 | 187 |  | river + rain |
+| 2021-09-19 | 195 | 12,617 | 175 | depression (unnamed) | river + rain + cyclone/depression |
+| 2026-10-01 | 153 | 19,497 | 56 |  | river |
+| 2018-10-14 | 205 | 6,901 | 145 | Titli | rain + cyclone/depression |
+| 2020-09-07 | 136 | 10,279 | 42 |  | river |
+| 2026-08-02 | 132 | 14,893 | 155 |  | river + rain |
+| 2019-08-14 | 129 | 8,709 | 74 | depression (unnamed) | cyclone/depression |
+| 2019-09-13 | 118 | 18,577 | 59 |  | river |
+| 2025-07-31 | 114 | 16,217 | 85 | depression (unnamed) | river + cyclone/depression |
+| 2025-07-07 | 88 | 3,854 | 125 |  | none above the 90th percentiles |
+| 2023-09-16 | 87 | 7,533 | 156 |  | rain |
+| 2018-07-25 | 109 | 12,444 | 271 | depression (unnamed) | river + rain + cyclone/depression |
 
 Systems that came within 300 km:
 
@@ -1528,40 +1746,40 @@ Systems that came within 300 km:
 | Roanu | 2016-05-20 | 132 | 45 | 102 | 69 |  |
 | depression (unnamed) | 2016-08-17 | 259 | 25 | 47 | 10,398 |  |
 | depression (unnamed) | 2016-11-05 | 236 | 25 | 79 | 1,212 |  |
-| depression (unnamed) | 2017-07-18 | 99 | 25 | 89 | 6,838 | 16.4 |
-| depression (unnamed) | 2017-10-19 | 64 | 25 | 152 | 2,611 | 14.1 |
-| depression (unnamed) | 2017-11-17 | 107 | 25 | 104 | 2,957 | 8.8 |
+| depression (unnamed) | 2017-07-18 | 99 | 25 | 89 | 6,838 | 54.5 |
+| depression (unnamed) | 2017-10-19 | 64 | 25 | 152 | 2,611 | 18.2 |
+| depression (unnamed) | 2017-11-17 | 107 | 25 | 104 | 2,957 | 4.1 |
 | depression (unnamed) | 2017-12-09 | 170 | 30 | 98 | 1,171 |  |
-| depression (unnamed) | 2018-07-21 | 192 | 30 | 249 | 12,444 | 68.6 |
-| depression (unnamed) | 2018-08-07 | 123 | 25 | 212 | 11,040 | 19.1 |
-| depression (unnamed) | 2018-08-15 | 52 | 25 | 103 | 13,365 | 45.8 |
-| depression (unnamed) | 2018-09-06 | 155 | 30 | 164 | 15,030 | 276.0 |
-| Daye | 2018-09-20 | 178 | 35 | 88 | 5,382 | 34.8 |
-| Titli | 2018-10-12 | 82 | 80 | 78 | 6,901 | 126.7 |
+| depression (unnamed) | 2018-07-21 | 192 | 30 | 249 | 12,444 | 109.3 |
+| depression (unnamed) | 2018-08-07 | 123 | 25 | 212 | 11,040 | 58.1 |
+| depression (unnamed) | 2018-08-15 | 52 | 25 | 103 | 13,365 | 49.8 |
+| depression (unnamed) | 2018-09-06 | 155 | 30 | 164 | 15,030 | 278.4 |
+| Daye | 2018-09-20 | 178 | 35 | 88 | 5,382 | 54.2 |
+| Titli | 2018-10-12 | 82 | 80 | 78 | 6,901 | 204.9 |
 | Fani | 2019-05-03 | 28 | 115 | 180 | 1,168 |  |
-| depression (unnamed) | 2019-08-07 | 140 | 30 | 133 | 11,428 | 78.1 |
-| Bulbul (Matmo) | 2019-11-09 | 154 | 75 | 43 | 1,844 | 16.3 |
+| depression (unnamed) | 2019-08-07 | 140 | 30 | 133 | 11,428 | 129.2 |
+| Bulbul (Matmo) | 2019-11-09 | 154 | 75 | 43 | 1,844 | 14.5 |
 | Amphan | 2020-05-20 | 180 | 100 | 112 | 377 |  |
-| depression (unnamed) | 2020-10-22 | 147 | 25 | 58 | 3,040 | 21.9 |
+| depression (unnamed) | 2020-10-22 | 147 | 25 | 58 | 3,040 | 23.6 |
 | Yaas | 2021-05-26 | 134 | 75 | 149 | 385 |  |
-| depression (unnamed) | 2021-09-13 | 64 | 30 | 227 | 15,380 | 267.3 |
-| Gulab (Shaheen) | 2021-09-26 | 217 | 45 | 52 | 6,682 | 61.8 |
+| depression (unnamed) | 2021-09-13 | 64 | 30 | 227 | 15,380 | 411.3 |
+| Gulab (Shaheen) | 2021-09-26 | 217 | 45 | 52 | 6,682 | 96.1 |
 | Jawad | 2021-12-05 | 105 | 30 | 158 | 1,527 |  |
-| depression (unnamed) | 2022-08-09 | 67 | 25 | 193 | 24,603 | 218.4 |
-| depression (unnamed) | 2022-08-14 | 184 | 25 | 171 | 28,378 | 218.4 |
-| depression (unnamed) | 2022-08-19 | 215 | 30 | 136 | 26,914 | 64.1 |
-| depression (unnamed) | 2022-09-11 | 182 | 25 | 74 | 6,294 | 12.6 |
-| Hamoon | 2023-10-23 | 254 | 50 | 3 | 2,088 | 12.3 |
-| Midhili | 2023-11-16 | 247 | 35 | 25 | 1,261 | 9.0 |
-| depression (unnamed) | 2024-07-20 | 112 | 25 | 50 | 4,852 | 10.9 |
-| depression (unnamed) | 2024-09-09 | 52 | 30 | 52 | 19,098 | 17.7 |
-| depression (unnamed) | 2024-09-15 | 288 | 30 | 77 | 17,946 | 17.7 |
-| Dana | 2024-10-26 | 88 | 60 | 70 | 1,874 | 13.7 |
-| depression (unnamed) | 2025-05-29 | 230 | 30 | 70 | 558 | 6.7 |
-| depression (unnamed) | 2025-07-25 | 273 | 25 | 86 | 16,217 | 71.8 |
-| depression (unnamed) | 2025-08-19 | 188 | 20 | 100 | 7,655 | 30.5 |
-| depression (unnamed) | 2025-09-26 | 128 | 25 | 68 | 9,682 | 37.4 |
-| depression (unnamed) | 2025-10-02 | 181 | 30 | 120 | 11,454 | 10.0 |
+| depression (unnamed) | 2022-08-09 | 67 | 25 | 193 | 24,603 | 280.4 |
+| depression (unnamed) | 2022-08-14 | 184 | 25 | 171 | 28,378 | 280.4 |
+| depression (unnamed) | 2022-08-19 | 215 | 30 | 136 | 26,914 | 67.4 |
+| depression (unnamed) | 2022-09-11 | 182 | 25 | 74 | 6,294 | 14.0 |
+| Hamoon | 2023-10-23 | 254 | 50 | 3 | 2,088 | 9.6 |
+| Midhili | 2023-11-16 | 247 | 35 | 25 | 1,261 | 4.7 |
+| depression (unnamed) | 2024-07-20 | 112 | 25 | 50 | 4,852 | 16.8 |
+| depression (unnamed) | 2024-09-09 | 52 | 30 | 52 | 19,098 | 26.8 |
+| depression (unnamed) | 2024-09-15 | 288 | 30 | 77 | 17,946 | 18.6 |
+| Dana | 2024-10-26 | 88 | 60 | 70 | 1,874 | 13.3 |
+| depression (unnamed) | 2025-05-29 | 230 | 30 | 70 | 558 | 7.1 |
+| depression (unnamed) | 2025-07-25 | 273 | 25 | 86 | 16,217 | 113.5 |
+| depression (unnamed) | 2025-08-19 | 188 | 20 | 100 | 7,655 | 28.3 |
+| depression (unnamed) | 2025-09-26 | 128 | 25 | 68 | 9,682 | 52.1 |
+| depression (unnamed) | 2025-10-02 | 181 | 30 | 120 | 11,454 | 15.4 |
 
 Storm surge and high tide also slow the drainage of the lower delta through the tidal distributaries; the study box
 ends about 25 km inland of Paradip, and a tide-gauge record (Paradip) is the first ocean dataset to add.
@@ -1578,11 +1796,11 @@ ends about 25 km inland of Paradip, and a tide-gauge record (Paradip) is the fir
 | Apr | 278 | 0.0% | 0.02 |  | yes |
 | May | 231 | 0.0% | 0.20 |  | no |
 | Jun | 291 | 0.0% | 0.35 | 0.2% | no |
-| Jul | 3,274 | 1.2% | 0.37 | 0.7% | no |
-| Aug | 8,355 | 2.9% | 0.74 | 1.5% | no |
-| Sep | 7,465 | 2.6% | 0.59 | 1.6% | no |
-| Oct | 2,882 | 0.0% | 0.50 | 0.7% | no |
-| Nov | 1,210 | 0.0% | 0.22 | 0.4% | no |
+| Jul | 3,274 | 1.2% | 0.37 | 1.3% | no |
+| Aug | 8,355 | 2.9% | 0.74 | 1.9% | no |
+| Sep | 7,465 | 2.6% | 0.59 | 2.2% | no |
+| Oct | 2,882 | 0.0% | 0.50 | 0.9% | no |
+| Nov | 1,210 | 0.0% | 0.22 | 0.3% | no |
 | Dec | 965 | 0.0% | 0.07 |  | yes |
 
 **Raising the critical links** above the 25-year flood (raise = 90th-percentile depth + 0.6 m freeboard; crest 3.75 m
@@ -1590,26 +1808,26 @@ single lane or 7.5 m for trunk/primary roads; side slopes 2H:1V; earthwork at an
 
 | Rank | Road | Class | Flooded (km) | Depth p90 (m) | Raise (m) | Crest (m) | Design | Earthwork (m³) | Cost (₹ lakh) |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | (unnamed) | unclassified | 1.03 | 0.6 | 1.2 | 3.75 | embankment raise | 7,601 | 26.6 |
-| 2 | (unnamed) | unclassified | 0.34 | 0.4 | 1.0 | 3.75 | embankment raise | 2,008 | 7.0 |
-| 3 | (unnamed) | tertiary | 0.71 | 0.0 | 0.6 | 3.75 | embankment raise | 2,109 | 7.4 |
-| 4 | (unnamed) | unclassified | 0.14 | 1.6 | 2.2 | 3.75 | embankment raise | 2,599 | 9.1 |
-| 5 | (unnamed) | tertiary | 0.14 | 0.7 | 1.3 | 3.75 | embankment raise | 1,206 | 4.2 |
-| 6 | (unnamed) | tertiary | 2.06 | 4.3 | 4.9 | 3.75 | bridge or vented causeway | (136,774 as embankment) | – |
+| 1 | (unnamed) | secondary | 0.83 | 0.2 | 0.8 | 3.75 | embankment raise | 3,552 | 12.4 |
+| 2 | (unnamed) | unclassified | 1.68 | 0.8 | 1.4 | 3.75 | embankment raise | 15,406 | 53.9 |
+| 3 | (unnamed) | unclassified | 0.34 | 0.7 | 1.3 | 3.75 | embankment raise | 2,868 | 10.0 |
+| 4 | (unnamed) | unclassified | 0.14 | 0.1 | 0.7 | 3.75 | embankment raise | 468 | 1.6 |
+| 5 | (unnamed) | tertiary | 0.42 | 0.0 | 0.6 | 3.75 | embankment raise | 1,247 | 4.4 |
+| 6 | (unnamed) | tertiary | 0.14 | 0.9 | 1.5 | 3.75 | embankment raise | 1,404 | 4.9 |
 | 7 | (unnamed) | unclassified | 0.34 | 0.0 | 0.6 | 3.75 | embankment raise | 1,010 | 3.5 |
 | 8 | (unnamed) | residential | 0.03 | 0.2 | 0.8 | 3.75 | embankment raise | 128 | 0.4 |
-| 9 | (unnamed) | tertiary | 0.31 | 3.2 | 3.9 | 3.75 | bridge or vented causeway | (13,666 as embankment) | – |
-| 10 | (unnamed) | unclassified | 0.05 | 1.4 | 2.0 | 3.75 | embankment raise | 781 | 2.7 |
+| 9 | (unnamed) | tertiary | 0.16 | 0.2 | 0.8 | 3.75 | embankment raise | 685 | 2.4 |
+| 10 | (unnamed) | unclassified | 0.05 | 1.5 | 2.1 | 3.75 | embankment raise | 835 | 2.9 |
 
-Embankment raises for 8 links (2.78 km of road):
-17,442 m³, about ₹0.61 crore. Links 6 and 9 would need raises above 3 m (4.9 m over 2.06 km; 3.9 m over 0.31 km): each needs a bridge or a vented causeway rather than a road embankment, and the DEM depth there is the first thing to check at the site (check points RL06, RL09). As embankments they alone would take 150,440 m³. Each of the ten links
-carries the dry-weather hospital route of 4,638–10,351 people.
+Embankment raises for 10 links (4.13 km of road):
+27,603 m³, about ₹0.97 crore. Each of the ten links
+carries the dry-weather hospital route of 4,638–10,930 people.
 
 **Deployment quantities** (quantities and effort only; the unit rates are asked from ClimMaTech):
 
 | Item | Unit | Quantity | Crew-days | Basis |
 |---|---|---|---|---|
-| Solar siren unit with controller (Rakshak-type), mast and foundation | site | 40 | 40 | 40 sirens cover 49% of the exposed people at a 1.5 km audible range (impact_siting.py) |
+| Solar siren unit with controller (Rakshak-type), mast and foundation | site | 40 | 40 | 40 sirens cover 48% of the exposed people at a 1.5 km audible range (impact_siting.py) |
 | Non-contact radar level + surface-velocity station (Pravaah-type) on bridge, with logger and telemetry | site | 6 | 12 | one per main distributary (impact_siting.py) |
 | Cross-section and bed-material survey at each sensor bridge | site | 6 | 6 | needed to turn level + surface velocity into discharge |
 | Community training and siren drills | village | 40 | 20 | one session per siren site |
@@ -1623,7 +1841,7 @@ site each year.
 
 ### C.8 Water resources: the watershed above the delta
 
-Daily GloFAS v4 flows just below Hirakud dam and at Naraj, 29 complete years between 1984 and 2025
+Daily GloFAS v4 flows just below Hirakud dam and at Naraj, 29 complete years between 1997 and 2025
 (`mahanadi/watershed_share.py`). For each year the flow below Hirakud on the day before the Naraj peak is compared with
 the peak (one day is the travel time found in §6.5).
 
@@ -1641,6 +1859,43 @@ Over all 29 years the share has a median of 48% (interquartile range
 basin of about 141,600 km² (sources differ between about 139,700 and 141,600 km²). GloFAS represents the reservoir with
 a generic operating rule, so these shares are indicative until CWC/WRD gauge and release records replace them.
 
+### C.9 Risk and economics
+
+**Houses.** For each design flood, the people on flooded land in each 0.1 m depth step (impact_depth.py, now also for
+the 2- and 10-year floods) times the JRC depth–damage fraction for residential buildings in Asia (Huizinga et al. 2017:
+0.33 at 0.5 m, 0.49 at 1 m, 0.72 at 2 m, 1.0 at 6 m) gives damage in house-equivalents at one household per
+4.4 people (an assumption of the order of the Census for rural Odisha), priced at
+the PMAY-G rural housing assistance of ₹1.20 lakh a house: the public cost of rebuilding, a lower bound of the loss.
+**Paddy.** Flooded cropland (ESA WorldCover) at Odisha's rice yield of 2,081 kg/ha (RBI, 2023-24) and the 2025-26 MSP of
+₹2,369 a quintal (₹49,299 a hectare); the crop is lost where the water is 0.5 m deep or more and
+30% is lost where it is shallower. **Expected annual damage** is the area under the
+damage–probability curve from the 2- to the 100-year flood (trapezoid rule) plus the 100-year damage for the rarer tail.
+
+| Flood | Naraj flow (m³/s) | People on flooded land | Houses (damage-equivalent) | Houses (₹ crore) | Paddy flooded (ha) | Paddy lost (ha) | Paddy (₹ crore) | Total (₹ crore) |
+|---|---|---|---|---|---|---|---|---|
+| 2-year | 17,897 | 7,837 | 245 | 2.93 | 2,419 | 985 | 4.85 | 7.78 |
+| 5-year | 23,940 | 25,384 | 812 | 9.74 | 16,539 | 6,579 | 32.44 | 42.18 |
+| 10-year | 27,941 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+| 25-year | 32,997 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+| 50-year | 36,747 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+| 100-year | 40,470 | 30,427 | 999 | 11.99 | 18,206 | 7,746 | 38.19 | 50.18 |
+
+The 10- to 100-year rows are equal because the radar record has not seen a larger flood (§6.5): the expected annual
+damage, ₹17.1 crore, is a lower bound. **The daily record.** Each day of 1997–2025 (29 years) at Naraj, as the
+3-day peak flow the atlas uses, was looked up in the flow–impact table (`impact_curve.csv`): on average a year brings
+438,978 person-days on flooded land and 131,511
+person-days without road access to any hospital (54,811 with the ten
+critical links raised, i.e. never cut). The warning levels of §9.7 would have stood at "Be aware" or above on
+12.7 days a year, "Be prepared" or above on 3.8 and
+"Act now" on 2.2, with "Act now" in 10 of the years.
+**Road raising.** The earthwork of C.7 (₹0.97 crore) annualised over 20 years at
+10% costs ₹11.4 lakh a year; the 76,700 person-days of
+hospital access it saves, valued at the Odisha MGNREGA wage of ₹254 a day (2024-25), are worth ₹195
+lakh: a benefit–cost ratio of 17 that leaves out health outcomes and travel delays.
+**Hirakud.** Taking 1,000 m³/s off the peak keeps about 295, 1,535 and
+2,965 people dry in a 2-, 5- and 10-year flood. **Warnings.** Twenty-four hours of warning cuts flood
+damage by about 30 % (Global Commission on Adaptation, 2019), about ₹5 crore a year here.
+
 ## Appendix D. Reproducing every result
 
 Everything runs from the scripts in this folder; the lab server holds the data (`/home1/vineet/floodfm`) and the
@@ -1652,10 +1907,10 @@ laptop builds the documents. Each stage writes files that the next one reads.
 | Benchmark training | `floodfm/train.py` through `scripts/jobqueue.py server/jobs_main.txt` | 92 runs, each with `results.json` and predictions |
 | Benchmark analysis | `scripts/analyze.py`, `scripts/make_tables.py`, `scripts/eval_no_training.py` | tables, figures, thresholds, fusion |
 | Training audit | `scripts/audit_training.py` | `results/analysis/audit_training.json` (Appendix A) |
-| 20 m retraining | `floodfm/train.py --s1_res 20` (`server/jobs_r20.txt`), `scripts/test_resolution.py` | `results/analysis/radar20m_r20.json` (Appendix B) |
+| 20 m retraining | `floodfm/train.py --s1_res 20` (`server/jobs_r20.txt`, `server/run_r20_seeds.sh`), `scripts/test_resolution.py --json`, `scripts/summarise_r20_seeds.py` | `results/analysis/radar20m*.json` (Appendix B) |
 | Context layers | `mahanadi/fetch_context.py`, `fetch_osm_pbf.py` | discharge, rain, OpenStreetMap, population, land cover, DEM, soils, storm tracks |
 | Radar archive | `mahanadi/atlas_pull.py` | 590 Sentinel-1 passes at 20 m |
-| Water maps | `mahanadi/atlas_infer.py` | 1,180 probability maps |
+| Water maps | `mahanadi/atlas_infer.py` through `server/run_r20_candidate.sh` (the 20 m-trained pair) | 1,180 probability maps |
 | Atlas, trigger map, validation, design floods | `mahanadi/atlas_build.py` | `results/atlas/` |
 | Learned flood model | `mahanadi/learned_flood_model.py` | `results/atlas/learned/` |
 | Impacts and siting | `mahanadi/impact_exposure.py`, `impact_transport.py`, `impact_siting.py`, `impact_geotech.py`, `impact_depth.py`, `impact_structures.py`, `impact_ground.py`, `ocean_cyclones.py`, `cm_plan.py`, `watershed_share.py`, `travel_time.py` | `results/impact/` |
@@ -1663,7 +1918,13 @@ laptop builds the documents. Each stage writes files that the next one reads.
 | Bulletins and CAP alerts | `mahanadi/forecast_to_impact.py` | `results/impact/bulletins/` |
 | Field check points, figures, viewer | `mahanadi/make_checkpoints.py`, `make_atlas_figures.py`, `make_discipline_figures.py`, `make_dashboard.py` | `fieldkit/checkpoints/`, `results/atlas_figures/`, `dashboard/index.html` |
 | Whole chain on the server | `mahanadi/run_atlas_pipeline.sh`, `run_disciplines.sh` (`SKIP_BUILD=1 SKIP_S2=1` re-runs only the impacts) | all of the above |
-| Documents | `report/write_sections.py`, `build_report.py`, `build_slides.py`, `build_website.py` | this report, the slides, the website |
+| First atlas against the rebuilt one | `scripts/compare_atlases.py` | `results/archive_atlas_10m/compare.json` (Appendix B) |
+| Flow–impact tables | `mahanadi/impact_curve.py` | `results/impact/impact_curve.csv`, `settlement_thresholds.csv`, `road_cut_flows.csv`, `facility_thresholds.csv` |
+| Naraj flow forecast | `mahanadi/forecast_model.py` | `results/forecast/` (§6.7) |
+| Risk and economics | `mahanadi/risk_economics.py` (after `impact_depth.py`) | `results/impact/risk_economics.json`, `damage_by_scenario.csv`, `alert_days_per_year.csv` (§7.9, C.9) |
+| Other basins | `mahanadi/basins.py`, `server/run_basins_pull.sh`, `run_basins_context.sh`, `run_basin_atlas.sh` | `results/basins/<basin>/` (§6.8) |
+| Live warnings | `live/make_basin_config.py`, `live/run_live.py` (`server/run_live.sh` daily) | `live/out/` (§9.7) |
+| Documents | `report/write_sections.py`, `build_report.py`, `build_slides.py`, `build_website.py`, `build_handouts.py` | this report, the slides, the website, the summary and team guide |
 
 The exact commands are in `README.md`. Every number in this report is read from these files when the report is built,
 so a re-run updates the text, the tables, the slides and the website together.

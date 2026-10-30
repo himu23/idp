@@ -15,7 +15,7 @@ model cannot know, and every item below ends up as a number or a decision in the
 | Flood-mark heights (from protocol A) | Checks the DEM-based flood depth used for wall and road-raising estimates | `analysis/field_validate_map.py` output vs `depth_T25.tif` | §7.3 structures, §7.7 construction |
 | Road-closure answers at the critical links | Confirms or corrects the network model's cut-off roads | entered in `templates/ground_truth_points.csv` notes, checked against `critical_links.csv` | §7.2 transport |
 | Sensor / siren site sheet | Feasibility of the proposed deployment (mounting, mobile signal, access in flood) | `templates/sensor_site_assessment.csv` | §9 deployment plan |
-| Interviews (engineers, operators, village heads) | The constraints that change the problem statement | `templates/interviews.csv` | §2 problem statement, §10 discussion |
+| Interviews (engineers, operators, village heads) | The constraints that change the problem statement | `templates/interviews.csv` | §1.1 problem statement, §10 discussion |
 
 Everything is recorded in the CSV templates in `templates/` (print one copy of each, fill on paper, type in the
 same evening). Photos: one photo log row per photo (`photo_log.csv`), every photo with GPS on.
@@ -149,6 +149,8 @@ Ask for consent to note and quote. One row per interview in `interviews.csv`; ke
 **A. WRD / CWC engineers (flood management):**
 1. How is flood information passed from Hirakud and Naraj to the delta today? Who decides warnings, how much
    lead time is there, and what is the bottleneck?
+   Show the live outlook (`live/out/index.html`): would its levels (from 12,250, 18,500 and 21,250 m³/s at Naraj)
+   and its village list match what you would announce?
 2. Which discharge at Naraj (in lakh cusec) starts flooding which areas? Is there a local rule of thumb?
 3. Which embankment reaches breach or overtop most often? What causes it (overtopping, seepage/piping, slope
    failure, rat holes)? How are they repaired and inspected?
@@ -172,6 +174,11 @@ Ask for consent to note and quote. One row per interview in `interviews.csv`; ke
    was it cut?
 3. Where do people go (cyclone shelter, school, embankment top)?
 4. What would help most: earlier warning, a siren, a phone message, a raised road?
+5. In the last big flood (2020 or 2022): what happened to the house (water inside? how deep? walls cracked or
+   fell? repair cost in rupees) and to the paddy (how many days under water, how deep, how much of the crop was
+   lost)? These check the damage estimate of the report (§7.9): the depth–damage curve and the paddy-loss rule.
+6. Would the village act on a warning that names it and says the day the water is expected (show the live
+   bulletin on the phone)? Who should receive it first?
 
 ## 5. After the visit
 
@@ -190,7 +197,7 @@ Ask for consent to note and quote. One row per interview in `interviews.csv`; ke
 3. Write §8 (field results) of the report with what was found **and what changed because of it**: e.g. a
    corrected Manning's n in the hydraulic model, the atlas accuracy at field points, roads the network model
    missed, bank cells re-ranked by the lab results, siren sites dropped for lack of mobile signal.
-4. Update the problem statement (§2) with the constraints heard in the interviews.
+4. Update the problem statement (report §1.1 and `PLAN.md` §2) with the constraints heard in the interviews.
 
 The `examples/` folder has made-up sheets that only show the format and test the scripts. They are **not**
 field data and must never be reported as such.

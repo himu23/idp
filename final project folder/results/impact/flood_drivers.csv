@@ -1,21 +1,21 @@
 date,flood_km2,flood_share_of_observed_land,naraj_m3s,rain_mm,system,drivers
-2021-09-14,267.3,0.139,11614,231,Unnamed,river + rain + cyclone/depression
-2022-08-16,218.4,0.114,24603,177,Unnamed,river + rain + cyclone/depression
-2020-08-26,204.3,0.106,15523,187,,river + rain
-2018-09-08,276.0,0.097,15030,159,Unnamed,river + rain + cyclone/depression
-2021-09-16,250.5,0.088,15380,242,Unnamed,river + rain + cyclone/depression
-2018-09-12,145.4,0.076,15030,117,Unnamed,river + cyclone/depression
-2021-09-19,181.7,0.075,15380,175,Unnamed,river + rain + cyclone/depression
-2026-08-14,137.6,0.071,9682,187,,river + rain
-2018-09-06,137.1,0.071,14157,186,Unnamed,river + rain + cyclone/depression
-2026-07-26,153.7,0.063,5283,259,,rain
-2026-08-02,121.1,0.063,14893,155,,river + rain
-2026-10-01,118.7,0.062,19497,56,,river
-2020-09-07,99.5,0.052,13676,42,,river
-2020-08-31,122.9,0.051,23226,139,,river + rain
-2018-10-14,126.7,0.044,6901,145,Titli,rain + cyclone/depression
-2022-08-18,117.8,0.041,28378,141,Unnamed,river + rain + cyclone/depression
-2019-08-14,78.1,0.041,10888,74,Unnamed,river + cyclone/depression
-2025-07-31,71.8,0.037,16217,85,Unnamed,river + cyclone/depression
-2019-09-13,70.3,0.037,19453,59,,river
-2020-08-28,99.0,0.035,20136,180,,river + rain
+2021-09-14,411.3,0.214,11614,231,Unnamed,river + rain + cyclone/depression
+2020-08-26,376.6,0.196,14487,187,,river + rain
+2022-08-16,280.4,0.146,24603,177,Unnamed,river + rain + cyclone/depression
+2018-09-06,221.7,0.115,13867,186,Unnamed,river + rain + cyclone/depression
+2018-09-12,211.6,0.11,13645,117,Unnamed,river + cyclone/depression
+2026-07-26,246.3,0.101,5283,259,,rain
+2018-09-08,278.4,0.097,15030,159,Unnamed,river + rain + cyclone/depression
+2021-09-16,270.8,0.095,15380,242,Unnamed,river + rain + cyclone/depression
+2026-08-14,173.9,0.09,9682,187,,river + rain
+2021-09-19,195.1,0.08,12617,175,Unnamed,river + rain + cyclone/depression
+2026-10-01,152.7,0.079,19497,56,,river
+2018-10-14,204.9,0.072,6901,145,Titli,rain + cyclone/depression
+2020-09-07,135.7,0.071,10279,42,,river
+2026-08-02,132.2,0.069,14893,155,,river + rain
+2019-08-14,129.2,0.067,8709,74,Unnamed,cyclone/depression
+2019-09-13,117.5,0.061,18577,59,,river
+2025-07-31,113.5,0.059,16217,85,Unnamed,river + cyclone/depression
+2025-07-07,88.3,0.046,3854,125,,none above the 90th percentiles
+2023-09-16,86.8,0.045,7533,156,,rain
+2018-07-25,109.3,0.045,12444,271,Unnamed,river + rain + cyclone/depression

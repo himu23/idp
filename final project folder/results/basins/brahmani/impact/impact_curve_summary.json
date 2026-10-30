@@ -1,0 +1,53 @@
+{
+ "levels": 42,
+ "q_max_seen_m3s": 6108,
+ "routing": true,
+ "settlements": 1337,
+ "settlements_ever_10pct": 190,
+ "roads_with_cut_flow": 206,
+ "facilities": 148,
+ "check_against_scenarios": {
+  "T2": {
+   "flooded_km2": [
+    70.22,
+    70.2
+   ],
+   "people": [
+    9550.0,
+    9550
+   ],
+   "settlements_10pct": [
+    6,
+    6
+   ]
+  },
+  "T5": {
+   "flooded_km2": [
+    575.62,
+    575.6
+   ],
+   "people": [
+    61056.0,
+    61056
+   ],
+   "settlements_10pct": [
+    72,
+    72
+   ]
+  },
+  "T25": {
+   "flooded_km2": [
+    950.23,
+    950.2
+   ],
+   "people": [
+    129662.0,
+    129662
+   ],
+   "settlements_10pct": [
+    190,
+    190
+   ]
+  }
+ }
+}

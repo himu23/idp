@@ -1,22 +1,22 @@
 MAHANADI DELTA - EXPECTED FLOODING FOR A NARAJ FLOW OF 23,940 m3/s (8.5 lakh cusec), lead time 24 h
-(flow = highest daily flow over 5 days at Naraj, the measure the atlas is fitted on; method: trigger-discharge map, river flow only)
-Expected flooded land: 203 km2
-People living on that land: 22,545
-Settlements with at least 10 % of people on flooded land: 20
-  - near Patkura (9.7 km): about 321 people (46% of 704) at 20.3133 N, 86.3615 E
-  - near Biridi (1.4 km): about 309 people (54% of 574) at 20.3319 N, 86.0429 E
-  - near Bhattasagar Square (7.0 km): about 234 people (15% of 1,613) at 20.6301 N, 86.1248 E
-  - near Patkura (2.7 km): about 152 people (24% of 647) at 20.4002 N, 86.3823 E
-  - near Patkura (1.5 km): about 78 people (28% of 281) at 20.3855 N, 86.3917 E
+(flow = highest daily flow over 3 days at Naraj, the measure the atlas is fitted on; method: trigger-discharge map, river flow only)
+Expected flooded land: 218 km2
+People living on that land: 25,384
+Settlements with at least 10 % of people on flooded land: 24
+  - near Biridi (1.4 km): about 403 people (70% of 574) at 20.3319 N, 86.0429 E
+  - near Patkura (9.7 km): about 341 people (48% of 704) at 20.3133 N, 86.3615 E
+  - near Bhattasagar Square (7.0 km): about 263 people (16% of 1,613) at 20.6301 N, 86.1248 E
+  - near Choudwar (4.0 km): about 143 people (21% of 694) at 20.5588 N, 85.8918 E
+  - near Patkura (2.7 km): about 129 people (20% of 647) at 20.4002 N, 86.3823 E
+  - near Patkura (1.5 km): about 90 people (32% of 281) at 20.3855 N, 86.3917 E
+  - near Fakirabad (7.2 km): about 89 people (13% of 706) at 20.4445 N, 86.4497 E
   - near Dhuria (8.6 km): about 76 people (14% of 529) at 20.4610 N, 86.3444 E
-  - near Choudwar (4.0 km): about 75 people (11% of 694) at 20.5588 N, 85.8918 E
-  - near Patkura (14.6 km): about 71 people (16% of 440) at 20.2606 N, 86.4338 E
-  - near Patkura (9.3 km): about 65 people (25% of 269) at 20.3113 N, 86.3760 E
-  - near Patkura (10.8 km): about 62 people (25% of 247) at 20.3116 N, 86.3447 E
-  - near Patkura (9.1 km): about 59 people (23% of 253) at 20.3116 N, 86.4309 E
-  - near Nemalo (1.2 km): about 58 people (14% of 414) at 20.4409 N, 86.1674 E
-  - near Gobindpur (2.2 km): about 48 people (15% of 326) at 20.3460 N, 86.0320 E
-  - near Patkura (14.9 km): about 47 people (13% of 352) at 20.2562 N, 86.4195 E
-  - near Bhattasagar Square (5.9 km): about 44 people (11% of 417) at 20.6256 N, 86.1147 E
-Main roads under water: 10.9 km
+  - near Patkura (9.3 km): about 75 people (28% of 269) at 20.3113 N, 86.3760 E
+  - near Patkura (9.1 km): about 74 people (30% of 253) at 20.3116 N, 86.4309 E
+  - near Gobindpur (2.6 km): about 72 people (28% of 260) at 20.3515 N, 86.0166 E
+  - near Biridi (7.9 km): about 69 people (14% of 481) at 20.2658 N, 86.0652 E
+  - near Bhattasagar Square (5.9 km): about 69 people (17% of 417) at 20.6256 N, 86.1147 E
+  - near Patkura (10.8 km): about 67 people (27% of 247) at 20.3116 N, 86.3447 E
+  - near Nemalo (1.2 km): about 65 people (16% of 414) at 20.4409 N, 86.1674 E
+Main roads under water: 11.4 km; named sections: Right Puri Main Canal Road 0.8 km
 Source: Sentinel-1 flood atlas 2017-2026 + GloFAS discharge (IIT Bombay IDP prototype). Not an official warning.

@@ -1,0 +1,64 @@
+scenario,kind,name,amenity,lon,lat
+T5,health,PHC Govindpur,,86.50119,20.68098
+T5,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+T5,health,"PHC, Badakuanla",,86.52343,20.75698
+T5,school,"SKC High School, Patrapur",school,86.59708,20.61371
+T10,health,"PHC, Kamalpur",,86.51384,20.8663
+T10,health,"PHC, Bilana(N)",,86.58084,20.95265
+T10,health,PHC Govindpur,,86.50119,20.68098
+T10,health,"PHC, Balipada",,86.4583,20.85842
+T10,health,"PHC, Angalo",,86.44591,20.67047
+T10,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+T10,health,"PHC, Abhimanyu Balia",,86.30083,20.68966
+T10,health,"Government Hospital, Kothar(N)",hospital,86.51917,20.91846
+T10,health,"PHC, Badakuanla",,86.52343,20.75698
+T10,health,Babagrahi Hospital,hospital,86.25711,20.83584
+T10,health,Ayurvedic Chikitsalaya,clinic,86.20636,20.88479
+T10,school,"SKC High School, Patrapur",school,86.59708,20.61371
+T25,health,"PHC, Kamalpur",,86.51384,20.8663
+T25,health,"PHC, Bilana(N)",,86.58084,20.95265
+T25,health,PHC Govindpur,,86.50119,20.68098
+T25,health,"PHC, Balipada",,86.4583,20.85842
+T25,health,"PHC, Angalo",,86.44591,20.67047
+T25,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+T25,health,"PHC, Abhimanyu Balia",,86.30083,20.68966
+T25,health,"Government Hospital, Kothar(N)",hospital,86.51917,20.91846
+T25,health,"PHC, Badakuanla",,86.52343,20.75698
+T25,health,Babagrahi Hospital,hospital,86.25711,20.83584
+T25,health,Ayurvedic Chikitsalaya,clinic,86.20636,20.88479
+T25,school,"SKC High School, Patrapur",school,86.59708,20.61371
+T50,health,"PHC, Kamalpur",,86.51384,20.8663
+T50,health,"PHC, Bilana(N)",,86.58084,20.95265
+T50,health,PHC Govindpur,,86.50119,20.68098
+T50,health,"PHC, Balipada",,86.4583,20.85842
+T50,health,"PHC, Angalo",,86.44591,20.67047
+T50,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+T50,health,"PHC, Abhimanyu Balia",,86.30083,20.68966
+T50,health,"Government Hospital, Kothar(N)",hospital,86.51917,20.91846
+T50,health,"PHC, Badakuanla",,86.52343,20.75698
+T50,health,Babagrahi Hospital,hospital,86.25711,20.83584
+T50,health,Ayurvedic Chikitsalaya,clinic,86.20636,20.88479
+T50,school,"SKC High School, Patrapur",school,86.59708,20.61371
+T100,health,"PHC, Kamalpur",,86.51384,20.8663
+T100,health,"PHC, Bilana(N)",,86.58084,20.95265
+T100,health,PHC Govindpur,,86.50119,20.68098
+T100,health,"PHC, Balipada",,86.4583,20.85842
+T100,health,"PHC, Angalo",,86.44591,20.67047
+T100,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+T100,health,"PHC, Abhimanyu Balia",,86.30083,20.68966
+T100,health,"Government Hospital, Kothar(N)",hospital,86.51917,20.91846
+T100,health,"PHC, Badakuanla",,86.52343,20.75698
+T100,health,Babagrahi Hospital,hospital,86.25711,20.83584
+T100,health,Ayurvedic Chikitsalaya,clinic,86.20636,20.88479
+T100,school,"SKC High School, Patrapur",school,86.59708,20.61371
+freq10,health,Acupuncture Therapy Hospital,hospital,86.47816,20.93309
+observed_20260816,health,"PHC, Bilana(N)",,86.58084,20.95265
+observed_20260816,health,PHC Govindpur,,86.50119,20.68098
+observed_20260816,health,"PHC, Radagaon",,86.56609,20.82479
+observed_20260816,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+observed_20260816,health,"PHC, Badakuanla",,86.52343,20.75698
+observed_20260816,school,"SKC High School, Patrapur",school,86.59708,20.61371
+rain_T5,health,PHC Govindpur,,86.50119,20.68098
+rain_T5,health,"PHC, Hasanabad(N)",,86.52939,20.87189
+rain_T5,health,"PHC, Badakuanla",,86.52343,20.75698
+rain_T5,school,"SKC High School, Patrapur",school,86.59708,20.61371

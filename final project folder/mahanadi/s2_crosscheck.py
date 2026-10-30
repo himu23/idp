@@ -27,7 +27,8 @@ os.environ.setdefault("GDAL_NUM_THREADS", "8")
 os.environ.setdefault("CPL_VSIL_CURL_CHUNK_SIZE", "2097152")
 os.environ.setdefault("GDAL_HTTP_MULTIRANGE", "YES")
 os.environ.setdefault("GDAL_DISABLE_READDIR_ON_OPEN", "EMPTY_DIR")
-BBOX = [85.80, 20.25, 86.45, 20.65]
+
+from basins import BASINS  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--prob", required=True)
@@ -38,7 +39,9 @@ ap.add_argument("--models", default="terramind,unet", help="water probability = 
 ap.add_argument("--thr", type=float, default=0.5)
 ap.add_argument("--min_clear", type=float, default=0.3)
 ap.add_argument("--max_pairs", type=int, default=60, help="monsoon/post-monsoon pairs first, then dry season")
+ap.add_argument("--basin", default="mahanadi", help="key of basins.py (the search box)")
 a = ap.parse_args()
+BBOX = BASINS[a.basin]["bbox"]
 os.makedirs(a.out, exist_ok=True)
 
 with rasterio.open(a.normal) as src:

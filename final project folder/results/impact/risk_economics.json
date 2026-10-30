@@ -1,0 +1,157 @@
+{
+ "parameters": {
+  "depth_damage": "JRC residential, Asia (Huizinga et al. 2017)",
+  "depth_m": [
+   0,
+   0.5,
+   1,
+   1.5,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "damage_fraction": [
+   0,
+   0.327,
+   0.493,
+   0.617,
+   0.72,
+   0.87,
+   0.93,
+   0.983,
+   1.0
+  ],
+  "people_per_household": 4.4,
+  "house_rs": 120000.0,
+  "paddy_rs_per_ha": 49299,
+  "shallow_crop_loss": 0.3,
+  "wage_rs_per_day": 254,
+  "warning_damage_cut": 0.3
+ },
+ "damage_by_flood": [
+  {
+   "T": 2,
+   "flow_m3s": 17897,
+   "depth_map": "T2",
+   "people_on_flooded_land": 7837,
+   "house_equivalents_damaged": 245,
+   "houses_rs_crore": 2.93,
+   "paddy_flooded_ha": 2419,
+   "paddy_lost_ha": 985,
+   "paddy_rs_crore": 4.85,
+   "total_rs_crore": 7.779999999999999
+  },
+  {
+   "T": 5,
+   "flow_m3s": 23940,
+   "depth_map": "T5",
+   "people_on_flooded_land": 25384,
+   "house_equivalents_damaged": 812,
+   "houses_rs_crore": 9.74,
+   "paddy_flooded_ha": 16539,
+   "paddy_lost_ha": 6579,
+   "paddy_rs_crore": 32.44,
+   "total_rs_crore": 42.18
+  },
+  {
+   "T": 10,
+   "flow_m3s": 27941,
+   "depth_map": "T10",
+   "people_on_flooded_land": 30427,
+   "house_equivalents_damaged": 999,
+   "houses_rs_crore": 11.99,
+   "paddy_flooded_ha": 18206,
+   "paddy_lost_ha": 7746,
+   "paddy_rs_crore": 38.19,
+   "total_rs_crore": 50.18
+  },
+  {
+   "T": 25,
+   "flow_m3s": 32997,
+   "depth_map": "T25",
+   "people_on_flooded_land": 30427,
+   "house_equivalents_damaged": 999,
+   "houses_rs_crore": 11.99,
+   "paddy_flooded_ha": 18206,
+   "paddy_lost_ha": 7746,
+   "paddy_rs_crore": 38.19,
+   "total_rs_crore": 50.18
+  },
+  {
+   "T": 50,
+   "flow_m3s": 36747,
+   "depth_map": "T25",
+   "people_on_flooded_land": 30427,
+   "house_equivalents_damaged": 999,
+   "houses_rs_crore": 11.99,
+   "paddy_flooded_ha": 18206,
+   "paddy_lost_ha": 7746,
+   "paddy_rs_crore": 38.19,
+   "total_rs_crore": 50.18
+  },
+  {
+   "T": 100,
+   "flow_m3s": 40470,
+   "depth_map": "T100",
+   "people_on_flooded_land": 30427,
+   "house_equivalents_damaged": 999,
+   "houses_rs_crore": 11.99,
+   "paddy_flooded_ha": 18206,
+   "paddy_lost_ha": 7746,
+   "paddy_rs_crore": 38.19,
+   "total_rs_crore": 50.18
+  }
+ ],
+ "expected_annual_damage_rs_crore": {
+  "houses_rs_crore": 4.19,
+  "paddy_rs_crore": 12.94,
+  "total_rs_crore": 17.13
+ },
+ "warning_saving_rs_crore_per_year": 5.14,
+ "daily_record": {
+  "years": "1997-2025 (29 years)",
+  "per_year": {
+   "person_days_on_flooded_land": 438978,
+   "person_days_without_hospital_access": 131511,
+   "person_days_without_hospital_access_links_raised": 54811
+  },
+  "mean_days_per_year_at_level": {
+   "days_level_1_or_more": 12.7,
+   "days_level_2_or_more": 3.8,
+   "days_level_3_or_more": 2.2
+  },
+  "years_with_any_level_3": 10
+ },
+ "road_raising": {
+  "earthwork_m3": 27603,
+  "cost_rs_crore": 0.97,
+  "life_years": 20,
+  "discount_rate": 0.1,
+  "annual_cost_rs_lakh": 11.4,
+  "person_days_saved_per_year": 76700,
+  "annual_benefit_rs_lakh": 194.8,
+  "benefit_cost_ratio": 17.1
+ },
+ "hirakud_1000_m3s_off_the_peak": {
+  "T2": {
+   "flow_m3s": 17897,
+   "people_saved": 295,
+   "hospital_access_saved": 0,
+   "flooded_km2_saved": 0.9
+  },
+  "T5": {
+   "flow_m3s": 23940,
+   "people_saved": 1535,
+   "hospital_access_saved": 0,
+   "flooded_km2_saved": 14.8
+  },
+  "T10": {
+   "flow_m3s": 27941,
+   "people_saved": 2965,
+   "hospital_access_saved": 0,
+   "flooded_km2_saved": 11.9
+  }
+ }
+}
