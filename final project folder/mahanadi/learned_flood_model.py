@@ -1,7 +1,7 @@
 """A learned flow + rain + history model of flooded land, tested exactly like the trigger map (leave-one-year-out).
 
-    ATLAS_DIR=runs/_atlas/build_final python mahanadi/learned_flood_model.py --context data/mahanadi_context \
-        --out runs/_atlas/learned_final
+    ATLAS_DIR=runs/_atlas/build_r20 python mahanadi/learned_flood_model.py --context data/mahanadi_context \
+        --out runs/_atlas/learned_r20
 
 The trigger map uses the Naraj flow alone; the analog maps use flow and rain only through similar past passes. Here a
 gradient-boosted classifier (scikit-learn HistGradientBoosting) sees, for every pixel of every monsoon pass, the

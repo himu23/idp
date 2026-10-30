@@ -2,7 +2,7 @@
 
     python mahanadi/travel_time.py <discharge.csv> <out_dir>
 
-Two estimates from the GloFAS v4 daily series, 1984-2025, June-October:
+Two estimates from the GloFAS v4 daily series, 1997-2025, June-October:
 1. lag (days) that maximises the correlation of day-to-day flow changes upstream vs at Naraj;
 2. for every annual flood peak at Naraj, days since the largest flow at the upstream point in the 6 days before.
 Daily data only resolve whole days; the routed flow in GloFAS is a model, so these are planning numbers that the

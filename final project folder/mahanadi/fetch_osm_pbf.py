@@ -2,7 +2,7 @@
 for every query on 28 Oct 2026). Writes the same osm_<layer>.geojson files as fetch_context.py, for the layers
 that are still missing (roads, which need node ids for the network graph, come from Overpass).
 
-    python mahanadi/fetch_osm_pbf.py <eastern-zone-latest.osm.pbf> <out_dir>
+    python mahanadi/fetch_osm_pbf.py <eastern-zone-latest.osm.pbf> <out_dir> [basin]
 
 Reads the GDAL OSM driver layers 'points', 'lines' and 'multipolygons' inside the AOI; other tags are parsed
 from the hstore column other_tags.
@@ -15,8 +15,10 @@ import geopandas as gpd
 import pandas as pd
 import pyogrio
 
-BBOX = (85.80, 20.25, 86.45, 20.65)
+from basins import BASINS  # noqa: E402
+
 pbf, out = sys.argv[1], sys.argv[2]
+BBOX = tuple(BASINS[sys.argv[3] if len(sys.argv) > 3 else "mahanadi"]["bbox"])
 KV = re.compile(r'"([^"]+)"=>"((?:[^"\\]|\\.)*)"')
 
 
@@ -39,6 +41,11 @@ pts, lines, polys = load("points"), load("lines"), load("multipolygons")
 polys_c = polys.copy()
 polys_c["geometry"] = polys_c.geometry.representative_point()
 lay = {
+    # roads from the extract have no OSM node ids, so they serve the exposure counts but not the routing graph
+    # (impact_transport.py needs the Overpass roads layer)
+    "roads": lines[lines["highway"].isin(["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified",
+                                          "residential", "living_street", "service", "track", "road"]) |
+                   lines["highway"].fillna("").str.endswith("_link")],
     "railways": lines[lines["railway"] == "rail"],
     "waterways": lines[lines["waterway"].isin(["river", "canal", "stream", "drain"])],
     "embankments": lines[(lines["embankment"] == "yes") | lines["man_made"].isin(["embankment", "dyke"])],
@@ -53,7 +60,7 @@ for name, gdf in lay.items():
         print("keep existing", path)
         continue
     gdf = gpd.GeoDataFrame(gdf, geometry="geometry", crs=4326)
-    keep = [c for c in ("osm_id", "name", "name_en", "highway", "railway", "waterway", "place", "amenity", "healthcare",
+    keep = [c for c in ("osm_id", "name", "name_en", "highway", "bridge", "railway", "waterway", "place", "amenity", "healthcare",
                         "embankment", "man_made", "emergency", "building", "geometry") if c in gdf.columns]
     gdf[keep].to_file(path, driver="GeoJSON")
     print(f"osm {name}: {len(gdf)} features (Geofabrik extract)")

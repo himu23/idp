@@ -1,41 +1,68 @@
 {
  "method": "median DEM of each flood patch's edge = water surface; depth = WSE - DEM, 0-6 m",
  "scenarios": {
-  "T5": {
-   "patches": 5668,
-   "flooded_km2": 202.8,
+  "T2": {
+   "patches": 5739,
+   "flooded_km2": 49.5,
    "median_depth_m": 0.0,
    "p90_depth_m": 0.8,
-   "area_deeper_1m_km2": 17.9,
-   "people_deeper_1m": 3159,
-   "people_deeper_0_5m": 4844
+   "area_deeper_1m_km2": 3.8,
+   "people_deeper_1m": 960,
+   "people_deeper_0_5m": 1860
+  },
+  "T5": {
+   "patches": 6554,
+   "flooded_km2": 217.9,
+   "median_depth_m": 0.0,
+   "p90_depth_m": 0.8,
+   "area_deeper_1m_km2": 19.0,
+   "people_deeper_1m": 3464,
+   "people_deeper_0_5m": 5263
+  },
+  "T10": {
+   "patches": 6572,
+   "flooded_km2": 239.7,
+   "median_depth_m": 0.0,
+   "p90_depth_m": 1.1,
+   "area_deeper_1m_km2": 27.5,
+   "people_deeper_1m": 4080,
+   "people_deeper_0_5m": 6529
   },
   "T25": {
-   "patches": 5791,
-   "flooded_km2": 216.5,
+   "patches": 6572,
+   "flooded_km2": 239.7,
    "median_depth_m": 0.0,
    "p90_depth_m": 1.1,
-   "area_deeper_1m_km2": 24.5,
-   "people_deeper_1m": 3626,
-   "people_deeper_0_5m": 5721
+   "area_deeper_1m_km2": 27.5,
+   "people_deeper_1m": 4080,
+   "people_deeper_0_5m": 6529
   },
   "T100": {
-   "patches": 5791,
-   "flooded_km2": 216.5,
+   "patches": 6572,
+   "flooded_km2": 239.7,
    "median_depth_m": 0.0,
    "p90_depth_m": 1.1,
-   "area_deeper_1m_km2": 24.5,
-   "people_deeper_1m": 3626,
-   "people_deeper_0_5m": 5721
+   "area_deeper_1m_km2": 27.5,
+   "people_deeper_1m": 4080,
+   "people_deeper_0_5m": 6529
+  },
+  "rain_T5": {
+   "patches": 5714,
+   "flooded_km2": 93.4,
+   "median_depth_m": 0.0,
+   "p90_depth_m": 1.0,
+   "area_deeper_1m_km2": 9.8,
+   "people_deeper_1m": 1812,
+   "people_deeper_0_5m": 3149
   },
   "observed_20180908": {
-   "patches": 6823,
-   "flooded_km2": 275.4,
-   "median_depth_m": 0.1,
+   "patches": 7247,
+   "flooded_km2": 277.8,
+   "median_depth_m": 0.0,
    "p90_depth_m": 0.6,
-   "area_deeper_1m_km2": 11.1,
-   "people_deeper_1m": 2298,
-   "people_deeper_0_5m": 4164
+   "area_deeper_1m_km2": 13.8,
+   "people_deeper_1m": 3074,
+   "people_deeper_0_5m": 5952
   }
  }
 }

@@ -1,1 +1,1 @@
-{"type": "FeatureCollection", "features": []}
+{"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [85.89182, 20.55878]}, "properties": {"name": "near Choudwar (4.0 km)", "population": 694, "share_flooded": 0.11, "people_on_flooded_land": 77}}]}

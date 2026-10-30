@@ -57,4 +57,34 @@ overview is made (2 × 2 average in linear power, bilinear back to 10 m; `floodf
 | 20 m overview (the atlas input) | 0.640 | 0.695 |
 | 20 m overview, threshold from validation | 0.646 (at 0.30) | 0.681 (at 0.45) |
 
-The 20 m-trained pair is better on the atlas input and can replace the current models in the next atlas run (re-inference of the 590 passes takes about an hour).
+The 20 m-trained pair is better on the atlas input, so the atlas was rebuilt with it (all 590 passes mapped again,
+threshold 0.45); every Mahanadi result in this report comes from the rebuilt atlas. The independent
+Sentinel-2 check decided it:
+
+| Atlas built with | Sentinel-2, all water: IoU (precision / recall) | Sentinel-2, flood water: IoU (precision / recall) | Held-out high flow: trigger map vs climatology (IoU) | Villages at high flow: POD / FAR | Land flooded at least once (km²) |
+|---|---|---|---|---|---|
+| 10 m-trained pair (threshold 0.30) | 0.487 (0.60 / 0.73) | 0.180 (0.51 / 0.22) | 0.225 vs 0.070 | 17% / 65% | 905 |
+| 20 m-trained pair (threshold 0.45) | 0.563 (0.75 / 0.69) | 0.196 (0.63 / 0.22) | 0.198 vs 0.038 | 21% / 62% | 1,137 |
+
+The Sentinel-2 check is the like-for-like comparison, because the optical reference is the same for both atlases: the
+rebuilt atlas agrees better on all water and on flood water, mainly because it reports less false water (higher
+precision). The held-out scores are not like for like, because each atlas is scored against its own observed maps.
+The rebuilt atlas sees more flooded land, much of it rain-fed (the flooded share of a pass follows the 7-day rain with
+rank correlation 0.51, against 0.38 before), which the river flow alone predicts
+less well, so the trigger map's pixel score falls while its lead over climatology and its village-level skill improve. The flow
+predictor is chosen by rank correlation and moved from the 5-day peak flow to the
+3-day peak flow (rank correlation 0.765 against 0.764, practically a tie), so
+66 rather than 85 passes count as high flow. The earlier atlas is kept in
+`results/archive_atlas_10m/`.
+
+**Three seeds.** Seeds 1 and 2 of both radar models were trained at 10 m and at 20 m (`server/run_r20_seeds.sh`) and each
+pair scored the same way; the threshold is chosen on validation for every pair.
+
+| Seed | 10 m-trained pair, 20 m input | same, threshold from validation | 20 m-trained pair, 20 m input | same, threshold from validation |
+|---|---|---|---|---|
+| 0 | 0.640 | 0.646 | 0.695 | 0.681 |
+| 1 | 0.673 | 0.666 | 0.684 | 0.684 |
+| 2 | 0.651 | 0.654 | 0.673 | 0.667 |
+| Mean ± sd | 0.655 ± 0.014 | 0.655 ± 0.008 | 0.684 ± 0.009 | 0.677 ± 0.007 |
+
+Training at 20 m wins on every seed, by 0.022 IoU on average with the threshold from validation: the gain is well outside the seed-to-seed spread.

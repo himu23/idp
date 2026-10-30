@@ -1,0 +1,29 @@
+{
+ "design": "T25",
+ "hazard_km2": 222.8,
+ "exposed_people": 27371,
+ "candidates": 385,
+ "coverage": {
+  "1000": {
+   "radius_m": 1000,
+   "sirens": 40,
+   "people_covered": 9240,
+   "share": 0.338
+  },
+  "1500": {
+   "radius_m": 1500,
+   "sirens": 40,
+   "people_covered": 13433,
+   "share": 0.491
+  },
+  "2000": {
+   "radius_m": 2000,
+   "sirens": 40,
+   "people_covered": 17094,
+   "share": 0.625
+  }
+ },
+ "sirens_for_80pct_at_1500m": null,
+ "major_bridges": 39,
+ "sensor_sites": 6
+}

@@ -66,7 +66,8 @@ px, py = g.xy(rr * B + 2, cc * B + 2)
 pd.DataFrame(dict(r100=rr, c100=cc, x=px, y=py, pop=p100[rr, cc])).to_parquet(f"{IMPACT}/pop100.parquet")
 
 # ------------------------------------------------------------------ assets
-bld = pd.read_parquet(f"{CTX}/buildings.parquet")
+# Microsoft footprints are missing for some areas (no tile for the Brahmaputra box): count none there
+bld = pd.read_parquet(f"{CTX}/buildings.parquet") if os.path.exists(f"{CTX}/buildings.parquet") else pd.DataFrame(dict(x=[], y=[]))
 br_, bc_, ok = g.rc(bld.x.values, bld.y.values)
 br_, bc_ = br_[ok], bc_[ok]
 roads = osm("roads", g.crs)

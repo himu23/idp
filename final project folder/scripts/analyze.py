@@ -59,6 +59,8 @@ for f in sorted(glob.glob(f"{HOME}/runs/*/results.json")):
     if p is None:
         continue
     r = json.load(open(f))
+    if r["args"].get("s1_res", 10) != 10:  # radar trained at 20 m: compared in scripts/test_resolution.py (report Appendix B)
+        continue
     p.update(name=name, dir=os.path.dirname(f), res=r)
     runs.append(p)
 print(len(runs), "runs found")

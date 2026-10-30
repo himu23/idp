@@ -6,7 +6,7 @@ The full protocols, equipment and safety rules are in `fieldkit/FIELD_VISIT_KIT.
 files in `fieldkit/templates/`; every sheet has an analysis script in `fieldkit/analysis/`, tested on made-up
 example sheets (`fieldkit/examples/`, marked EXAMPLE, never reported as results).
 
-> **Status (29 Oct 2026):** visit being arranged with Prof. Basudev Biswal (Mahanadi basin project) and ClimMaTech.
+> **Status (30 Oct 2026):** visit being arranged with Prof. Basudev Biswal (Mahanadi basin project) and ClimMaTech.
 > Sections 8.3–8.7 are filled in from the field sheets after the visit; until then they state the method only.
 
 ### 8.1 Where and with whom
@@ -26,7 +26,7 @@ impact results by `mahanadi/make_checkpoints.py`:
 |---|---|---|---|
 | GT | 40 | Ground-truth points | Random, 10 in each atlas class (never / < 10 % / 10–30 % / ≥ 30 % of passes flooded), within 150 m of a road and 1 km of a settlement, ≥ 2 km apart |
 | SR | 15 | Siren sites | Top of the greedy coverage list (§9) |
-| RS | per river | River-sensor bridges | One per main distributary (§9) |
+| RS | 6 | River-sensor bridges | One per main distributary: the bridge nearest Naraj with dry approaches (§9) |
 | GB | 12 | Bank inspection and soil sampling | Top of the geotechnical screening (§7.4) |
 | RL | 10 | Critical road links | Flooded links carrying most people's hospital route (§7.2) |
 | HF | ≤ 10 | Health facilities flooded in the 25-year flood | §7.1 |
@@ -44,7 +44,7 @@ between radar passes, flooded paddy, water under tree cover, memory of the wrong
 
 *What it changes:* the accuracy statement that goes with the map to ClimMaTech; if misses cluster in short
 floods, the atlas needs the denser 6-day revisit of Sentinel-1C/D; if false alarms cluster on paddy, the
-river-driven mask (§6.4) must be applied before warnings. The flood-mark heights are compared with the DEM-based
+river-driven mask (§6.3) must be applied before warnings. The flood-mark heights are compared with the DEM-based
 depth (§7.3): the wall screening and the road-raising earthwork (§7.7) scale with that depth.
 
 ### 8.4 Discharge and roughness at a bridge  *(to be filled after the visit)*
@@ -85,7 +85,9 @@ security, permissions; interview notes in `interviews.csv`.
 
 *What it changes:* sites without signal or without flood-time access are dropped from the deployment plan (§9);
 the engineers' rule of thumb for "which flow at Naraj floods which villages" is compared with the trigger-
-discharge map (§6.3); the constraints heard in the interviews are written into the problem statement (§1.1).
+discharge map (§6.3) and with the levels of the live warning (§9.7); the house and paddy losses people report for 2020
+and 2022 check the damage estimate (§7.9); the constraints heard in the interviews are written into the problem
+statement (§1.1).
 
 ### 8.8 Groundwater beside the flood  *(to be filled after the visit)*
 

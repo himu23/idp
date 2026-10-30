@@ -22,8 +22,8 @@ fine-tuned model) and are reproduced by `scripts/analyze.py` and `scripts/make_t
   its training set and 14 in its validation set.
 - With ~250 labelled chips and all 15 bands available, pre-training on large unlabelled archives did not
   beat a well-trained U-Net for this task. Water has a strong spectral signature (NDWI alone reaches 0.65–0.76),
-  and a 7.8 M-parameter network learns it from a few hundred chips. Training time: 3 min for U-Net,
-  6–15 min for the foundation models on one GPU.
+  and a 7.8 M-parameter network learns it from a few hundred chips. Training time: 2–6 min for U-Net,
+  5–31 min for the foundation models on one GPU of the shared server.
 
 The project scope listed CROMA, Galileo and TerraFM. None of them is in the backbone registry of TerraTorch
 1.2.13 (1,467 backbones checked), the framework that gives all models here the same decoder, loss and data
@@ -79,7 +79,8 @@ operational flood map has to work from radar; Section 6 therefore uses the radar
 
 - Choosing the decision threshold on validation (0.33–0.60 for the trained models) changes test IoU by
   less than 0.01; 0.5 is adequate for trained models. It matters for index methods (MNDWI 0.506 → 0.602) and for
-  degraded input (the 20 m radar model of §6, where 0.3 is chosen).
+  degraded input (on the 20 m radar of §6, 0.30 for the pair trained at 10 m and 0.45 for the pair retrained at
+  20 m that maps the atlas).
 - Water that is not JRC permanent water (closer to "flood") scores about 0.05 lower than all water for every
   model (U-Net 0.722 vs 0.770 on Assam).
 - By event (Table F): Mekong, Nigeria and Sri Lanka score above 0.9 and India 0.86–0.92; Ghana (0.53–0.66), Paraguay and
@@ -105,7 +106,8 @@ not more label-efficient than a U-Net.
 2. **Model for the monsoon (radar only)**: radar-only models score 0.65 on the official split and 0.51 on
    Assam. TerraMind-B is the only foundation model here that takes radar alone as a native input; averaged
    with a radar-only U-Net it gives 0.664 (official test), better than either alone (0.654, 0.649). This
-   radar fusion is the production model of the Mahanadi atlas (§6).
+   radar fusion, retrained on the 20 m radar the atlas reads (Appendix B), is the production model of the
+   Mahanadi atlas (§6).
 3. **The foundation model's value in this project** is not a higher score on Sen1Floods11; it is that one
    pre-trained network takes optical, radar or both without redesign, which is what an operational system
    that loses its optical images under monsoon cloud needs.

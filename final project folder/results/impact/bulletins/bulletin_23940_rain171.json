@@ -3,17 +3,17 @@
  "naraj_discharge_lakh_cusec": 8.45,
  "lead_time": "24 h",
  "rain_mm": 171.0,
- "method": "analog maps on river flow and 171 mm of 7-day rain; similar past passes: 20200828, 20200831, 20210919, 20220816, 20220818, 20260828, 20260831",
+ "method": "analog maps on river flow and 171 mm of 7-day rain; similar past passes: 20180908, 20180911, 20200828, 20200831, 20220816, 20220818, 20260828",
  "lower_bound": false,
- "flooded_land_km2": 105.1,
- "people_on_flooded_land": 11802,
+ "flooded_land_km2": 93.4,
+ "people_on_flooded_land": 13540,
  "settlements_to_warn": 6,
- "main_road_km_under_water": 4.7,
- "all_road_km_under_water": 11.9,
+ "main_road_km_under_water": 4.2,
+ "all_road_km_under_water": 12.6,
  "main_roads_affected": {},
  "model": {
   "atlas_passes": 590,
-  "predictor": "Q_max_5d",
-  "held_out_high_flow_iou": 0.225
+  "predictor": "Q_max_3d",
+  "held_out_high_flow_iou": 0.198
  }
 }

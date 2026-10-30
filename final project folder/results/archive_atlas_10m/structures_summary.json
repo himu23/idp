@@ -1,0 +1,37 @@
+{
+ "walls": {
+  "critical_depth_m": {
+   "230 mm wall, f_t 0.1 MPa": 0.81,
+   "230 mm wall, f_t 0.2 MPa": 1.03,
+   "115 mm wall, f_t 0.1 MPa": 0.51,
+   "115 mm wall, f_t 0.2 MPa": 0.65
+  },
+  "T5": {
+   "people_deeper_than_1m": 3159,
+   "people_deeper_than_0_6m": 4395
+  },
+  "T25": {
+   "people_deeper_than_1m": 3626,
+   "people_deeper_than_0_6m": 5194
+  },
+  "settlements_with_5pct_people_deeper_1m_T25": 4,
+  "T100": {
+   "people_deeper_than_1m": 3626,
+   "people_deeper_than_0_6m": 5194
+  }
+ },
+ "bridges": {
+  "dm_mm": 0.3,
+  "silt_factor": 0.964,
+  "bridges": 11,
+  "pier_scour_T100_share25_range_m": [
+   6.8,
+   23.9
+  ],
+  "pier_scour_T100_share50_range_m": [
+   10.7,
+   38.0
+  ],
+  "note": "the share of the Naraj flow each branch carries is unknown; minor distributaries carry far less than half"
+ }
+}

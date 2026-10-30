@@ -1,0 +1,50 @@
+{
+ "zone_m": 200,
+ "fine_soil_share_of_box": 0.941,
+ "scenarios": {
+  "T5": {
+   "zone_km2": 414.3,
+   "people_in_zone": 380300,
+   "people_on_flooded_land": 22545,
+   "advisory_settlements": 290
+  },
+  "T25": {
+   "zone_km2": 432.4,
+   "people_in_zone": 415549,
+   "people_on_flooded_land": 25163,
+   "advisory_settlements": 310
+  },
+  "T100": {
+   "zone_km2": 432.4,
+   "people_in_zone": 415549,
+   "people_on_flooded_land": 25163,
+   "advisory_settlements": 310
+  },
+  "freq10": {
+   "zone_km2": 318.7,
+   "people_in_zone": 299472,
+   "people_on_flooded_land": 11063,
+   "advisory_settlements": 185
+  }
+ },
+ "foundation_example": {
+  "silty_sand_drained": {
+   "phi_deg": 28,
+   "q_ult_dry_kPa": 415,
+   "q_ult_water_at_surface_kPa": 189,
+   "reduction_pct": 55
+  },
+  "clay_loam_undrained": {
+   "cu_stiff_kPa": 50.0,
+   "cu_soaked_kPa": 30.0,
+   "q_ult_stiff_kPa": 275,
+   "q_ult_soaked_kPa": 172,
+   "reduction_pct": 37
+  },
+  "drawdown_settlement_mm": {
+   "mv 0.25 m2/MN": 19.6,
+   "mv 0.5 m2/MN": 39.2
+  },
+  "assumptions": "strip footing B 1 m at 1 m depth; gamma 18 kN/m3; Vesic factors; water table drop 2 m over a 4 m soft clay layer"
+ }
+}

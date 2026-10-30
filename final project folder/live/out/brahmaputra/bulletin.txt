@@ -1,0 +1,9 @@
+BRAHMAPUTRA AT MAJULI - FLOOD OUTLOOK issued 2026-10-31T01:58:50+05:30 (next 10 days)
+Level: No flood impact (median of 51 GloFAS runs)
+Neamatighat flow (the measure the atlas uses): today 2,971 m3/s; peak 2,971 m3/s on 2026-10-31 (90th percentile 2,971 m3/s)
+At the median peak: 1 km2 of land outside the river under water, about 83 people on it
+Rain over the mapped area (ECMWF): 6.3 mm in 3 days, 11.2 mm in 7 days
+Official (Assam-SDMA): IMD Guwahati has issued forecast for  Thunderstorms and Lightning and light to moderate rain which is very likely to occur at a few places over Jorhat in next 1-3 hours. Issued in Public Interest by ASDMA.
+Official (Assam-SDMA): IMD Guwahati has issued forecast for Thunderstorm with Lightning and light to moderate rain which is very likely to occur at a few places over Charaideo, Dhemaji, Dibrugarh and Tinsukia in next 3 hours. Issued in Public Interest by ASDMA.
+Official (Assam-SDMA): IMD Guwahati has issued forecast for Thunderstorm and Lightning with gusty wind along with light to moderate rain which is very likely to occur at isolated places over Majuli and Sivasagar in next 1-3 hours. Issued in Public Interest by ASDMA.
+Student prototype (IIT Bombay CE IDP with ClimMaTech), not an official warning. Flood extents from the Sentinel-1 atlas 2017-2026; flows above the largest seen give lower bounds.

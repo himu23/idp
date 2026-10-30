@@ -1,0 +1,11 @@
+MAHANADI DELTA - FLOOD OUTLOOK issued 2026-10-31T01:58:53+05:30 (next 10 days)
+Level: No flood impact (median of 51 GloFAS runs)
+Naraj flow (the measure the atlas uses): today 2,923 m3/s; peak 3,810 m3/s on 2026-11-01 (90th percentile 3,836 m3/s)
+At the median peak: 7 km2 of land outside the river under water, about 1,886 people on it
+Rain over the mapped area (ECMWF): 3.9 mm in 3 days, 22.0 mm in 7 days
+Upstream-gauge model, daily Naraj flow: 2026-10-31 2,526 m3/s, 2026-11-01 3,078 m3/s, 2026-11-02 2,762 m3/s
+Official (Odisha-SDMA): Moderate Rain, Thundershower with wind speed 30-40kmph is very likely to occur at many places over Anugul, Baleshwar, Bhadrak, Cuttack, Dhenkanal, Gajapati, Ganjam, Jagatsinghapur, Jajapur, Kendrapara, Kendujhar, Khordha (incl Bhubaneswar City), Mayurbhanj, Nayagarh, Puri in next 3 hours.
+Official (Odisha-SDMA): Moderate Rain with squally wind 30-40 kmph  is very likely to occur at isolated places over Baleshwar, Bhadrak, Cuttack(Including Cuttack City), Dhenkanal, Gajapati, Ganjam, Jagatsinghapur, Jajapur, Kendrapara, Kendujhar, Khordha(Including Bhubanesdwar city), Mayurbhanj, Nayagarh, Puri in next 3 hours.
+Official (Odisha-SDMA): Moderate Rain with squally wind 30-40 gusting to 50 kmph  is very likely to occur at isolated places over  Bhadrak, Jajapur in next 3 hours.
+Official (Odisha-SDMA): River Rishikulya at Purushottampur in Ganjam district of Odisha continues to flow in severe flood situation at 7:00 pm today.
+Student prototype (IIT Bombay CE IDP with ClimMaTech), not an official warning. Flood extents from the Sentinel-1 atlas 2017-2026; flows above the largest seen give lower bounds.

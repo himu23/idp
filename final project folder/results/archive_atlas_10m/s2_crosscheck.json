@@ -1,0 +1,39 @@
+{
+ "pairs": 60,
+ "all/all_months": {
+  "pairs": 60,
+  "iou": 0.487,
+  "precision": 0.597,
+  "recall": 0.726
+ },
+ "all/monsoon_Jun_Nov": {
+  "pairs": 60,
+  "iou": 0.487,
+  "precision": 0.597,
+  "recall": 0.726
+ },
+ "all/dry_Feb_Mar": {
+  "pairs": 0,
+  "iou": 0.0,
+  "precision": 0.0,
+  "recall": 0.0
+ },
+ "outside_normal/all_months": {
+  "pairs": 60,
+  "iou": 0.18,
+  "precision": 0.511,
+  "recall": 0.218
+ },
+ "outside_normal/monsoon_Jun_Nov": {
+  "pairs": 60,
+  "iou": 0.18,
+  "precision": 0.511,
+  "recall": 0.218
+ },
+ "outside_normal/dry_Feb_Mar": {
+  "pairs": 0,
+  "iou": 0.0,
+  "precision": 0.0,
+  "recall": 0.0
+ }
+}

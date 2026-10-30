@@ -18,7 +18,7 @@ scen, normal = scenarios(g)
 dem = read(f"{CTX}/grid20_dem.tif").astype(np.float64)
 pop = np.nan_to_num(read(f"{CTX}/grid20_pop.tif").astype(np.float64))
 out = {}
-for name in ("T5", "T25", "T100", "rain_T5") + tuple(k for k in scen if k.startswith("observed_")):
+for name in ("T2", "T5", "T10", "T25", "T100", "rain_T5") + tuple(k for k in scen if k.startswith("observed_")):
     if name not in scen:
         continue
     F = scen[name] & np.isfinite(dem)

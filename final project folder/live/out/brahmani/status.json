@@ -1,0 +1,630 @@
+{
+ "basin": "brahmani",
+ "name": "Brahmani\u2013Baitarani delta",
+ "river": "Brahmani",
+ "gauge": "Jenapur",
+ "issued": "2026-10-31T01:58:11+05:30",
+ "horizon_days": 10,
+ "level": 0,
+ "level_name": "No flood impact",
+ "level_possible": 0,
+ "peak": {
+  "date": "2026-11-03",
+  "median_m3s": 648,
+  "p90_m3s": 699,
+  "p90_date": "2026-11-03",
+  "lakh_cusec": 0.23
+ },
+ "today_m3s": 442,
+ "design_flows_m3s": {
+  "2": 4001,
+  "5": 5185,
+  "10": 5969,
+  "25": 6959,
+  "50": 7694,
+  "100": 8423
+ },
+ "level_flows_m3s": {
+  "1": 3500.0,
+  "2": 3500.0,
+  "3": 4250.0
+ },
+ "largest_seen_m3s": 6108,
+ "beyond_record": false,
+ "impact_at_peak": {
+  "flooded_km2": 5.24,
+  "people": 1620.0,
+  "cropland_km2": 0.73,
+  "beyond_record": 0.0,
+  "settlements_10pct": 1.0,
+  "health_facilities_flooded": 0.0,
+  "school_facilities_flooded": 0.0,
+  "road_km_cut": 0.94,
+  "hospital_people_cut_off": 0.0,
+  "hospital_settlements_cut_off": 0.0,
+  "hospital_people_cut_off_links_raised": 0.0
+ },
+ "impact_at_peak_p90": {
+  "flooded_km2": 5.24,
+  "people": 1620.0,
+  "cropland_km2": 0.73,
+  "beyond_record": 0.0,
+  "settlements_10pct": 1.0,
+  "health_facilities_flooded": 0.0,
+  "school_facilities_flooded": 0.0,
+  "road_km_cut": 0.94,
+  "hospital_people_cut_off": 0.0,
+  "hospital_settlements_cut_off": 0.0,
+  "hospital_people_cut_off_links_raised": 0.0
+ },
+ "days": [
+  {
+   "date": "2026-10-31",
+   "median_m3s": 442,
+   "p10_m3s": 441,
+   "p90_m3s": 444,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-01",
+   "median_m3s": 458,
+   "p10_m3s": 453,
+   "p90_m3s": 478,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-02",
+   "median_m3s": 547,
+   "p10_m3s": 532,
+   "p90_m3s": 581,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-03",
+   "median_m3s": 648,
+   "p10_m3s": 629,
+   "p90_m3s": 699,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-04",
+   "median_m3s": 642,
+   "p10_m3s": 621,
+   "p90_m3s": 686,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-05",
+   "median_m3s": 580,
+   "p10_m3s": 551,
+   "p90_m3s": 613,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-06",
+   "median_m3s": 513,
+   "p10_m3s": 483,
+   "p90_m3s": 549,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-07",
+   "median_m3s": 462,
+   "p10_m3s": 424,
+   "p90_m3s": 502,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-08",
+   "median_m3s": 418,
+   "p10_m3s": 378,
+   "p90_m3s": 469,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-09",
+   "median_m3s": 374,
+   "p10_m3s": 336,
+   "p90_m3s": 436,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "median_m3s": 340,
+   "p10_m3s": 307,
+   "p90_m3s": 402,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-11",
+   "median_m3s": 313,
+   "p10_m3s": 287,
+   "p90_m3s": 374,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-12",
+   "median_m3s": 288,
+   "p10_m3s": 267,
+   "p90_m3s": 347,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "median_m3s": 267,
+   "p10_m3s": 249,
+   "p90_m3s": 320,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-14",
+   "median_m3s": 251,
+   "p10_m3s": 234,
+   "p90_m3s": 297,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "median_m3s": 237,
+   "p10_m3s": 222,
+   "p90_m3s": 289,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "median_m3s": 224,
+   "p10_m3s": 211,
+   "p90_m3s": 269,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-17",
+   "median_m3s": 213,
+   "p10_m3s": 203,
+   "p90_m3s": 254,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-18",
+   "median_m3s": 204,
+   "p10_m3s": 195,
+   "p90_m3s": 239,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-19",
+   "median_m3s": 197,
+   "p10_m3s": 189,
+   "p90_m3s": 227,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-20",
+   "median_m3s": 191,
+   "p10_m3s": 184,
+   "p90_m3s": 217,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "median_m3s": 186,
+   "p10_m3s": 180,
+   "p90_m3s": 220,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-22",
+   "median_m3s": 182,
+   "p10_m3s": 176,
+   "p90_m3s": 225,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-23",
+   "median_m3s": 178,
+   "p10_m3s": 174,
+   "p90_m3s": 214,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-24",
+   "median_m3s": 175,
+   "p10_m3s": 172,
+   "p90_m3s": 202,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-25",
+   "median_m3s": 172,
+   "p10_m3s": 170,
+   "p90_m3s": 193,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-26",
+   "median_m3s": 170,
+   "p10_m3s": 168,
+   "p90_m3s": 191,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-27",
+   "median_m3s": 170,
+   "p10_m3s": 166,
+   "p90_m3s": 188,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "date": "2026-11-28",
+   "median_m3s": 169,
+   "p10_m3s": 165,
+   "p90_m3s": 183,
+   "level": 0,
+   "p_level": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "villages_to_warn": [],
+ "hospital_access_lost": [],
+ "roads_closing": [],
+ "road_segments_closing": 0,
+ "health_facilities_at_risk": [],
+ "rain": {
+  "model": "ecmwf_ifs025",
+  "next_3d_mm": 4.2,
+  "next_7d_mm": 14.7,
+  "daily": [
+   {
+    "date": "2026-10-31",
+    "mm": 2.2
+   },
+   {
+    "date": "2026-11-01",
+    "mm": 0.9
+   },
+   {
+    "date": "2026-11-02",
+    "mm": 1.0
+   },
+   {
+    "date": "2026-11-03",
+    "mm": 4.5
+   },
+   {
+    "date": "2026-11-04",
+    "mm": 5.1
+   },
+   {
+    "date": "2026-11-05",
+    "mm": 0.7
+   },
+   {
+    "date": "2026-11-06",
+    "mm": 0.3
+   },
+   {
+    "date": "2026-11-07",
+    "mm": 0.0
+   },
+   {
+    "date": "2026-11-08",
+    "mm": 0.0
+   },
+   {
+    "date": "2026-11-09",
+    "mm": 0.0
+   }
+  ]
+ },
+ "official_alerts": [
+  {
+   "title": "River Jalaka at Mathani Road Bridge in Balasore district of Odisha continues to flow in severe flood situation at 6:00 pm today.",
+   "category": "Met",
+   "author": "controlroom@ndma.gov.in (CWC)",
+   "published": "Fri, 30 Oct 2026 12:47:13 GMT",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1793364430866012",
+   "event": "Flood",
+   "headline": "River Jalaka at Mathani Road Bridge in Balasore district of Odisha continues to flow in severe flood situation at 6:00 pm today.",
+   "severity": "Severe",
+   "urgency": "Expected",
+   "certainty": "Possible",
+   "expires": "2026-10-31T06:00:00+05:30",
+   "area": "Jalaka, Mathani Road Bridge, Balasore, Odisha",
+   "sender": "CWC",
+   "districts": [
+    "Balasore"
+   ],
+   "river": true
+  },
+  {
+   "title": "\u0b2d\u0b3e\u0b30\u0b24 \u0b2a\u0b3e\u0b23\u0b3f\u0b2a\u0b3e\u0b17 \u0b2c\u0b3f\u0b2d\u0b3e\u0b17\u0b30 \u0b24\u0b25\u0b4d\u0b5f \u0b05\u0b28\u0b41\u0b2f\u0b3e\u0b5f\u0b40, \u0b06\u0b2a\u0b23\u0b19\u0b4d\u0b15 \u0b05\u0b1e\u0b4d\u0b1a\u0b33\u0b30 \u0b05\u0b28\u0b47\u0b15 \u0b38\u0b4d\u0b25\u0b3e\u0b28\u0b30\u0b47 \u0b39\u0b3e\u0b32\u0b41\u0b15\u0b3e \u0b18\u0b21\u0b3c\u0b18\u0b21\u0b3c\u0b3f \u0b0f\u0b2c\u0b02 \u0b2c\u0b3f\u0b1c\u0b41\u0b33\u0b3f \u0b38\u0b39\u0b3f\u0b24 \u0b2e\u0b27\u0b4d\u0b5f\u0b2e \u0b27\u0b30\u0b23\u0b30 \u0b2c\u0b30\u0b4d\u0b37\u0b3e \u0b0f\u0b2c\u0b02 \u0b2a\u0b2c\u0b28 \u0b39\u0b47\u0b2c\u0b3e\u0b30 \u0b38\u0b2e\u0b4d\u0b2d\u0b3e\u0b2c\u0b28\u0b3e \u0b30\u0b39\u0b3f\u0b1b\u0b3f \u0964 \u0b0f\u0b25\u0b3f\u0b2a\u0b4d\u0b30\u0b24\u0b3f \u0b38\u0b24\u0b30\u0b4d\u0b15 \u0b30\u0b39\u0b3f\u0b2c\u0b3e\u0b15\u0b41 \u0b05\u0b28\u0b41\u0b30\u0b4b\u0b27 \u0964 SRC, Odisha",
+   "category": "Met",
+   "author": "controlroom@ndma.gov.in (IMD Bhubaneswar)",
+   "published": "Fri, 30 Oct 2026 05:47:21 GMT",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1793336069446012",
+   "event": "Moderate Rain",
+   "headline": "Moderate Rain, Thundershower with wind speed 30-40kmph is very likely to occur at many places over Anugul, Baleshwar, Bhadrak, Cuttack, Dhenkanal, Gajapati, Ganjam, Jagatsinghapur, Jajapur, Kendrapara, Kendujhar, Khordha (incl Bhubaneswar City), Mayurbhanj, Nayagarh, Puri in next 3 hours.",
+   "severity": "Severe",
+   "urgency": "Expected",
+   "certainty": "Likely",
+   "expires": "2026-10-30T13:11:00+05:30",
+   "area": "15 districts of Odisha; 15 districts of Odisha",
+   "sender": "Odisha-SDMA",
+   "districts": [
+    "Jajapur",
+    "Kendrapara",
+    "Bhadrak",
+    "Baleshwar"
+   ],
+   "river": false
+  },
+  {
+   "title": "\u0b2d\u0b3e\u0b30\u0b24 \u0b2a\u0b3e\u0b23\u0b3f\u0b2a\u0b3e\u0b17 \u0b2c\u0b3f\u0b2d\u0b3e\u0b17\u0b30 \u0b24\u0b25\u0b4d\u0b5f \u0b05\u0b28\u0b41\u0b2f\u0b3e\u0b5f\u0b40, \u0b06\u0b17\u0b3e\u0b2e\u0b40 \u0b24\u0b3f\u0b28\u0b3f \u0b18\u0b23\u0b4d\u0b1f\u0b3e \u0b2e\u0b27\u0b4d\u0b5f\u0b30\u0b47 \u0b06\u0b2a\u0b23\u0b19\u0b4d\u0b15 \u0b05\u0b1e\u0b4d\u0b1a\u0b33\u0b30\u0b47 \u0b2e\u0b27\u0b4d\u0b5f\u0b2e \u0b27\u0b30\u0b23\u0b30 \u0b18\u0b21\u0b3c\u0b18\u0b21\u0b3c\u0b3f, \u0b2c\u0b3f\u0b1c\u0b41\u0b33\u0b3f, \u0b0f\u0b2c\u0b02 \u0b2a\u0b2c\u0b28 \u0b39\u0b47\u0b2c\u0b3e\u0b30 \u0b38\u0b2e\u0b4d\u0b2d\u0b3e\u0b2c\u0b28\u0b3e \u0b30\u0b39\u0b3f\u0b1b\u0b3f \u0964 \u0b0f\u0b25\u0b3f\u0b2a\u0b4d\u0b30\u0b24\u0b3f \u0b38\u0b24\u0b30\u0b4d\u0b15 \u0b30\u0b39\u0b3f\u0b2c\u0b3e\u0b15\u0b41 \u0b05\u0b28\u0b41\u0b30\u0b4b\u0b27 \u0964 SRC, Odisha",
+   "category": "Met",
+   "author": "controlroom@ndma.gov.in (IMD Bhubaneswar)",
+   "published": "Thu, 29 Oct 2026 20:30:01 GMT",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1793304704003012",
+   "event": "Moderate Rain",
+   "headline": "Moderate Rain with squally wind 30-40 kmph  is very likely to occur at isolated places over Baleshwar, Bhadrak, Cuttack(Including Cuttack City), Dhenkanal, Gajapati, Ganjam, Jagatsinghapur, Jajapur, Kendrapara, Kendujhar, Khordha(Including Bhubanesdwar city), Mayurbhanj, Nayagarh, Puri in next 3 hours.",
+   "severity": "Severe",
+   "urgency": "Expected",
+   "certainty": "Likely",
+   "expires": "2026-10-30T04:39:00+05:30",
+   "area": "14 districts of Odisha; 14 districts of Odisha",
+   "sender": "Odisha-SDMA",
+   "districts": [
+    "Jajapur",
+    "Kendrapara",
+    "Bhadrak",
+    "Baleshwar"
+   ],
+   "river": false
+  },
+  {
+   "title": "\u0b2d\u0b3e\u0b30\u0b24 \u0b2a\u0b3e\u0b23\u0b3f\u0b2a\u0b3e\u0b17 \u0b2c\u0b3f\u0b2d\u0b3e\u0b17\u0b30 \u0b24\u0b25\u0b4d\u0b5f \u0b05\u0b28\u0b41\u0b2f\u0b3e\u0b5f\u0b40, \u0b06\u0b2a\u0b23\u0b19\u0b4d\u0b15 \u0b05\u0b1e\u0b4d\u0b1a\u0b33\u0b30 \u0b05\u0b28\u0b47\u0b15 \u0b38\u0b4d\u0b25\u0b3e\u0b28\u0b30\u0b47 \u0b39\u0b3e\u0b32\u0b41\u0b15\u0b3e \u0b18\u0b21\u0b3c\u0b18\u0b21\u0b3c\u0b3f \u0b0f\u0b2c\u0b02 \u0b2c\u0b3f\u0b1c\u0b41\u0b33\u0b3f \u0b38\u0b39\u0b3f\u0b24 \u0b2e\u0b27\u0b4d\u0b5f\u0b2e \u0b27\u0b30\u0b23\u0b30 \u0b2c\u0b30\u0b4d\u0b37\u0b3e \u0b0f\u0b2c\u0b02 \u0b2a\u0b2c\u0b28 \u0b39\u0b47\u0b2c\u0b3e\u0b30 \u0b38\u0b2e\u0b4d\u0b2d\u0b3e\u0b2c\u0b28\u0b3e \u0b30\u0b39\u0b3f\u0b1b\u0b3f \u0964 \u0b0f\u0b25\u0b3f\u0b2a\u0b4d\u0b30\u0b24\u0b3f \u0b38\u0b24\u0b30\u0b4d\u0b15 \u0b30\u0b39\u0b3f\u0b2c\u0b3e\u0b15\u0b41 \u0b05\u0b28\u0b41\u0b30\u0b4b\u0b27 \u0964 SRC, Odisha",
+   "category": "Met",
+   "author": "controlroom@ndma.gov.in (IMD Bhubaneswar)",
+   "published": "Thu, 29 Oct 2026 14:59:47 GMT",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1793285778368012",
+   "event": "Moderate Rain",
+   "headline": "Moderate Rain with squally wind 30-40 gusting to 50 kmph  is very likely to occur at isolated places over  Bhadrak, Jajapur in next 3 hours.",
+   "severity": "Severe",
+   "urgency": "Expected",
+   "certainty": "Likely",
+   "expires": "2026-10-29T23:24:00+05:30",
+   "area": "Bhadrak,Jajapur districts of Odisha; Bhadrak,Jajapur districts of Odisha",
+   "sender": "Odisha-SDMA",
+   "districts": [
+    "Jajapur",
+    "Bhadrak"
+   ],
+   "river": false
+  },
+  {
+   "title": "\u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e\u0b30 \u0b17\u0b1e\u0b4d\u0b1c\u0b3e\u0b2e \u0b1c\u0b3f\u0b32\u0b4d\u0b32\u0b3e \u0b05\u0b28\u0b4d\u0b24\u0b30\u0b4d\u0b17\u0b24 \u0b2a\u0b41\u0b30\u0b41\u0b37\u0b4b\u0b24\u0b4d\u0b24\u0b2e\u0b2a\u0b41\u0b30 \u0b20\u0b3e\u0b30\u0b47 \u0b0b\u0b37\u0b3f\u0b15\u0b41\u0b32\u0b4d\u0b5f\u0b3e \u0b28\u0b26\u0b40 \u0b06\u0b1c\u0b3f \u0b38\u0b28\u0b4d\u0b27\u0b4d\u0b5f\u0b3e \u0b6d\u0b1f\u0b3e \u0b38\u0b41\u0b26\u0b4d\u0b27\u0b3e \u0b2d\u0b5f\u0b19\u0b4d\u0b15\u0b30 \u0b2c\u0b28\u0b4d\u0b5f\u0b3e \u0b38\u0b4d\u0b25\u0b3f\u0b24\u0b3f\u0b30\u0b47 \u0b2a\u0b4d\u0b30\u0b2c\u0b3e\u0b39\u0b3f\u0b24 \u0b39\u0b47\u0b09\u0b1b\u0b3f \u0964\u0b0f\u0b25\u0b3f\u0b2a\u0b4d\u0b30\u0b24\u0b3f \u0b38\u0b24\u0b30\u0b4d\u0b15 \u0b30\u0b39\u0b3f\u0b2c\u0b3e\u0b15\u0b41 \u0b05\u0b28\u0b41\u0b30\u0b4b\u0b27 \u0964 SRC, Odisha",
+   "category": "Met",
+   "author": "controlroom@ndma.gov.in (CWC)",
+   "published": "Fri, 30 Oct 2026 14:13:44 GMT",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1793368787656012",
+   "event": "Flood",
+   "headline": "River Rishikulya at Purushottampur in Ganjam district of Odisha continues to flow in severe flood situation at 7:00 pm today.",
+   "severity": "Severe",
+   "urgency": "Expected",
+   "certainty": "Possible",
+   "expires": "2026-10-31T07:00:00+05:30",
+   "area": "Rishikulya, Purushottampur, Ganjam, Odisha; Rishikulya, Purushottampur, Ganjam, Odisha",
+   "sender": "Odisha-SDMA",
+   "districts": [],
+   "river": true
+  }
+ ],
+ "official_alerts_total": 10,
+ "cwc_above_warning": {
+  "stations": 11,
+  "by_status": {
+   "WARNING": 9,
+   "DANGER": 2
+  }
+ },
+ "latest_radar_passes": [
+  {
+   "time_utc": "2026-10-30 00:12",
+   "orbit": "descending",
+   "relative_orbit": 121,
+   "item": "S1D_IW_GRDH_1SDV_20261030T001218_20261030T001243_005237_009F2E_rtc"
+  },
+  {
+   "time_utc": "2026-10-25 00:04",
+   "orbit": "descending",
+   "relative_orbit": 48,
+   "item": "S1D_IW_GRDH_1SDV_20261025T000428_20261025T000457_005164_009CB8_rtc"
+  },
+  {
+   "time_utc": "2026-10-18 00:12",
+   "orbit": "descending",
+   "relative_orbit": 121,
+   "item": "S1D_IW_GRDH_1SDV_20261018T001218_20261018T001243_005062_009936_rtc"
+  }
+ ],
+ "sources": {
+  "glofas": {
+   "name": "glofas",
+   "ok": true,
+   "error": "",
+   "url": "https://flood-api.open-meteo.com/v1/flood",
+   "fetched": "2026-10-30T20:28:11+00:00"
+  },
+  "rain": {
+   "name": "rain",
+   "ok": true,
+   "error": "",
+   "url": "https://api.open-meteo.com/v1/forecast",
+   "fetched": "2026-10-30T20:28:12+00:00"
+  },
+  "sachet": {
+   "name": "sachet",
+   "ok": true,
+   "error": "",
+   "url": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_odisha.xml",
+   "fetched": "2026-10-30T20:28:13+00:00"
+  },
+  "cwc": {
+   "name": "cwc",
+   "ok": true,
+   "error": "",
+   "url": "https://ffs.india-water.gov.in/eswis-gis/api/station-water-level-above-warning/",
+   "fetched": "2026-10-30T20:28:14+00:00"
+  },
+  "sentinel1": {
+   "name": "sentinel1",
+   "ok": true,
+   "error": "",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1",
+   "fetched": "2026-10-30T20:28:48+00:00"
+  }
+ },
+ "note": "Student prototype (IIT Bombay CE IDP with ClimMaTech), not an official warning. Flood extents from the Sentinel-1 atlas 2017-2026; flows above the largest seen give lower bounds."
+}

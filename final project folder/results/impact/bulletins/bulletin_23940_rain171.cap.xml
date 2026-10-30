@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2"><identifier>prithvi-flood-in-23940_rain171-2026-10-29T121611</identifier><sender>prithvi-flood-in.iitb.prototype</sender><sent>2026-10-29T12:16:11+05:30</sent><status>Exercise</status><msgType>Alert</msgType><scope>Public</scope><info><language>en-IN</language><category>Met</category><event>River flood</event><urgency>Expected</urgency><severity>Severe</severity><certainty>Possible</certainty><headline>Mahanadi delta: flooding expected at a Naraj flow of 23,940 m3/s</headline><description>MAHANADI DELTA - EXPECTED FLOODING FOR A NARAJ FLOW OF 23,940 m3/s (8.5 lakh cusec), lead time 24 h
-(flow = highest daily flow over 5 days at Naraj, the measure the atlas is fitted on; method: analog maps on river flow and 171 mm of 7-day rain; similar past passes: 20200828, 20200831, 20210919, 20220816, 20220818, 20260828, 20260831)
-Expected flooded land: 105 km2
-People living on that land: 11,802
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2"><identifier>prithvi-flood-in-23940_rain171-2026-10-29T211428</identifier><sender>prithvi-flood-in.iitb.prototype</sender><sent>2026-10-29T21:14:28+05:30</sent><status>Exercise</status><msgType>Alert</msgType><scope>Public</scope><info><language>en-IN</language><category>Met</category><event>River flood</event><urgency>Expected</urgency><severity>Severe</severity><certainty>Possible</certainty><headline>Mahanadi delta: flooding expected at a Naraj flow of 23,940 m3/s</headline><description>MAHANADI DELTA - EXPECTED FLOODING FOR A NARAJ FLOW OF 23,940 m3/s (8.5 lakh cusec), lead time 24 h
+(flow = highest daily flow over 3 days at Naraj, the measure the atlas is fitted on; method: analog maps on river flow and 171 mm of 7-day rain; similar past passes: 20180908, 20180911, 20200828, 20200831, 20220816, 20220818, 20260828)
+Expected flooded land: 93 km2
+People living on that land: 13,540
 Settlements with at least 10 % of people on flooded land: 6
-  - near Patkura (9.7 km): about 193 people (28% of 704) at 20.3133 N, 86.3615 E
-  - near Patkura (2.7 km): about 99 people (15% of 647) at 20.4002 N, 86.3823 E
-  - near Patkura (9.3 km): about 77 people (29% of 269) at 20.3113 N, 86.3760 E
-  - near Dhuria (8.6 km): about 60 people (11% of 529) at 20.4610 N, 86.3444 E
-  - near Patkura (9.1 km): about 49 people (20% of 253) at 20.3116 N, 86.4309 E
-  - near Patkura (10.8 km): about 26 people (11% of 247) at 20.3116 N, 86.3447 E
-Main roads under water: 4.7 km
-Source: Sentinel-1 flood atlas 2017-2026 + GloFAS discharge (IIT Bombay IDP prototype). Not an official warning.</description><instruction>Follow the district administration; keep off flooded roads.</instruction><area><areaDesc>near Patkura (9.7 km): about 193 people on flooded land</areaDesc><circle>20.3133,86.3615 1.5</circle></area><area><areaDesc>near Patkura (2.7 km): about 99 people on flooded land</areaDesc><circle>20.4002,86.3823 1.5</circle></area><area><areaDesc>near Patkura (9.3 km): about 77 people on flooded land</areaDesc><circle>20.3113,86.3760 1.5</circle></area><area><areaDesc>near Dhuria (8.6 km): about 60 people on flooded land</areaDesc><circle>20.4610,86.3444 1.5</circle></area><area><areaDesc>near Patkura (9.1 km): about 49 people on flooded land</areaDesc><circle>20.3116,86.4309 1.5</circle></area><area><areaDesc>near Patkura (10.8 km): about 26 people on flooded land</areaDesc><circle>20.3116,86.3447 1.5</circle></area></info></alert>
+  - near Bhattasagar Square (7.0 km): about 218 people (14% of 1,613) at 20.6301 N, 86.1248 E
+  - near Patkura (9.7 km): about 95 people (14% of 704) at 20.3133 N, 86.3615 E
+  - near Patkura (9.3 km): about 52 people (20% of 269) at 20.3113 N, 86.3760 E
+  - near Bhattasagar Square (5.9 km): about 50 people (12% of 417) at 20.6256 N, 86.1147 E
+  - near Patkura (9.1 km): about 41 people (16% of 253) at 20.3116 N, 86.4309 E
+  - near Balachandrapur (5.2 km): about 36 people (14% of 262) at 20.6373 N, 86.1966 E
+Main roads under water: 4.2 km
+Source: Sentinel-1 flood atlas 2017-2026 + GloFAS discharge (IIT Bombay IDP prototype). Not an official warning.</description><instruction>Follow the district administration; keep off flooded roads.</instruction><area><areaDesc>near Bhattasagar Square (7.0 km): about 218 people on flooded land</areaDesc><circle>20.6301,86.1248 1.5</circle></area><area><areaDesc>near Patkura (9.7 km): about 95 people on flooded land</areaDesc><circle>20.3133,86.3615 1.5</circle></area><area><areaDesc>near Patkura (9.3 km): about 52 people on flooded land</areaDesc><circle>20.3113,86.3760 1.5</circle></area><area><areaDesc>near Bhattasagar Square (5.9 km): about 50 people on flooded land</areaDesc><circle>20.6256,86.1147 1.5</circle></area><area><areaDesc>near Patkura (9.1 km): about 41 people on flooded land</areaDesc><circle>20.3116,86.4309 1.5</circle></area><area><areaDesc>near Balachandrapur (5.2 km): about 36 people on flooded land</areaDesc><circle>20.6373,86.1966 1.5</circle></area></info></alert>

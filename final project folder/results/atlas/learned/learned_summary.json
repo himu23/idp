@@ -15,274 +15,274 @@
   "distance_to_bed_m"
  ],
  "n_passes": 457,
- "candidate_pixels": 2261691,
+ "candidate_pixels": 2842588,
  "pixel_iou": {
   "all_passes": {
    "learned": {
-    "iou": 0.243,
-    "precision": 0.507,
-    "recall": 0.318
+    "iou": 0.204,
+    "precision": 0.453,
+    "recall": 0.27
    },
    "trigger": {
-    "iou": 0.226,
-    "precision": 0.567,
-    "recall": 0.273
+    "iou": 0.173,
+    "precision": 0.548,
+    "recall": 0.202
    },
    "climatology": {
-    "iou": 0.14,
-    "precision": 0.637,
-    "recall": 0.152
+    "iou": 0.082,
+    "precision": 0.615,
+    "recall": 0.086
    },
    "n": 457
   },
   "high_flow_passes": {
    "learned": {
     "iou": 0.241,
-    "precision": 0.433,
-    "recall": 0.353
+    "precision": 0.404,
+    "recall": 0.374
    },
    "trigger": {
-    "iou": 0.225,
-    "precision": 0.509,
-    "recall": 0.287
+    "iou": 0.198,
+    "precision": 0.498,
+    "recall": 0.247
    },
    "climatology": {
-    "iou": 0.07,
-    "precision": 0.816,
-    "recall": 0.071
+    "iou": 0.038,
+    "precision": 0.856,
+    "recall": 0.038
    },
-   "n": 85
+   "n": 66
   },
   "heavy_rain_passes": {
    "learned": {
-    "iou": 0.218,
-    "precision": 0.395,
-    "recall": 0.327
+    "iou": 0.216,
+    "precision": 0.364,
+    "recall": 0.348
    },
    "trigger": {
-    "iou": 0.175,
-    "precision": 0.493,
-    "recall": 0.214
+    "iou": 0.15,
+    "precision": 0.503,
+    "recall": 0.176
    },
    "climatology": {
-    "iou": 0.05,
-    "precision": 0.752,
-    "recall": 0.051
+    "iou": 0.03,
+    "precision": 0.776,
+    "recall": 0.03
    },
    "n": 46
   }
  },
  "per_year_iou": {
   "2017": {
-   "learned": 0.214,
-   "trigger": 0.206,
-   "climatology": 0.188
+   "learned": 0.184,
+   "trigger": 0.17,
+   "climatology": 0.144
   },
   "2018": {
-   "learned": 0.181,
-   "trigger": 0.171,
-   "climatology": 0.106
+   "learned": 0.16,
+   "trigger": 0.129,
+   "climatology": 0.062
   },
   "2019": {
-   "learned": 0.259,
-   "trigger": 0.26,
-   "climatology": 0.161
+   "learned": 0.201,
+   "trigger": 0.184,
+   "climatology": 0.086
   },
   "2020": {
-   "learned": 0.262,
-   "trigger": 0.196,
-   "climatology": 0.098
+   "learned": 0.206,
+   "trigger": 0.141,
+   "climatology": 0.057
   },
   "2021": {
-   "learned": 0.245,
-   "trigger": 0.156,
-   "climatology": 0.125
+   "learned": 0.209,
+   "trigger": 0.1,
+   "climatology": 0.067
   },
   "2022": {
-   "learned": 0.34,
-   "trigger": 0.316,
-   "climatology": 0.133
+   "learned": 0.327,
+   "trigger": 0.283,
+   "climatology": 0.082
   },
   "2023": {
-   "learned": 0.302,
-   "trigger": 0.303,
-   "climatology": 0.241
+   "learned": 0.244,
+   "trigger": 0.247,
+   "climatology": 0.16
   },
   "2024": {
-   "learned": 0.274,
-   "trigger": 0.26,
-   "climatology": 0.237
+   "learned": 0.236,
+   "trigger": 0.214,
+   "climatology": 0.156
   },
   "2025": {
-   "learned": 0.27,
-   "trigger": 0.257,
-   "climatology": 0.177
+   "learned": 0.208,
+   "trigger": 0.201,
+   "climatology": 0.104
   },
   "2026": {
-   "learned": 0.189,
-   "trigger": 0.203,
-   "climatology": 0.093
+   "learned": 0.174,
+   "trigger": 0.156,
+   "climatology": 0.052
   }
  },
  "area_correlation": {
-  "learned": 0.581,
-  "trigger": 0.45
+  "learned": 0.499,
+  "trigger": 0.388
  },
  "settlements": {
   "all_passes": {
    "learned": {
-    "hits": 129,
-    "misses": 501,
-    "false_alarms": 223,
-    "POD": 0.205,
-    "FAR": 0.634,
-    "CSI": 0.151
+    "hits": 233,
+    "misses": 740,
+    "false_alarms": 431,
+    "POD": 0.239,
+    "FAR": 0.649,
+    "CSI": 0.166
    },
    "trigger": {
-    "hits": 111,
-    "misses": 519,
-    "false_alarms": 150,
-    "POD": 0.176,
-    "FAR": 0.575,
-    "CSI": 0.142
+    "hits": 184,
+    "misses": 789,
+    "false_alarms": 241,
+    "POD": 0.189,
+    "FAR": 0.567,
+    "CSI": 0.152
    },
    "climatology": {
-    "hits": 46,
-    "misses": 584,
-    "false_alarms": 20,
-    "POD": 0.073,
-    "FAR": 0.303,
-    "CSI": 0.071
+    "hits": 65,
+    "misses": 908,
+    "false_alarms": 59,
+    "POD": 0.067,
+    "FAR": 0.476,
+    "CSI": 0.063
    }
   },
   "high_flow_passes": {
    "learned": {
-    "hits": 80,
-    "misses": 301,
-    "false_alarms": 195,
-    "POD": 0.21,
-    "FAR": 0.709,
-    "CSI": 0.139
+    "hits": 151,
+    "misses": 397,
+    "false_alarms": 367,
+    "POD": 0.276,
+    "FAR": 0.708,
+    "CSI": 0.165
    },
    "trigger": {
-    "hits": 65,
-    "misses": 316,
-    "false_alarms": 123,
-    "POD": 0.171,
-    "FAR": 0.654,
-    "CSI": 0.129
+    "hits": 117,
+    "misses": 431,
+    "false_alarms": 187,
+    "POD": 0.214,
+    "FAR": 0.615,
+    "CSI": 0.159
    },
    "climatology": {
-    "hits": 10,
-    "misses": 371,
-    "false_alarms": 3,
-    "POD": 0.026,
-    "FAR": 0.231,
-    "CSI": 0.026
+    "hits": 9,
+    "misses": 539,
+    "false_alarms": 6,
+    "POD": 0.016,
+    "FAR": 0.4,
+    "CSI": 0.016
    }
   },
   "heavy_rain_passes": {
    "learned": {
-    "hits": 50,
-    "misses": 227,
-    "false_alarms": 162,
-    "POD": 0.181,
-    "FAR": 0.764,
-    "CSI": 0.114
+    "hits": 116,
+    "misses": 390,
+    "false_alarms": 333,
+    "POD": 0.229,
+    "FAR": 0.742,
+    "CSI": 0.138
    },
    "trigger": {
-    "hits": 39,
-    "misses": 238,
-    "false_alarms": 91,
-    "POD": 0.141,
-    "FAR": 0.7,
-    "CSI": 0.106
+    "hits": 73,
+    "misses": 433,
+    "false_alarms": 125,
+    "POD": 0.144,
+    "FAR": 0.631,
+    "CSI": 0.116
    },
    "climatology": {
     "hits": 5,
-    "misses": 272,
-    "false_alarms": 1,
-    "POD": 0.018,
-    "FAR": 0.167,
-    "CSI": 0.018
+    "misses": 501,
+    "false_alarms": 5,
+    "POD": 0.01,
+    "FAR": 0.5,
+    "CSI": 0.01
    }
   }
  },
  "ranking_auc": {
   "all_passes": {
-   "learned": 0.953,
-   "trigger": 0.787,
-   "climatology": 0.928
+   "learned": 0.947,
+   "trigger": 0.723,
+   "climatology": 0.908
   },
   "high_flow_passes": {
-   "learned": 0.926,
-   "trigger": 0.76,
-   "climatology": 0.912
+   "learned": 0.922,
+   "trigger": 0.721,
+   "climatology": 0.899
   },
   "heavy_rain_passes": {
-   "learned": 0.895,
-   "trigger": 0.712,
-   "climatology": 0.883
+   "learned": 0.887,
+   "trigger": 0.673,
+   "climatology": 0.87
   }
  },
  "permutation_importance_auc_drop": {
-  "freq_all": 0.1632,
-  "flow_q_max_5d": 0.03,
-  "rain_7d_mm": 0.0217,
-  "month": 0.0079,
-  "elevation_m": 0.0076,
-  "track": 0.0056,
-  "flow_minus_trigger_log10": 0.0043,
-  "distance_to_bed_m": 0.0042,
-  "freq_high_flow": 0.0014,
-  "height_above_bed_m": 0.0009,
+  "freq_all": 0.1384,
+  "flow_q_max_5d": 0.0357,
+  "rain_7d_mm": 0.0319,
+  "month": 0.0163,
+  "track": 0.0143,
+  "elevation_m": 0.0086,
+  "flow_minus_trigger_log10": 0.0076,
+  "distance_to_bed_m": 0.0044,
+  "freq_high_flow": 0.0025,
+  "height_above_bed_m": 0.0006,
   "freq_heavy_rain": 0.0002,
-  "trigger_log10_q": 0.0
+  "trigger_log10_q": 0.0001
  },
  "scenarios_all_years_model": {
   "T2 typical rain": {
    "flow_m3s": 17897,
    "rain_7d_mm": 58,
-   "flood_km2": 26.6,
-   "people": 4113
+   "flood_km2": 25.7,
+   "people": 5389
   },
   "T5 typical rain": {
    "flow_m3s": 23940,
    "rain_7d_mm": 58,
-   "flood_km2": 64.2,
-   "people": 10501
+   "flood_km2": 44.4,
+   "people": 8081
   },
   "T25 typical rain": {
    "flow_m3s": 32997,
    "rain_7d_mm": 58,
-   "flood_km2": 89.6,
-   "people": 13060
+   "flood_km2": 60.5,
+   "people": 10388
   },
   "T2 heavy rain": {
    "flow_m3s": 17897,
    "rain_7d_mm": 171,
-   "flood_km2": 40.0,
-   "people": 6608
+   "flood_km2": 57.2,
+   "people": 9080
   },
   "T5 heavy rain": {
    "flow_m3s": 23940,
    "rain_7d_mm": 171,
-   "flood_km2": 171.7,
-   "people": 20928
+   "flood_km2": 142.5,
+   "people": 20710
   },
   "T25 heavy rain": {
    "flow_m3s": 32997,
    "rain_7d_mm": 171,
-   "flood_km2": 180.4,
-   "people": 22608
+   "flood_km2": 175.2,
+   "people": 26018
   },
   "T5 dry week": {
    "flow_m3s": 23940,
    "rain_7d_mm": 20,
-   "flood_km2": 43.6,
-   "people": 7315
+   "flood_km2": 29.6,
+   "people": 6012
   }
  },
  "scenario_note": "August, averaged over the three radar tracks; typical rain = median 7-day rain of the monsoon passes (58 mm); heavy rain = monsoon 95th percentile (171 mm)",
- "runtime_s": 1630
+ "runtime_s": 1930
 }

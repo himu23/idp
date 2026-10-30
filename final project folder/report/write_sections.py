@@ -32,6 +32,11 @@ def n(x):
 
 
 AS, R20, TT, S2C = J(AT, "atlas_summary.json"), J(AN, "radar20m.json"), J(IM, "travel_time.json"), J(IM, "s2_crosscheck.json")
+R20N = J(AN, "radar20m_r20.json")
+# the atlas was built with the radar pair retrained on 20 m input when its threshold is that pair's validation threshold
+ADOPTED = bool(R20N) and abs(AS.get("threshold", 0) - R20N.get("threshold", -1)) < 1e-9
+PROD = R20N if ADOPTED else R20
+CMPA = J(os.path.dirname(AT), "archive_atlas_10m", "compare.json")  # the atlas built with the 10 m-trained pair, for comparison
 EXS, TRS, GS, SIT = J(IM, "exposure_summary.json"), J(IM, "transport_summary.json"), J(IM, "geotech_summary.json"), J(IM, "siting_summary.json")
 EX, TR = C(IM, "exposure_scenarios.csv").set_index("scenario"), C(IM, "transport_scenarios.csv").set_index("scenario")
 CL, GEO, SR, SEN = C(IM, "critical_links.csv"), C(IM, "geotech_top20.csv"), C(IM, "siren_sites.csv"), C(IM, "sensor_sites.csv")
@@ -56,8 +61,56 @@ tracks = INV.groupby(["orbit_state", "relative_orbit"]).size() if len(INV) else 
 plat = INV.platform.str.upper().str.replace("SENTINEL-", "S").value_counts().to_dict() if len(INV) else {}
 u = lambda k: BENCH[k]["test_iou"]  # noqa: E731
 
+def top_floods(drv, k=2, gap_days=10):
+    """The k largest floods on radar that are separate events (more than gap_days apart), largest first."""
+    d = drv.assign(when=pd.to_datetime(drv.date)).sort_values("flood_km2", ascending=False)
+    picked = []
+    for _, r_ in d.iterrows():
+        if all(abs((r_['when'] - p_['when']).days) > gap_days for p_ in picked):
+            picked.append(r_)
+        if len(picked) == k:
+            break
+    return picked
+
+
+def fold_word(x):
+    k_ = round(x)
+    return {2: "two-fold", 3: "three-fold", 4: "four-fold", 5: "five-fold", 6: "six-fold"}.get(k_, f"{k_}-fold")
+
+
+
 # ------------------------------------------------------------------ 00 front matter
+FC = J(ROOT, "results", "forecast", "forecast_summary.json")
+RISK = J(IM, "risk_economics.json")
+RISK_ROW = (f"| Risk and economics (cross-cutting) | What do floods cost, and what is protection worth? | Depth–damage curve, paddy at the support price, 29 years of daily flows through the flow–impact table | ₹{RISK['expected_annual_damage_rs_crore']['total_rs_crore']:.0f} crore of damage a year; raising the critical links repays {RISK['road_raising']['benefit_cost_ratio']:.0f} times | Losses in the interviews | Himanshu, Prabhat |\n") if RISK else ""
+LIVE = J(ROOT, "live", "out", "mahanadi", "status.json")
+LIVECFG = J(ROOT, "live", "basins", "mahanadi.json")
+_rp = sorted(glob.glob(os.path.join(ROOT, "live", "out", "replay_*", "mahanadi", "status.json")))
+REPLAY = J(_rp[-1]) if _rp else {}
+BASKEYS = sorted(d for d in os.listdir(os.path.join(ROOT, "results", "basins"))
+                 if os.path.isdir(os.path.join(ROOT, "results", "basins", d))) if os.path.isdir(os.path.join(ROOT, "results", "basins")) else []
+BAS = {k: dict(AS=J(ROOT, "results", "basins", k, "atlas", "atlas_summary.json"),
+               EX=J(ROOT, "results", "basins", k, "impact", "exposure_summary.json"),
+               S2=J(ROOT, "results", "basins", k, "impact", "s2_crosscheck.json"),
+               CFG=J(ROOT, "live", "basins", f"{k}.json")) for k in BASKEYS}
+BAS = {k: v for k, v in BAS.items() if v["AS"]}
 _LF = J(AT, "learned", "learned_summary.json") or {"pixel_iou": {"heavy_rain_passes": {"learned": {"iou": 0}, "trigger": {"iou": 0}}}}
+ABS_NEW = ""
+if FC:
+    _k = FC["skill"]
+    ABS_NEW += (f" A gradient-boosted model forecasts the Naraj flow one to three days ahead from the upstream flows and the"
+                f" catchment rain (Nash-Sutcliffe efficiency {_k['lead_1d']['boosted']['nse']:.2f}, {_k['lead_2d']['boosted']['nse']:.2f}"
+                f" and {_k['lead_3d']['boosted']['nse']:.2f} on monsoons it never saw, against {_k['lead_1d']['persistence']['nse']:.2f},"
+                f" {_k['lead_2d']['persistence']['nse']:.2f} and {_k['lead_3d']['persistence']['nse']:.2f} for persistence), and a live feed"
+                f" turns each day's GloFAS ensemble into an impact-based warning with a CAP alert.")
+if BAS:
+    ABS_NEW += (" The same pipeline mapped the " + " and the ".join(v["CFG"].get("name", k) for k, v in BAS.items())
+                + " from every Sentinel-1 pass since 2017.")
+if RISK:
+    ABS_NEW += (f" Flood damage to houses and paddy comes to about ₹{RISK['expected_annual_damage_rs_crore']['total_rs_crore']:.0f} crore a"
+                f" year (a lower bound), and raising ten critical roads repays its cost {RISK['road_raising']['benefit_cost_ratio']:.0f} times"
+                f" in hospital access alone.")
+
 front = f"""# Prithvi Flood-IN: from a river-flow forecast to who goes under water
 
 **Satellite foundation models, a flood atlas and engineering impacts for the Mahanadi delta**
@@ -77,7 +130,7 @@ DeCUR) against CNN and U-Net baselines on Sen1Floods11 (92 training runs, three 
 no model saw in training (Assam 2016), U-Net reached IoU {u('lio/unet/full/default'):.3f} and the best foundation
 model {u('lio/prithvi/full/default'):.3f}; fusing U-Net, CNN and the best-validated foundation model reached {u('lio/enstop3_mean/full/default'):.3f}.
 Because monsoon floods are under cloud, the operational model is a radar-only fusion of TerraMind-B and U-Net
-(IoU {R20['calibrated_test_iou']:.3f} on 20 m radar). Applied to {AS['n_passes']} Sentinel-1 passes from
+(IoU {PROD['calibrated_test_iou']:.3f} on 20 m radar{", trained on 20 m input" if ADOPTED else ""}). Applied to {AS['n_passes']} Sentinel-1 passes from
 {AS['years'][0]} to {AS['years'][-1]}, it gives a flood atlas of the delta. Linking the atlas to GloFAS discharge at
 Naraj, each 20 m pixel receives the flow at which it starts to flood, so a discharge forecast becomes a flood map;
 on years held out from fitting, this map beats flood climatology at high flows (IoU {HF['model']['iou']:.2f} vs
@@ -85,7 +138,7 @@ on years held out from fitting, this map beats flood climatology at high flows (
 flooded land, {T25['road km (all)']:.0f} km of road is under water and {n(TR25['hospital: people cut off'])} people in
 {int(TR25['hospital: settlements cut off'])} settlements lose road access to any hospital. A learned model that adds local
 rain and each pixel's flood history to the river flow maps held-out heavy-rain passes better still (IoU
-{_LF['pixel_iou']['heavy_rain_passes']['learned']['iou']:.2f} against {_LF['pixel_iou']['heavy_rain_passes']['trigger']['iou']:.2f}). The same scenarios are carried
+{_LF['pixel_iou']['heavy_rain_passes']['learned']['iou']:.2f} against {_LF['pixel_iou']['heavy_rain_passes']['trigger']['iou']:.2f}).{ABS_NEW} The same scenarios are carried
 through seven civil-engineering specializations: hospital and shelter access and travel delay (transportation), wall
 failure depth and IRC:78 bridge scour (structural), river banks to inspect and ground saturation under houses that
 stay dry (geotechnical), Bay of Bengal storms as a flood driver (ocean), work windows, earthwork for raising critical
@@ -102,10 +155,10 @@ flood warning, road network, river-bank screening
 
 | Member | Specializations | What they built | Report | At the site |
 |---|---|---|---|---|
-| Nikhil Upadhyay (lead) | Water resources, Ocean | Flow-to-flood model, rain analogs, design floods and travel time, Saint-Venant PINN; storm drivers; field-visit organisation and WRD/CWC contacts | §5, §6.3–6.5, §7.6 | Discharge, slope, Manning's n (B, C); WRD/CWC interviews |
-| Vineet Jangir | Remote sensing | Benchmark of six foundation models against CNN and U-Net (92 runs), fusion, radar model for 20 m input | §4, §6.1 | Ground-truth points (A) |
-| Prakhar Gupta | Remote sensing | Flood atlas from all Sentinel-1 passes, Sentinel-2 cross-check, map viewer | §6.1–6.2 | Ground-truth points, GPS and photo log (A) |
-| Himanshu Shete | Transportation systems, Structural | Road-network model (hospital and shelter access, travel delay, critical links), flood depth, wall and IRC:78 scour checks; integration of the impact chain, forecast-to-bulletin tool, project website, report and slides | §7.1–7.3, §9.1–9.2 | Bridge inspections, foundation levels, road closures (D); evening data runs |
+| Nikhil Upadhyay (lead) | Water resources, Ocean | Flow-to-flood model, rain analogs, learned flow + rain model, Naraj flow forecast model, design floods and travel time, the watershed analysis, Saint-Venant PINN; storm drivers; field-visit organisation and WRD/CWC contacts | §5, §6.3–6.6, §7.6, §7.8 | Discharge, slope, Manning's n (B, C); WRD/CWC interviews |
+| Vineet Jangir | Remote sensing | Benchmark of six foundation models against CNN and U-Net (92 runs), fusion, radar models retrained on 20 m input | §4, §6.1, Appendix B | Ground-truth points (A) |
+| Prakhar Gupta | Remote sensing | Flood atlas from all Sentinel-1 passes, Sentinel-2 cross-check, atlases of the two other basins, map viewer | §6.1–6.2, §6.8 | Ground-truth points, GPS and photo log (A) |
+| Himanshu Shete | Transportation systems, Structural | Road-network model (hospital and shelter access, travel delay, critical links), flood depth, wall and IRC:78 scour checks; integration of the impact chain, forecast-to-bulletin tool with CAP alerts, live warning feed with data plugins, flood-risk economics, training audit, gap analysis against the partner's services, project website, report and slides | §7.1–7.3, §7.9, §9.1–9.2, §9.6–9.7, Appendix A | Bridge inspections, foundation levels, road closures (D); evening data runs |
 | Prabhat Kumar | Geotechnical, Construction technology and management | Bank screening, ground-saturation advisory, foundation and drawdown checks; work windows, earthwork, deployment quantities and schedule; siren and sensor siting | §7.4–7.5, §7.7, §9.3–9.4 | Bank inspection, soil samples and lab tests, well levels, site sheets (E, F, H) |
 
 """
@@ -166,11 +219,21 @@ if "analog_flow_rain" in V["all_monsoon_passes"]:
     best_hr = max(names_m, key=lambda kv: HR[kv[0]]["iou"])
     SHORT = {"model": "flow-only trigger map", "analog_flow": "flow analogs", "analog_flow_rain": "flow-and-rain analogs",
              "climatology": "flood climatology"}
-    gain = HR["analog_flow_rain"]["iou"] - HR["model"]["iou"]
+    a0, a1, t0 = HR["analog_flow"]["iou"], HR["analog_flow_rain"]["iou"], HR["model"]["iou"]
+    rain_sent = (f"adding rain to the analogs leaves their IoU at {a1:.2f}" if abs(a1 - a0) < 0.005 else
+                 f"adding rain to the analogs {'raises' if a1 > a0 else 'lowers'} their IoU from {a0:.2f} to {a1:.2f}")
+    rain_sent += (", about the trigger map's level" if abs(a1 - t0) < 0.005 else
+                  f", only {a1 - t0:.2f} above the trigger map" if a1 > t0 else f", still below the trigger map's {t0:.2f}")
+    _tops = top_floods(C(IM, "flood_drivers.csv"))
+    _qmax = AS["largest_observed_predictor_m3s"]
+    _moderate = all(t_.naraj_m3s < 0.7 * _qmax for t_ in _tops)
+    top_txt = " and ".join(
+        f"{t_['when'].day} {t_['when']:%B %Y} ({t_.flood_km2:.0f} km², Naraj flow {n(t_.naraj_m3s)} m³/s, {t_.rain_mm:.0f} mm of ERA5 rain in the "
+        f"week before{', with a Bay of Bengal depression' if isinstance(t_.system, str) and t_.system else ''})" for t_ in _tops)
     cmp_txt = f"""
-**The river is not the only driver.** The largest flood extents in the record came with moderate Naraj flows:
-8 September 2018 and 14–16 September 2021, when depressions brought 100–160 mm of rain a day over the delta
-(ERA5). A map driven by Naraj flow alone cannot predict those. The same held-out test was therefore repeated with
+**The river is not the only driver.** The largest flood extents in the record came with {"moderate " if _moderate else ""}Naraj
+flows (the largest flow seen is {n(_qmax)} m³/s): {top_txt}. A map driven by Naraj flow
+alone cannot predict those. The same held-out test was therefore repeated with
 analog maps: for each pass of the held-out year, the 7 training passes most similar in flow (or in flow and
 {PRAIN.get(AS.get('rain_predictor', ''), 'local rain')}) are looked up, and land flooded on at least half of them is predicted
 flooded.
@@ -180,7 +243,7 @@ flooded.
 {chr(10).join(rows_m)}
 
 On the heavy-rain passes the best method is the {SHORT[best_hr[0]]} (IoU {HR[best_hr[0]]['iou']:.2f}), and
-{"adding rain to the analogs leaves their IoU about the same as the trigger map's" if abs(gain) < 0.01 else f"adding rain to the analogs changes IoU by {gain:+.2f} against the trigger map"}:
+{rain_sent}:
 at the scale of single passes rain is hard to use because the observed maps are noisy. The effect of rain is clear
 when the same method is asked about the same river flow. {rain_pair}
 For warnings this means the river forecast has to be read together with the rainfall forecast, which the ClimMaTech
@@ -201,7 +264,7 @@ sec6 = f"""## 6. Mahanadi delta: flood atlas and the link to river flow
 
 ### 6.1 The atlas
 
-The production model of §4.8 (mean of the radar-only TerraMind-B and U-Net, threshold {AS.get('threshold', 0.3):.2f}) was run on
+The production model of §4.8 (mean of the radar-only TerraMind-B and U-Net{", retrained on 20 m input as in Appendix B" if ADOPTED else ""}, threshold {AS.get('threshold', 0.3):.2f}) was run on
 **{AS['n_passes']} Sentinel-1 passes** ({AS['n_dry']} in February–March, {AS['n_monsoon']} in June–November,
 {AS['years'][0]}–{AS['years'][-1]}; tracks {trk}; platforms {', '.join(f'{k} {v}' for k, v in plat.items())}).
 A pass is all slices of one satellite overpass; together they give a water map of the delta every 2–6 days in the
@@ -213,12 +276,14 @@ edge is removed: a first version showed a diagonal stripe of false floods along 
 
 ![Flood frequency 2017–2026]({F}/atlas_frequency_map.png)
 
-- Land flooded on at least one pass: {AS['flooded_ever_km2']:.0f} km²; in at least 20 % of monsoon passes:
+- Land flooded on at least one pass: {n(AS['flooded_ever_km2'])} km²; in at least 20 % of monsoon passes:
   {AS['flooded_20pct_km2']:.0f} km².
 - The largest flood seen on a near-complete pass was on {obs_date} ({EX.loc[OBS, 'flood_km2']:.0f} km² of flooded land).
 - The flooded fraction of each pass follows the Naraj flow. Spearman ρ by predictor:
-  {', '.join(f"{PNAME[k]} {v:.2f}" for k, v in AS['predictor_spearman'].items())}; the {PNAME[AS['predictor']]} is used
-  {'(floodplains drain slowly, so the map follows the recent peak more than the flow of the day)' if 'max' in AS['predictor'] else ''}.
+  {', '.join(f"{PNAME[k]} {v:.3f}" for k, v in AS['predictor_spearman'].items())}; the {PNAME[AS['predictor']]} is used
+  {('(the five are practically tied: floodplains drain slowly, so any recent peak works)'
+    if max(AS['predictor_spearman'].values()) - min(AS['predictor_spearman'].values()) < 0.01 else
+    '(floodplains drain slowly, so the map follows the recent peak more than the flow of the day)') if 'max' in AS['predictor'] else ''}.
 
 ### 6.2 Independent check with Sentinel-2
 
@@ -258,7 +323,7 @@ floods in big years. Predicted and observed flooded area correlate with r = {V['
 
 ### 6.5 Design floods and travel time
 
-Gumbel fit to {AS['gumbel']['n_years']} GloFAS annual maxima at Naraj (1984–2025):
+Gumbel fit to {AS['gumbel']['n_years']} GloFAS annual maxima at Naraj (1997–2025):
 
 | Return period (years) | Naraj flow (m³/s) | (lakh cusec) | Flooded land (km²) |
 |---|---|---|---|
@@ -270,7 +335,7 @@ further and is a lower bound{(' (' + ', '.join(f'{T}-yr' for T in lb) + ')') if 
 Day-to-day changes of flow below Hirakud correlate best with those at Naraj
 {lagtxt(TT['hirakud_below']['best_lag_days'])} (r = {TT['hirakud_below']['corr_by_lag_days'][str(TT['hirakud_below']['best_lag_days'])]:.2f}),
 and those at Tikarpara {lagtxt(TT['tikarpara']['best_lag_days'])} (r = {TT['tikarpara']['corr_by_lag_days'][str(TT['tikarpara']['best_lag_days'])]:.2f}),
-in June–October 1984–2025 (daily data resolve only whole days). A release seen by a spillway sensor at Hirakud
+in June–October 1997–2025 (daily data resolve only whole days). A release seen by a spillway sensor at Hirakud
 therefore gives about a day of lead time for the delta, on top of the hydrological forecast.
 
 ### 6.6 Limits
@@ -283,9 +348,11 @@ therefore gives about a day of lead time for the delta, on top of the hydrologic
 - **Paddy**: transplanted paddy holds water in July–August. Land whose wetness does not follow the river (low
   river-driven score) should not trigger river-flood warnings.
 - **Flows beyond the record** (rarer than the largest flood seen since 2017) are lower bounds.
+- **The flow forecast is scored against GloFAS itself** (§6.7): its skill against measured Naraj flows is unknown
+  until CWC records or upstream gauges arrive, and GloFAS's own forecast skill at Naraj has not been verified here.
 """
 LRN = J(AT, "learned", "learned_summary.json")
-LRU = J(AT, "learned_unconstrained", "learned_summary.json")
+LRU = J(os.path.dirname(AT), "archive_atlas_10m", "learned_unconstrained_summary.json")  # first run, on the earlier atlas
 if LRN:
     li, ls, la = LRN["pixel_iou"], LRN["settlements"], LRN.get("ranking_auc", {})
 
@@ -306,6 +373,10 @@ if LRN:
                "better on heavy-rain passes than the trigger map, with no overall gain" if d_rain >= 0.01 else
                "about as good as the trigger map on all passes" if abs(d_all) < 0.01 else
                "better than the trigger map on all passes" if d_all >= 0.01 else "not better than the trigger map")
+    _lr_fold = fold_word(sc_.get('T5 heavy rain', {}).get('flood_km2', 0) / max(sc_.get('T5 dry week', {}).get('flood_km2', 1), 1))
+    _an_fold = fold_word(_b[RH]['flooded_land_km2'] / max(_b[20]['flooded_land_km2'], 1)) if all(_b.values()) else ""
+    an_cmp = ("" if not _an_fold else ", the same as in the analog maps of §6.4" if _an_fold == _lr_fold else
+              f" (the analog maps of §6.4 give {_an_fold}: {_b[20]['flooded_land_km2']:.0f} against {_b[RH]['flooded_land_km2']:.0f} km²)")
     learned_md = f"""### 6.6 A learned flow + rain + history model
 
 The trigger map uses the Naraj flow alone, and the analogs use rain only through similar past passes. A gradient-boosted
@@ -333,17 +404,110 @@ than the trigger map ({ls['high_flow_passes']['learned']['POD']:.0%} against {ls
 {"best of the three" if la.get('all_passes', {}).get('learned', 0) >= max(la.get('all_passes', {}).get('trigger', 0), la.get('all_passes', {}).get('climatology', 0)) else "below flood climatology"}
 (ROC AUC {la.get('all_passes', {}).get('learned', 0):.2f}). The physical direction of each input is imposed (more flow or rain, a
 flow further above the trigger or a pixel that flooded more often never lowers the probability):
-{"a first run without these constraints scored " + format(LRU['pixel_iou']['all_passes']['learned']['iou'], '.3f') + " IoU but gave less flooded land for heavy than for typical rain at the 25-year flow (" + format(LRU['scenarios_all_years_model']['T25 heavy rain']['flood_km2'], '.0f') + " against " + format(LRU['scenarios_all_years_model']['T25 typical rain']['flood_km2'], '.0f') + " km²), which a warning map must never do." if LRU else ""}
+{"a first run without these constraints (on the earlier atlas of Appendix B) scored " + format(LRU['pixel_iou']['all_passes']['learned']['iou'], '.3f') + " IoU but gave less flooded land for heavy than for typical rain at the 25-year flow (" + format(LRU['scenarios_all_years_model']['T25 heavy rain']['flood_km2'], '.0f') + " against " + format(LRU['scenarios_all_years_model']['T25 typical rain']['flood_km2'], '.0f') + " km²), which a warning map must never do." if LRU else ""}
 The inputs it leans on most (drop in held-out ranking AUC when each is shuffled):
 {"; ".join(f"{FEAT_NAMES.get(k, k)} {v:.3f}" for k, v in imp)}. Fitted on all years, it floods
 {sc_.get('T5 dry week', {}).get('flood_km2', 0):.0f} km² at the 5-year flow in a dry week,
 {sc_.get('T5 typical rain', {}).get('flood_km2', 0):.0f} km² with typical rain and {sc_.get('T5 heavy rain', {}).get('flood_km2', 0):.0f} km²
-with heavy rain ({LRN.get('scenario_note', '')}), the same roughly four-fold effect of rain as the analog maps of §6.4.
+with heavy rain ({LRN.get('scenario_note', '')}), a roughly {fold_word(sc_.get('T5 heavy rain', {}).get('flood_km2', 0) / max(sc_.get('T5 dry week', {}).get('flood_km2', 1), 1))}
+effect of rain between a dry and a heavy-rain week{an_cmp}.
 For a warning system this is the model that takes both of
 ClimMaTech's inputs, the river forecast and a rain-gauge or forecast rain total, and returns one map.
 
 """
     sec6 = sec6.replace("### 6.6 Limits", learned_md + "### 6.7 Limits")
+_n6 = 7 if "### 6.7 Limits" in sec6 else 6
+extra6 = ""
+if FC:
+    _k = FC["skill"]
+    _row = lambda L, m: _k[f"lead_{L}d"][m]  # noqa: E731
+    fc_rows = "\n".join(
+        f"| {L} day{'s' if L > 1 else ''} | {_row(L, 'persistence')['nse']:.3f} | {_row(L, 'linear_routing')['nse']:.3f} | "
+        f"{_row(L, 'boosted')['nse']:.3f} ({_row(L, 'boosted')['kge']:.2f}) | {_row(L, 'boosted_with_rain_forecast')['nse']:.3f} | "
+        f"{_row(L, 'persistence')['two_year_flood']['pod']:.0%} / {_row(L, 'persistence')['two_year_flood']['far']:.0%} | "
+        f"{_row(L, 'boosted')['two_year_flood']['pod']:.0%} / {_row(L, 'boosted')['two_year_flood']['far']:.0%} | "
+        f"{_row(L, 'boosted_with_rain_forecast')['two_year_flood']['pod']:.0%} / {_row(L, 'boosted_with_rain_forecast')['two_year_flood']['far']:.0%} |"
+        for L in (1, 2, 3))
+    extra6 += f"""### 6.{_n6} Forecasting the flow at Naraj
+
+A flood map is only as early as the flow forecast behind it. The trigger map turns a Naraj flow into a map; this
+section asks how far ahead that flow can be known from what is measured upstream today. Water reaches Naraj from the
+Hirakud reach and the Tel and Ong tributaries in about a day (§6.5), so the flows at Naraj, Tikarpara and below Hirakud
+on the issue day and the two days before, their last-day changes, ERA5 rain over the catchment between Hirakud and Naraj
+(eight points; the day, the day before, 3- and 7-day sums) and the season predict the change in the Naraj flow one,
+two and three days ahead. One gradient-boosted model per lead time (scikit-learn HistGradientBoosting,
+`mahanadi/forecast_model.py`) was trained on {FC['train_years'][0]}–{FC['train_years'][1]} and tested on the June–November
+days of {FC['test_years'][0]}–{FC['test_years'][1]}, which it never saw. Baselines: persistence (the flow stays as it is)
+and linear routing (log-flows at the three gauges). A second variant adds the rain of the coming days as if it were
+forecast perfectly, the most a rain forecast can add.
+
+| Lead | Persistence | Linear routing | Model (KGE) | Model + rain forecast | 2-year flood, persistence: caught / false | Model | Model + rain forecast |
+|---|---|---|---|---|---|---|---|
+{fc_rows}
+
+Cells give Nash–Sutcliffe efficiency of the daily flow (1 = perfect), and for the {n(FC['thresholds_m3s']['two_year_flood'])} m³/s
+two-year flow the share of exceedance days caught and the share of forecast exceedances that were false. The model keeps
+its skill where persistence fades: three days ahead its efficiency is {_row(3, 'boosted')['nse']:.2f} against
+{_row(3, 'persistence')['nse']:.2f}, and one day ahead it catches the two-year flood as often as persistence with
+{_row(1, 'boosted')['two_year_flood']['far']:.0%} instead of {_row(1, 'persistence')['two_year_flood']['far']:.0%} false alarms.
+A rain forecast adds little to the efficiency but most where it matters: two and three days ahead it raises the
+two-year floods caught from {_row(2, 'boosted')['two_year_flood']['pod']:.0%} to {_row(2, 'boosted_with_rain_forecast')['two_year_flood']['pod']:.0%}
+and from {_row(3, 'boosted')['two_year_flood']['pod']:.0%} to {_row(3, 'boosted_with_rain_forecast')['two_year_flood']['pod']:.0%}.
+The flows are GloFAS reanalysis, the series the atlas is fitted on; with CWC records or Pravaah-type gauges upstream the
+same code trains on measured flows, and the forecast runs in the live feed of §9.7 next to the GloFAS ensemble.
+
+![Two test monsoons: the Naraj flow and the forecasts made one and three days earlier](../results/forecast/forecast_naraj.png)
+
+"""
+    _n6 += 1
+if BAS:
+    b_rows = []
+    for k_, v_ in [("mahanadi", dict(AS=AS, EX=EXS, S2=S2C, CFG=LIVECFG))] + list(BAS.items()):
+        a_, hf_ = v_["AS"], v_["AS"]["validation"]["high_flow_passes"]
+        t25_ = (v_["EX"] or {}).get("scenarios", {}).get("T25", {})
+        s2_ = (v_["S2"] or {}).get("all/all_months", {})
+        v_["CFG"] = v_["CFG"] or {}
+        b_rows.append(f"| {v_['CFG'].get('name', k_)} | {v_['CFG'].get('river', '')} at {v_['CFG'].get('gauge_name', '')} | "
+                      f"{a_['n_passes']} | {n(a_['flooded_ever_km2'])} | {n(a_['gumbel']['return_period_m3s']['25'])} | "
+                      f"{n(t25_.get('flood_km2', 0))} | {n(t25_.get('people', 0))} | {hf_['model']['iou']:.2f} vs {hf_['climatology']['iou']:.2f} | "
+                      + (f"{s2_['iou']:.2f} |" if s2_ else "– |"))
+    _bt = []
+    for k_, v_ in BAS.items():
+        a_, sc_ = v_["AS"], (v_["EX"] or {}).get("scenarios", {})
+        ob_ = next((k for k in sc_ if k.startswith("observed_")), None)
+        lf_ = (v_["CFG"] or {}).get("level_flows_m3s", {})
+        _bt.append(f"**{(v_['CFG'] or {}).get('name', k_)}.** {a_['n_passes']} usable passes; {n(a_['flooded_ever_km2'])} km² flooded at least once"
+                   + (f"; the largest flood seen, on {ob_[9:13]}-{ob_[13:15]}-{ob_[15:17]}, covered {n(sc_[ob_]['flood_km2'])} km² with "
+                      f"{n(sc_[ob_]['people'])} people on it" if ob_ else "")
+                   + f". The 25-year flow ({n(a_['gumbel']['return_period_m3s']['25'])} m³/s) maps {n(sc_.get('T25', {}).get('flood_km2', 0))} km²"
+                   f" with {n(sc_.get('T25', {}).get('people', 0))} people, a lower bound because the largest flow on a pass was "
+                   f"{n(a_['largest_observed_predictor_m3s'])} m³/s"
+                   + (f"; warnings start at {n(lf_.get('1'))}, {n(lf_.get('2'))} and {n(lf_.get('3'))} m³/s" if lf_ else "") + ".")
+    _bas_txt = "\n\n".join(_bt)
+    extra6 += f"""### 6.{_n6} The same pipeline on two more basins
+
+Nothing in the method is specific to the Mahanadi. A basin is a box, a GloFAS cell on the main river (checked by its
+mean flow), the months of the dry season and of the flood season (`mahanadi/basins.py`). The Brahmani–Baitarani delta
+next door (Jajpur, Kendrapara and Bhadrak districts) and the Brahmaputra around Majuli in Assam, the region of the
+benchmark's unseen Indian flood, went through the same chain: every Sentinel-1 pass since 2017 at 20 m, the production
+radar pair at threshold 0.45, the trigger map with its held-out-year test, Gumbel design floods, exposure, the
+flow-impact tables of §9.7 and the Sentinel-2 check (`server/run_basins_pull.sh`, `run_basins_context.sh`,
+`run_basin_atlas.sh`).
+
+| Basin | Gauge | Passes | Flooded at least once (km²) | 25-year flow (m³/s) | Flooded land, 25-year (km²) | People on it | Held-out high flows: trigger vs climatology (IoU) | Sentinel-2 agreement (IoU) |
+|---|---|---|---|---|---|---|---|---|
+{chr(10).join(b_rows)}
+
+{_bas_txt}
+
+The Brahmani–Baitarani delta is fed by two rivers and the trigger map is fitted on the Brahmani alone, so floods that
+the Baitarani drives are predicted less well; the Brahmaputra floodplain is braided and its char islands move between
+years. Both basins run in the live feed under the same impact-based rule, counted beyond what an ordinary monsoon
+already floods (§9.7).
+
+"""
+    _n6 += 1
+sec6 = sec6.replace("### 6.7 Limits" if "### 6.7 Limits" in sec6 else "### 6.6 Limits", extra6 + f"### 6.{_n6} Limits")
 open(os.path.join(SEC, "06_mahanadi.md"), "w", encoding="utf-8").write(sec6)
 
 # ------------------------------------------------------------------ 07 impacts
@@ -437,6 +601,13 @@ if struct_links:
                   f"(check {'point' if one else 'points'} {pts}). "
                   f"As {'an embankment it' if one else 'embankments they'} alone would take "
                   f"{n(lrk.get('earthwork_m3_if_all_by_embankment', 0) - lrk.get('earthwork_m3', 0))} m³.")
+mr_emb = lrk.get("max_raise_for_embankment_m", 3)
+max_raise = float(LR["raise_m"].max()) if len(LR) and "raise_m" in LR else 0.0
+struct_short = (f"{len(struct_links)} more need a bridge or vented causeway" if struct_links
+                else f"all by embankment (largest raise {max_raise:.1f} m)")
+struct_long = (f"{len(struct_links)} more would need raises above {mr_emb:.0f} m, that is a bridge or a vented causeway"
+               if struct_links else
+               f"none needs more than {max_raise:.1f} m, so all are road embankments and none needs a bridge or a vented causeway")
 ww_rows = "\n".join(f"| {w['month']} | {n(w['mean_flow_m3s'])} | {w['share_days_above_2yr_flood']:.1%} | {w['storms_per_year_within_300km']:.2f} | "
                     f"{'' if pd.isna(w['mean_flooded_share_on_radar']) else format(w['mean_flooded_share_on_radar'], '.1%')} | {w['work_window']} |"
                     for w in CMP.get("work_windows_table", []))
@@ -458,8 +629,8 @@ that can change the answer. The 10- to 100-year scenarios are identical: the lar
 | Structural | Where do walls crack; how deep must piers go? | DEM flood depth, wall moment check, IRC:78 Lacey scour | {n(wT25.get('people_deeper_than_1m', 0))} people where depth ≥ 1 m; pier scour {STR.get('bridges', {}).get('pier_scour_T100_share25_range_m', [0, 0])[0]:.0f}–{STR.get('bridges', {}).get('pier_scour_T100_share25_range_m', [0, 0])[1]:.0f} m below HFL (100-yr, a quarter of the flow) | Deck clearance, HFL marks, foundation levels | Himanshu |
 | Geotechnical | Which banks fail; which dry houses sit on soaked ground? | Bank screening; 200 m saturation advisory; bearing / settlement checks | {n(gT25.get('people_in_zone', 0))} people in the advisory zone; bearing loss {fe.get('silty_sand_drained', {}).get('reduction_pct', 0)} % when soaked | Soil samples, well levels, slopes | Prabhat |
 | Ocean | What do Bay of Bengal storms add? | IBTrACS tracks vs atlas; flood drivers | {OCN.get('systems_within_300km_since_2016', 0)} systems within 300 km since 2016; {cnt.get('cyclone/depression', 0)} of the 20 largest floods followed one | Interviews on surge and tidal drainage | Nikhil |
-| Construction technology & management | When to build, what it costs, in what order | Flood/storm climatology, earthwork take-off, BoQ, schedule | Work window {wwin}; {n(lrk.get('earthwork_m3', 0))} m³ to raise {lrk.get('links_by_embankment', 10)} critical links, {len(lrk.get('links_needing_structure', []))} more need a bridge or vented causeway | Site sheets for sensors/sirens | Prabhat |
-
+| Construction technology & management | When to build, what it costs, in what order | Flood/storm climatology, earthwork take-off, BoQ, schedule | Work window {wwin}; {n(lrk.get('earthwork_m3', 0))} m³ to raise {lrk.get('links_by_embankment', 10)} critical links, {struct_short} | Site sheets for sensors/sirens | Prabhat |
+{RISK_ROW}
 Population: GHSL 2020 ({n(EXS['population_ghsl'])} people in the box, {n(EXS['settlement_population'])} of them in
 {n(EXS['settlements'])} settlements). Roads, bridges, railways, hospitals and schools: OpenStreetMap
 ({n(EXS['road_km_total'])} km of road, {n(EXS['bridges'])} bridge segments, {n(EXS['health_facilities'])} hospitals and
@@ -647,7 +818,7 @@ if WS:
     appC += f"""
 ### C.8 Water resources: the watershed above the delta
 
-Daily GloFAS v4 flows just below Hirakud dam and at Naraj, {WS['years']} complete years between 1984 and 2025
+Daily GloFAS v4 flows just below Hirakud dam and at Naraj, {WS['years']} complete years between 1997 and 2025
 (`mahanadi/watershed_share.py`). For each year the flow below Hirakud on the day before the Naraj peak is compared with
 the peak (one day is the travel time found in §6.5).
 
@@ -745,8 +916,7 @@ drainage of the lower delta. **What we did.** IBTrACS storm tracks were matched 
 budget. **What we did.** Monthly flood and storm climatology, an earthwork take-off for raising the critical links,
 deployment quantities and a schedule. **What we found.** The work window is {wwin}. Raising {lrk.get('links_by_embankment', 0)}
 critical links takes about {n(lrk.get('earthwork_m3', 0))} m³ of earthwork (about ₹{lrk.get('cost_crore_rs_at_350_per_m3', 0):.2f} crore
-at an assumed ₹350/m³); {len(lrk.get('links_needing_structure', []))} more would need raises above 3 m, that is a bridge or a vented
-causeway. Installing {CMP.get('deployment', {}).get('sirens', 40)} sirens and {CMP.get('deployment', {}).get('sensor_sites', 6)} river gauges takes about
+at an assumed ₹350/m³); {struct_long}. Installing {CMP.get('deployment', {}).get('sirens', 40)} sirens and {CMP.get('deployment', {}).get('sensor_sites', 6)} river gauges takes about
 {CMP.get('deployment', {}).get('crew_days', 0):.0f} crew-days. **At the site:** access, mounting and signal at the proposed sites.
 """
 if WS:
@@ -755,7 +925,7 @@ if WS:
 
 **Why it matters.** The delta's floods are set upstream, by releases from Hirakud dam and by rain on the uncontrolled
 tributaries below it, so a warning for the delta is a warning about the whole watershed. **What we did.** GloFAS
-flows below Hirakud, at Tikarpara and at Naraj (1984–2025) were compared at the annual flood peak and over the monsoon
+flows below Hirakud, at Tikarpara and at Naraj (1997–2025) were compared at the annual flood peak and over the monsoon
 (C.8), next to the travel times and design floods of §6.5. **What we found.** Hirakud controls about 59 % of the basin
 (83,400 of about 141,600 km²) and passes {WS['jul_sep_share']:.0%} of the July–September flow at Naraj, but only a median
 {WS['median_share_hirakud_of_naraj_peak']:.0%} of the annual flood peak ({WS['years']} years): the other half comes from the
@@ -764,10 +934,67 @@ gauges on the tributaries below it, and watershed measures in that lower catchme
 storages) act on the frequent floods more than on the rare largest ones. **At the site:** discharge and Manning's n at a
 road bridge; the WRD's account of gate operations.
 """
+if RISK:
+    _e, _d, _r, _h = (RISK[k] for k in ("expected_annual_damage_rs_crore", "daily_record", "road_raising", "hirakud_1000_m3s_off_the_peak"))
+    _py, _lv = _d["per_year"], _d["mean_days_per_year_at_level"]
+    sec7 += f"""
+### 7.9 Flood risk in rupees and person-days
+
+**Why it matters.** Protection and warnings compete for money with everything else a district builds, so the hazard
+has to be put in rupees and in days of life disrupted. **What we did.** Flood depth (§7.3) times the JRC depth–damage
+curve for houses in Asia gives the houses damaged; flooded paddy at Odisha's yield and the support price gives the crop
+lost; every day of {_d['years'].replace('-', '–')} at Naraj, run through the flow–impact table, gives what an average year costs (C.9).
+**What we found.** Expected flood damage is about ₹{_e['total_rs_crore']:.0f} crore a year (houses ₹{_e['houses_rs_crore']:.1f}
+crore, paddy ₹{_e['paddy_rs_crore']:.1f} crore), a lower bound because floods above the largest seen are. An average year
+brings {n(_py.get('person_days_on_flooded_land', 0))} person-days on flooded land and {n(_py.get('person_days_without_hospital_access', 0))}
+person-days without road access to any hospital. Raising the ten critical links (§7.7) cuts the latter to
+{n(_py.get('person_days_without_hospital_access_links_raised', 0))}; valued only at the rural wage, that repays the earthwork
+{_r['benefit_cost_ratio']:.0f} times. Every 1,000 m³/s that Hirakud keeps off a 5-year peak keeps about {n(_h['T5']['people_saved'])}
+people dry. The impact-based warning levels of §9.7 would have reached "Be prepared" on {_lv.get('days_level_2_or_more', 0):.1f}
+days a year on average, so warnings stay rare. **At the site:** the farmers' and householders' losses in the interviews.
+"""
+    dmg_rows = "\n".join(f"| {r['T']}-year | {n(r['flow_m3s'])} | {n(r['people_on_flooded_land'])} | {n(r['house_equivalents_damaged'])} | "
+                         f"{r['houses_rs_crore']:.2f} | {n(r['paddy_flooded_ha'])} | {n(r['paddy_lost_ha'])} | {r['paddy_rs_crore']:.2f} | "
+                         f"{r['total_rs_crore']:.2f} |" for r in RISK["damage_by_flood"])
+    appC += f"""
+### C.9 Risk and economics
+
+**Houses.** For each design flood, the people on flooded land in each 0.1 m depth step (impact_depth.py, now also for
+the 2- and 10-year floods) times the JRC depth–damage fraction for residential buildings in Asia (Huizinga et al. 2017:
+0.33 at 0.5 m, 0.49 at 1 m, 0.72 at 2 m, 1.0 at 6 m) gives damage in house-equivalents at one household per
+{RISK['parameters']['people_per_household']} people (an assumption of the order of the Census for rural Odisha), priced at
+the PMAY-G rural housing assistance of ₹1.20 lakh a house: the public cost of rebuilding, a lower bound of the loss.
+**Paddy.** Flooded cropland (ESA WorldCover) at Odisha's rice yield of 2,081 kg/ha (RBI, 2023-24) and the 2025-26 MSP of
+₹2,369 a quintal (₹{n(RISK['parameters']['paddy_rs_per_ha'])} a hectare); the crop is lost where the water is 0.5 m deep or more and
+{RISK['parameters']['shallow_crop_loss']:.0%} is lost where it is shallower. **Expected annual damage** is the area under the
+damage–probability curve from the 2- to the 100-year flood (trapezoid rule) plus the 100-year damage for the rarer tail.
+
+| Flood | Naraj flow (m³/s) | People on flooded land | Houses (damage-equivalent) | Houses (₹ crore) | Paddy flooded (ha) | Paddy lost (ha) | Paddy (₹ crore) | Total (₹ crore) |
+|---|---|---|---|---|---|---|---|---|
+{dmg_rows}
+
+The 10- to 100-year rows are equal because the radar record has not seen a larger flood (§6.5): the expected annual
+damage, ₹{_e['total_rs_crore']:.1f} crore, is a lower bound. **The daily record.** Each day of {_d['years'].replace('-', '–')} at Naraj, as the
+3-day peak flow the atlas uses, was looked up in the flow–impact table (`impact_curve.csv`): on average a year brings
+{n(_py.get('person_days_on_flooded_land', 0))} person-days on flooded land and {n(_py.get('person_days_without_hospital_access', 0))}
+person-days without road access to any hospital ({n(_py.get('person_days_without_hospital_access_links_raised', 0))} with the ten
+critical links raised, i.e. never cut). The warning levels of §9.7 would have stood at "Be aware" or above on
+{_lv.get('days_level_1_or_more', 0):.1f} days a year, "Be prepared" or above on {_lv.get('days_level_2_or_more', 0):.1f} and
+"Act now" on {_lv.get('days_level_3_or_more', 0):.1f}, with "Act now" in {_d['years_with_any_level_3']} of the years.
+**Road raising.** The earthwork of C.7 (₹{_r['cost_rs_crore']:.2f} crore) annualised over {_r['life_years']} years at
+{_r['discount_rate']:.0%} costs ₹{_r['annual_cost_rs_lakh']:.1f} lakh a year; the {n(_r['person_days_saved_per_year'])} person-days of
+hospital access it saves, valued at the Odisha MGNREGA wage of ₹254 a day (2024-25), are worth ₹{_r['annual_benefit_rs_lakh']:.0f}
+lakh: a benefit–cost ratio of {_r['benefit_cost_ratio']:.0f} that leaves out health outcomes and travel delays.
+**Hirakud.** Taking 1,000 m³/s off the peak keeps about {n(_h['T2']['people_saved'])}, {n(_h['T5']['people_saved'])} and
+{n(_h['T10']['people_saved'])} people dry in a 2-, 5- and 10-year flood. **Warnings.** Twenty-four hours of warning cuts flood
+damage by about 30 % (Global Commission on Adaptation, 2019), about ₹{RISK['warning_saving_rs_crore_per_year']:.0f} crore a year here.
+"""
 open(os.path.join(SEC, "07_impacts.md"), "w", encoding="utf-8").write(sec7)
 open(os.path.join(SEC, "12_appendix_c.md"), "w", encoding="utf-8").write(appC)
 
 # ------------------------------------------------------------------ 09 implementation
+FC_EVID = (f"; forecast efficiency {FC['skill']['lead_1d']['boosted']['nse']:.2f} / {FC['skill']['lead_2d']['boosted']['nse']:.2f} / "
+           f"{FC['skill']['lead_3d']['boosted']['nse']:.2f} at 1 / 2 / 3 days") if FC else ""
 cov = SIT["coverage"]
 k80 = SIT.get("sirens_for_80pct_at_1500m")
 cur = CURVE[CURVE.radius_m == 1500]
@@ -793,6 +1020,8 @@ ClimMaTech / CWC forecast of Naraj flow ──► forecast_to_impact.py ──�
    (m³/s or lakh cusec, lead time)            trigger map + impacts    settlements to warn (GeoJSON) ──► Rakshak Control Centre, Aagah
                                                                        roads under water, bulletin text ──► district / OSDMA
 Sentinel-1 pass (every 2-6 days) ──► atlas_infer.py ──► observed flood map ──► refit trigger map each season
+GloFAS ensemble + ECMWF rain + SACHET/CWC alerts ──► live/run_live.py (daily) ──► impact-based level, villages with dates,
+                                                                                  CAP alert + Atom feed ──► Rakshak Control Centre
 ```
 
 ### 9.2 Forecast-to-bulletin tool
@@ -835,7 +1064,8 @@ documentation); the field protocol B–C measures exactly these at one bridge (�
 
 ### 9.5 Rolling it out
 
-1. **Season 0 (now)**: hand the trigger map, bulletin tool and viewer to ClimMaTech; refit with CWC/WRD observed flows.
+1. **Season 0 (now)**: hand the trigger map, bulletin tool, live feed and viewer to ClimMaTech; run the live feed every
+   morning; refit with CWC/WRD observed flows.
 2. **Before the next monsoon**: field-verified siren and sensor sites (§8.7); first sensors at the heads of the
    Mahanadi and Kathajodi branches.
 3. **During the monsoon**: map every new Sentinel-1 pass (6 s per pass on the lab GPU, ~2 min to download) and compare
@@ -852,15 +1082,100 @@ gap found and what this project adds, with the number behind it.
 | Their service | Gap | What this project adds | Evidence |
 |---|---|---|---|
 | River View (platform layer: "a live map-based view of river levels and flood risk") | No flood-extent layer behind the map | Flood frequency, trigger flow and impact layers for the Mahanadi delta | {AS['n_passes']} passes; held-out IoU {HF['model']['iou']:.2f} vs {HF['climatology']['iou']:.2f} at high flows |
-| AI forecasting, 30 min to 48 h ahead | A forecast level is not a list of villages | Forecast-to-bulletin tool: map, settlements to warn, roads under water | 25-year flow: {T25['flood_km2']:.0f} km², {n(T25['people'])} people, {int(T25['settlements >= 10 % of people flooded'])} settlements |
+| AI forecasting, 30 min to 48 h ahead | A forecast level is not a list of villages | Forecast-to-bulletin tool and a daily live feed with impact-based levels; a 1–3 day Naraj forecast from upstream flows (§6.7, §9.7) | 25-year flow: {T25['flood_km2']:.0f} km², {n(T25['people'])} people, {int(T25['settlements >= 10 % of people flooded'])} settlements{FC_EVID} |
 | Research group, satellite reconstructions | Flood width measured by hand at 36 cross-sections; optical pass 75–79 % cloud, only radar pass two days early | Benchmarked radar model that maps every Sentinel-1 pass automatically, through cloud | 92 audited runs (Appendix A); ~5 s per pass |
 | Solution pages, network design | Layouts drawn as illustrations | Data-backed siting of sirens and river gauges with coordinates | 40 sirens reach {SIT['coverage']['1500']['share']:.0%} of exposed people at 1.5 km; {len(SEN)} sensor bridges |
 | Pravaah discharge | Needs a surveyed cross-section and a surface-to-mean velocity factor | Field protocols B and C measure both, plus Manning's n | §8.4; scripts in `fieldkit/analysis/` |
 | Varshaq rain gauge | Rain not linked to flooded land | Rain-aware flood maps (analogs, learned model §6.6) | 5-year flow: {_b[20]['flooded_land_km2']:.0f} km² dry week vs {_b[RH]['flooded_land_km2']:.0f} km² heavy rain |
 | Flood-warning solution and Aagah app ("time to evacuate populations, reroute traffic, and secure critical infrastructure") | Which people, which roads | Settlements to warn, roads that close, villages that lose their hospital, in every bulletin | {int(TR25['hospital: settlements cut off'])} settlements lose hospital access (25-year flood) |
-| Rakshak Control Centre ("draw an area, pick districts, or upload your own boundaries"; accepts CAP) | Alert areas drawn by hand | Every forecast also writes a CAP 1.2 alert with one area per settlement to warn | `bulletin_<flow>.cap.xml`; {J(IM, 'bulletins', f'bulletin_{round(RP[25])}.json').get('settlements_to_warn', 0)} areas for the 25-year flow |
+| Rakshak Control Centre ("draw an area, pick districts, or upload your own boundaries"; accepts CAP) | Alert areas drawn by hand | Every forecast also writes a CAP 1.2 alert with one area per settlement to warn, listed in an Atom feed the centre can subscribe to | `bulletin_<flow>.cap.xml`; {J(IM, 'bulletins', f'bulletin_{round(RP[25])}.json').get('settlements_to_warn', 0)} areas for the 25-year flow |
 | Dam and reservoir solution | Level at the dam, not the water spread | The same radar model can map reservoir area on every pass (next step: Hirakud) | — |
-| Installation and O&M | Timing against floods and storms | Work window and schedule from 42 years of flows and storm tracks | {wwin}; {CMP.get('deployment', {}).get('crew_days', 0):.0f} crew-days |
+| Installation and O&M | Timing against floods and storms | Work window and schedule from 29 years of flows and 46 years of storm tracks | {wwin}; {CMP.get('deployment', {}).get('crew_days', 0):.0f} crew-days |
+"""
+if LIVE and LIVECFG:
+    _short = lambda t, k=150: t if len(t) <= k else t[:k].rsplit(" ", 1)[0] + " …"  # noqa: E731
+    _lf = LIVECFG["level_flows_m3s"]
+    _pk = LIVE["peak"]
+    _mf = LIVE.get("model_forecast", {}).get("naraj_m3s", {})
+    _off = LIVE.get("official_alerts", [])
+    sec9 += f"""
+### 9.7 The live warning service
+
+The bulletin tool of §9.2 needs someone to type a flow. The live service (`live/`) reads the forecasts itself, every
+time it runs, from sources that need no login, each a plugin that fails soft (`live/sources.py`):
+
+| Plugin | Source | What it gives |
+|---|---|---|
+| glofas | GloFAS v4 through the Open-Meteo flood API | the Naraj flow 30 days ahead: control run and 50 ensemble members; the upstream gauges |
+| rain | ECMWF IFS 0.25° through the Open-Meteo forecast API | daily rain over the delta and over the catchment, 16 days ahead |
+| sachet | NDMA SACHET CAP feed of the state | official IMD, CWC and SDMA alerts, matched to the basin's districts |
+| cwc | CWC flood-forecasting portal | stations now above warning level (answers from Indian networks) |
+| sentinel1 | Planetary Computer catalogue | the latest radar pass over the basin, to map the flood actually there |
+
+For each of the 51 runs and each day the flow measure the atlas uses (the 3-day peak at Naraj) is looked up in the
+flow–impact table that `mahanadi/impact_curve.py` sweeps once from the trigger map: flooded land, people on it, villages
+with 10 % of their people on flooded land, people cut off from every hospital, and per village the flow at which that
+happens (the sweep reproduces the design-flood numbers of §7 exactly). The warning level is set by impact, as in
+impact-based forecasting: "Be aware" from 5,000 people on flooded land or three villages ({n(_lf.get('1'))} m³/s at Naraj),
+"Be prepared" from 10,000 people or the first village cut off from every hospital ({n(_lf.get('2'))} m³/s), "Act now" from
+25,000 people or 20,000 cut off ({n(_lf.get('3'))} m³/s), each with the share of the 51 runs that reach it. Villages,
+hospital cut-offs, roads and health facilities count beyond the ordinary monsoon: what is already wet or cut at the flow
+exceeded on a quarter of monsoon days ({n(LIVECFG.get('baseline_m3s'))} m³/s at Naraj) belongs to the season, not to a
+flood. A few river-bank hamlets get wet every monsoon, and on the Brahmani a road without a mapped bridge cuts six
+villages off at almost any monsoon flow: a road to raise, not a warning. The output
+is a bulletin naming each village with the first day it is expected (median run) or possible (wettest runs), the
+villages that lose their hospital, the roads that close and the health facilities at risk; a CAP 1.2 alert (status
+"Exercise") from "Be aware" upwards; an Atom index of the alerts, the way CAP feeds are published, for the Rakshak
+Control Centre to subscribe to; and a status board. A run takes about 15 seconds on a laptop; on the lab server
+`server/run_live.sh` is ready to run every morning from one cron line (README).
+
+The run of {LIVE['issued'][:16].replace('T', ' ')} IST: Naraj {n(LIVE['today_m3s'])} m³/s, peaking near {n(_pk['median_m3s'])} m³/s
+on {_pk['date']} (wettest runs {n(_pk['p90_m3s'])}), level "{LIVE['level_name']}"{"; the upstream-gauge model of §6.7 gave " + ", ".join(f"{d} {n(q)}" for d, q in _mf.items()) + " m³/s for the next three days" if _mf else ""}. The state feed carried
+{LIVE.get('official_alerts_total', 0)} official alerts{", among them: " + "; ".join(_short(a.get('headline') or a['title']) for a in _off[:2]) if _off else ""}.
+"""
+    _lrows = []
+    for k_, c_ in [("mahanadi", LIVECFG)] + [(k, v["CFG"]) for k, v in BAS.items()]:
+        s_ = J(ROOT, "live", "out", k_, "status.json")
+        if not (c_ and s_):
+            continue
+        l_ = c_["level_flows_m3s"]
+        _lrows.append(f"| {c_['name']} | {c_['gauge_name']} ({PNAME.get(c_['predictor'], c_['predictor'])}) | {n(c_['baseline_m3s'])} | {n(l_.get('1'))} | {n(l_.get('2'))} | "
+                      f"{n(l_.get('3'))} | {n(s_['today_m3s'])} | {s_['level_name']} |")
+    if len(_lrows) > 1:
+        sec9 += f"""
+Every basin of §6.8 runs in the same feed with its own tables and the same rule (`live/basins/<basin>.json`, written by
+`live/make_basin_config.py`). The flows at which each level starts, and the run of {LIVE['issued'][:10]}:
+
+| Basin | Gauge (flow measure) | Ordinary monsoon (m³/s) | Be aware from (m³/s) | Be prepared from | Act now from | Flow today | Level today |
+|---|---|---|---|---|---|---|---|
+{chr(10).join(_lrows)}
+
+On the Brahmani the first village cut off from every hospital comes at the same flow as the first 5,000 people on
+flooded land, so "Be aware" and "Be prepared" start together; on the Brahmaputra "Act now" starts near the 2-year flood
+({n(BAS.get('brahmaputra', {}).get('AS', {}).get('gumbel', {}).get('return_period_m3s', {}).get('2', 0))} m³/s), as
+it should on a river island that floods most years.
+"""
+    if REPLAY:
+        _rpk, _rmf = REPLAY["peak"], REPLAY.get("model_forecast", {}).get("naraj_m3s", {})
+        _rcut = [w for w in REPLAY.get("hospital_access_lost", []) if w["expected"]]
+        _rv = [w for w in REPLAY["villages_to_warn"] if w["expected"]]
+        _rrows = "\n".join(f"| {c['date']} | {n(c['flow_m3s'])} | {c['coverage']:.0%} | {n(c['expected_km2'])} | {n(c['observed_km2'])} |"
+                            for c in REPLAY.get("radar_check", []))
+        sec9 += f"""
+**Replay of the largest flood of the radar era.** `python live/run_live.py --replay {REPLAY['issued'][:10]}` runs the
+feed as it would have run on the morning of {REPLAY['issued'][:10]}, with the flows that came as a perfect forecast:
+level "{REPLAY['level_name']}" for a Naraj peak of {n(_rpk['median_m3s'])} m³/s on {_rpk['date']}, {len(_rv)} villages named with
+the day the water reaches them, and {len(_rcut)} villages that lose road access to every hospital{f" from {_rcut[0]['expected']}" if _rcut else ""}.
+{"The upstream-gauge model of §6.7, trained without 2022, forecast " + ", ".join(f"{n(q)} m³/s for {d}" for d, q in _rmf.items()) + ": lower than the flows that came (a steep rise is the hardest case), but already above the 'Act now' flow three days ahead." if _rmf else ""}
+The radar passes of the following days, against the flooded land the bulletin expected at their flow:
+
+| Radar pass | Naraj flow (m³/s) | Box imaged | Flooded land expected (km²) | Seen by radar (km²) |
+|---|---|---|---|---|
+{_rrows}
+
+More land was under water on the first pass, after 177 mm of rain in a week, than at the river crest two days later,
+when the rain water had drained: the flow-only map is too small before the crest and too large after it. This is the
+case for the rain-aware model of §6.6 in the feed, and for mapping each new radar pass as soon as it arrives.
 """
 open(os.path.join(SEC, "09_implementation.md"), "w", encoding="utf-8").write(sec9)
 
@@ -921,7 +1236,35 @@ Dry land differs by about 1 dB, and water lies 8–11 dB below dry land in both,
 epochs (converged); the frozen Clay run and the optical-only U-Net (seed 1) were still improving, so those two scores
 may be slightly low. Neither changes a ranking or a conclusion.
 """
-    R20N = J(AN, "radar20m_r20.json")
+    adopt_txt = ""
+    if ADOPTED and CMPA:
+        o_, w_ = CMPA["old"], CMPA["new"]
+        PNAME = {"Q_same_day": "same-day flow", "Q_prev_day": "previous-day flow", "Q_max_3d": "3-day peak flow",
+                 "Q_max_5d": "5-day peak flow", "Q_max_7d": "7-day peak flow"}
+        _lead_up = (w_['hf_iou'] - w_['hf_clim_iou']) > (o_['hf_iou'] - o_['hf_clim_iou'])
+        _vill_up = w_['sett_hf_pod'] > o_['sett_hf_pod'] and w_['sett_hf_far'] < o_['sett_hf_far']
+        lead_txt = (" while its lead over climatology and its village-level skill improve" if _lead_up and _vill_up else
+                    " while its village-level skill improves" if _vill_up else
+                    " while its lead over climatology grows" if _lead_up else "")
+        adopt_txt = f"""The 20 m-trained pair is better on the atlas input, so the atlas was rebuilt with it (all 590 passes mapped again,
+threshold {R20N['threshold']:.2f}); every Mahanadi result in this report comes from the rebuilt atlas. The independent
+Sentinel-2 check decided it:
+
+| Atlas built with | Sentinel-2, all water: IoU (precision / recall) | Sentinel-2, flood water: IoU (precision / recall) | Held-out high flow: trigger map vs climatology (IoU) | Villages at high flow: POD / FAR | Land flooded at least once (km²) |
+|---|---|---|---|---|---|
+| 10 m-trained pair (threshold {R20['threshold']:.2f}) | {o_['s2_all_iou']:.3f} ({o_['s2_all_precision']:.2f} / {o_['s2_all_recall']:.2f}) | {o_['s2_flood_iou']:.3f} ({o_['s2_flood_precision']:.2f} / {o_['s2_flood_recall']:.2f}) | {o_['hf_iou']:.3f} vs {o_['hf_clim_iou']:.3f} | {o_['sett_hf_pod']:.0%} / {o_['sett_hf_far']:.0%} | {n(o_['ever_km2'])} |
+| 20 m-trained pair (threshold {R20N['threshold']:.2f}) | {w_['s2_all_iou']:.3f} ({w_['s2_all_precision']:.2f} / {w_['s2_all_recall']:.2f}) | {w_['s2_flood_iou']:.3f} ({w_['s2_flood_precision']:.2f} / {w_['s2_flood_recall']:.2f}) | {w_['hf_iou']:.3f} vs {w_['hf_clim_iou']:.3f} | {w_['sett_hf_pod']:.0%} / {w_['sett_hf_far']:.0%} | {n(w_['ever_km2'])} |
+
+The Sentinel-2 check is the like-for-like comparison, because the optical reference is the same for both atlases: the
+rebuilt atlas agrees better on all water and on flood water, mainly because it reports less false water (higher
+precision). The held-out scores are not like for like, because each atlas is scored against its own observed maps.
+The rebuilt atlas sees more flooded land, much of it rain-fed (the flooded share of a pass follows the 7-day rain with
+rank correlation {w_['rain_spearman']:.2f}, against {o_['rain_spearman']:.2f} before), which the river flow alone predicts
+less well, so the trigger map's pixel score falls{lead_txt}. The flow
+predictor is chosen by rank correlation and moved from the {PNAME.get(o_.get('predictor', 'Q_max_5d'), 'old peak')} to the
+{PNAME.get(AS['predictor'], AS['predictor'])} (rank correlation {AS['predictor_spearman'][AS['predictor']]:.3f} against {AS['predictor_spearman'].get(o_.get('predictor', ''), 0):.3f}, practically a tie), so
+{w_['hf_passes']} rather than {o_['hf_passes']} passes count as high flow. The earlier atlas is kept in
+`results/archive_atlas_10m/`."""
     if R20N:
         appendix += f"""
 ## Appendix B. Retraining the radar models at the atlas resolution
@@ -937,11 +1280,49 @@ overview is made (2 × 2 average in linear power, bilinear back to 10 m; `floodf
 | 20 m overview (the atlas input) | {R20['mean']['avg20']:.3f} | {R20N['mean']['avg20']:.3f} |
 | 20 m overview, threshold from validation | {R20['calibrated_test_iou']:.3f} (at {R20['threshold']:.2f}) | {R20N['calibrated_test_iou']:.3f} (at {R20N['threshold']:.2f}) |
 
-{"The 20 m-trained pair is better on the atlas input and can replace the current models in the next atlas run (re-inference of the 590 passes takes about an hour)." if R20N['mean']['avg20'] - R20['mean']['avg20'] >= 0.005 else "Training at 20 m gives no clear gain on the atlas input, so the atlas keeps the 10 m-trained models."}
+{adopt_txt if ADOPTED else "The 20 m-trained pair is better on the atlas input and can replace the current models in the next atlas run (re-inference of the 590 passes takes about an hour)." if R20N['mean']['avg20'] - R20['mean']['avg20'] >= 0.005 else "Training at 20 m gives no clear gain on the atlas input, so the atlas keeps the 10 m-trained models."}
+"""
+    SEEDS = J(AN, "radar20m_seeds.json")
+    if SEEDS:
+        srows = "\n".join(f"| {s_} | {SEEDS['10m'][s_]['avg20']:.3f} | {SEEDS['10m'][s_]['cal']:.3f} | {SEEDS['20m'][s_]['avg20']:.3f} | "
+                          f"{SEEDS['20m'][s_]['cal']:.3f} |" for s_ in sorted(SEEDS["10m"]))
+        sm = SEEDS["summary"]
+        appendix += f"""
+**Three seeds.** Seeds 1 and 2 of both radar models were trained at 10 m and at 20 m (`server/run_r20_seeds.sh`) and each
+pair scored the same way; the threshold is chosen on validation for every pair.
+
+| Seed | 10 m-trained pair, 20 m input | same, threshold from validation | 20 m-trained pair, 20 m input | same, threshold from validation |
+|---|---|---|---|---|
+{srows}
+| Mean ± sd | {sm['10m']['avg20_mean']:.3f} ± {sm['10m']['avg20_sd']:.3f} | {sm['10m']['cal_mean']:.3f} ± {sm['10m']['cal_sd']:.3f} | {sm['20m']['avg20_mean']:.3f} ± {sm['20m']['avg20_sd']:.3f} | {sm['20m']['cal_mean']:.3f} ± {sm['20m']['cal_sd']:.3f} |
+
+{"Training at 20 m wins on every seed, by " + format(sm['gain_cal_mean'], '.3f') + " IoU on average with the threshold from validation: the gain is well outside the seed-to-seed spread." if sm['wins_all'] else "The gain is not consistent across seeds (" + format(sm['gain_cal_mean'], '+.3f') + " IoU on average), so it is within the seed-to-seed spread."}
 """
     open(os.path.join(SEC, "11_appendix.md"), "w", encoding="utf-8").write(appendix)
 
 # ------------------------------------------------------------------ 10 discussion and conclusions
+CONC_NEW = ""
+HYDRO_NEW = (f" A gradient-boosted model forecasts the Naraj flow one to three days ahead (Nash–Sutcliffe efficiency "
+             f"{FC['skill']['lead_1d']['boosted']['nse']:.2f}–{FC['skill']['lead_3d']['boosted']['nse']:.2f} on unseen monsoons), and a "
+             "live feed turns each day's GloFAS ensemble into impact-based warnings published as CAP alerts.") if FC else ""
+_c = 8
+_lo, _hi = sorted((V['ranking_auc']['high_flow_passes']['model'], V['ranking_auc']['all_passes']['model']))
+_auc_rng = f"{_lo:.2f}" if f"{_lo:.2f}" == f"{_hi:.2f}" else f"{_lo:.2f}–{_hi:.2f}"
+if FC:
+    CONC_NEW += (f"{_c}. The Naraj flow can be forecast one to three days ahead from today's upstream flows and catchment rain"
+                 f" (efficiency {FC['skill']['lead_3d']['boosted']['nse']:.2f} three days ahead against"
+                 f" {FC['skill']['lead_3d']['persistence']['nse']:.2f} for persistence), and a live feed turns each day's"
+                 " GloFAS ensemble into an impact-based warning, a CAP alert and a list of villages and roads with dates.\n")
+    _c += 1
+if BAS:
+    CONC_NEW += (f"{_c}. The pipeline is not specific to the Mahanadi: the " + " and the ".join(v["CFG"].get("name", k) for k, v in BAS.items())
+                 + " were mapped from every radar pass since 2017 with the same models and joined the live feed.\n")
+    _c += 1
+if RISK:
+    CONC_NEW += (f"{_c}. Flood damage to houses and paddy is at least ₹{RISK['expected_annual_damage_rs_crore']['total_rs_crore']:.0f} crore a year;"
+                 f" raising the ten critical roads repays its cost about {RISK['road_raising']['benefit_cost_ratio']:.0f} times in"
+                 " hospital access alone, so it is the first protection measure to fund.\n")
+
 sec10 = f"""## 10. Discussion, limitations and conclusions
 
 ### 10.1 What the benchmark means for practice
@@ -958,7 +1339,8 @@ The atlas turns a free, global archive into a local hazard layer: which land flo
 flow. The trigger-discharge map is the piece a point-forecast system lacks, and it was tested the way it would be
 used: predicting a year it had not seen, from discharge alone. The impact analyses put the map into civil-engineering
 terms — hospitals cut off, critical links, banks to inspect, siren and sensor sites — with coordinates that can be
-checked in the field.
+checked in the field. The flow forecast and the live feed turn the map into a daily service that names villages and
+dates, and the risk estimate puts the hazard in rupees and person-days, the terms in which protection is funded.
 
 ### 10.3 Limitations
 
@@ -972,10 +1354,15 @@ checked in the field.
 - Pass-level prediction is modest (pixel IoU ~0.2, settlement POD well below half): floodplain flooding is patchy, the
   observed maps are themselves radar maps, and local rain and storms — not only the Naraj flow — drive the largest
   floods. Past flood frequency ranks where land floods best (ROC AUC {V['ranking_auc']['high_flow_passes']['clim']:.2f}–{V['ranking_auc']['all_passes']['clim']:.2f});
-  the trigger map adds at which flow it floods (AUC {V['ranking_auc']['high_flow_passes']['model']:.2f}–{V['ranking_auc']['all_passes']['model']:.2f}), so the two are used together.
+  the trigger map adds at which flow it floods (AUC {_auc_rng}), so the two are used together.
 - Flood depth comes from a 30 m surface model (~2 m vertical error); wall screening, scour and foundation numbers
   use typical parameters (masonry tension, bed size, soil strength) and an unknown flow split between distributaries,
   all of which the field visit and the lab replace.
+- The money figures use a continental depth–damage curve, the public housing grant as the value of a house, an
+  assumed 4.4 people per household and a simple paddy-loss rule; they are lower bounds to be checked against the
+  losses people report (§8.7).
+- The live warning levels are proposed thresholds; GloFAS's own forecast skill at Naraj and the flow forecast of §6.7
+  have not been checked against measured flows.
 
 ### 10.4 Conclusions
 
@@ -989,21 +1376,25 @@ checked in the field.
 4. In a 25-year flood about {n(T25['people'])} people live on flooded land and {n(TR25['hospital: people cut off'])} lose
    road access to a hospital; the links, banks, siren sites and sensor bridges to act on are listed.
 5. Local rain and Bay of Bengal storms, not only the river, drive the largest floods of the delta; a warning has to
-   read the river forecast together with the rainfall forecast.
+   read the river forecast together with the rainfall forecast. A learned model that adds rain and each pixel's flood
+   history to the flow maps held-out heavy-rain passes better than the trigger map
+   ({_LF['pixel_iou']['heavy_rain_passes']['learned']['iou']:.2f} vs {_LF['pixel_iou']['heavy_rain_passes']['trigger']['iou']:.2f}).
 6. The same scenarios give each specialization its answer: who loses the road to a hospital or shelter
    (transportation), where walls crack and how deep scour reaches (structural), which banks to inspect and which dry
-   houses sit on soaked ground (geotechnical), how storms add to floods (ocean), and when and at what earthwork the
-   critical links can be raised (construction management).
-7. The field visit is designed to measure what these numbers depend on and to change them where they are wrong.
-
+   houses sit on soaked ground (geotechnical), how storms add to floods (ocean), when and at what earthwork the
+   critical links can be raised (construction management), and where a flood peak comes from: about half from
+   Hirakud dam and half from the tributaries below it (water resources).
+7. Every one of the 92 training runs was re-checked from its saved outputs and the published TerraMind scores were
+   reproduced within a point, so the benchmark can be relied on.
+{CONC_NEW}{_c}. The field visit is designed to measure what these numbers depend on and to change them where they are wrong.
 ### 10.5 Next steps, by specialization
 
 | Specialization | Next step | Why |
 |---|---|---|
 | Remote sensing | Add SWOT water-surface elevations (2023–) and NISAR L-band (2025–) | Depth from measured water levels instead of a surface model; flooding under crops and trees |
 | Water resources | Refit with observed CWC/WRD flows; calibrate a 2-D HEC-RAS model of the delta against the atlas | A physics-based inundation model that can go beyond the floods seen since 2017 |
-| Transportation | Time-dependent closures during flood onset; school and market (mandi) access; evacuation timing vs warning lead time | When, not only whether, villages are cut off |
-| Structural | Depth–damage curves for kutcha and pucca houses (Census housing types) → expected annual damage | Money at risk, for cost–benefit of road raising and embankments |
+| Transportation | Evacuation routing and shelter capacity from the live cut-off dates (§9.7); school and market (mandi) access | Who to move first, and where to |
+| Structural | Local depth–damage curves for kutcha and pucca houses from the field survey, replacing the continental JRC curve of §7.9 | A damage estimate fitted to the delta's houses |
 | Geotechnical | 2-D seepage analysis of the top-ranked embankments with lab permeability; bank-line migration from Landsat 1990– | Piping and erosion risk with numbers, not ranks |
 | Ocean | Paradip tide-gauge and surge hindcasts; sea-level-rise scenarios for drainage of the lower delta | Compound river–rain–surge flooding |
 | Construction technology & management | Life-cycle cost and O&M plan of the sensor network; procurement through GeM; contract packaging for road raising | From a plan to a project ClimMaTech and WRD can execute |
@@ -1020,7 +1411,7 @@ Mahanadi delta from {AS['n_passes']} Sentinel-1 passes ({AS['years'][0]}–{AS['
 discharge at Naraj through a per-pixel trigger discharge. On held-out years the resulting flow-to-flood maps reach IoU
 {HF['model']['iou']:.2f} at high flows against {HF['climatology']['iou']:.2f} for flood climatology. Combined with road
 networks and population, they identify the people cut off from hospitals, critical road links and river banks for
-inspection, giving point-forecast early-warning systems the spatial impact layer they lack.
+inspection, giving point-forecast early-warning systems the spatial impact layer they lack.{HYDRO_NEW}
 """
 open(os.path.join(SEC, "10_discussion.md"), "w", encoding="utf-8").write(sec10)
 print("written 00_front, 06_mahanadi, 07_impacts, 09_implementation, 10_discussion")

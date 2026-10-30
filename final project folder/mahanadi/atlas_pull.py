@@ -1,6 +1,7 @@
 """Pull every Sentinel-1 RTC pass over the Mahanadi-delta AOI onto one grid (the flood atlas input).
 
-    python mahanadi/atlas_pull.py --out <dir> [--res 20] [--start 2017-01-01] [--end 2026-10-27] [--months 1,2,...]
+    python mahanadi/atlas_pull.py --out <dir> [--basin mahanadi] [--res 20] [--start 2017-01-01] [--end 2026-10-27]
+                                  [--months 1,2,...]
 
 One file per pass, all slices of the same pass mosaicked: S1_<yyyymmdd>_<A|D><relorbit>.tif, bands VV and VH
 in dB x 100 (int16, nodata -32768), plus inventory.csv (one row per pass). The 10 m grid is computed exactly as
@@ -28,6 +29,8 @@ from rasterio.enums import Resampling
 from rasterio.transform import from_origin
 from rasterio.vrt import WarpedVRT
 from rasterio.windows import Window
+
+from basins import BASINS
 
 # GDAL_NUM_THREADS + 2 MB chunks + multi-range requests: a 10 m AOI window of one band comes down in ~3 s
 # instead of ~54 s with the defaults (measured from the IITB server to Planetary Computer, Oct 2026).
@@ -118,7 +121,8 @@ def pull_pass(key, items, grid, out_dir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bbox", nargs=4, type=float, default=[85.80, 20.25, 86.45, 20.65])
+    ap.add_argument("--basin", default="mahanadi", help="key of basins.py; sets the box unless --bbox is given")
+    ap.add_argument("--bbox", nargs=4, type=float)
     ap.add_argument("--start", default="2017-01-01")
     ap.add_argument("--end", default="2026-10-27")
     ap.add_argument("--months", default="1,2,3,4,5,6,7,8,9,10,11,12")
@@ -128,6 +132,7 @@ def main():
     ap.add_argument("--res", type=int, default=20, choices=[10, 20])
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
+    a.bbox = a.bbox or BASINS[a.basin]["bbox"]
     os.makedirs(a.out, exist_ok=True)
     grid = make_grid20(a.bbox) if a.res == 20 else make_grid(a.bbox)
     months = {int(m) for m in a.months.split(",")}

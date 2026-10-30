@@ -1,14 +1,17 @@
-"""Fetch the non-satellite context layers for the Mahanadi-delta AOI (all open data, no login).
+"""Fetch the non-satellite context layers for an atlas area (all open data, no login).
 
-    python mahanadi/fetch_context.py --out <dir> [--only discharge,osm,buildings,rasters]
+    python mahanadi/fetch_context.py --out <dir> [--basin mahanadi] [--only discharge,rain,osm,buildings,rasters,jrc]
 
-discharge.csv        GloFAS v4 daily river discharge (Open-Meteo flood API) at Naraj, Tikarpara and below Hirakud
-rain.csv             ERA5 daily rainfall, mean of 6 points over the delta (Open-Meteo archive)
+discharge.csv        GloFAS v4 daily river discharge (Open-Meteo flood API) at the basin's gauges (Mahanadi: Naraj,
+                     Tikarpara and below Hirakud)
+rain.csv             ERA5 daily rainfall, mean of 6 points over the box (Open-Meteo archive)
 osm_*.geojson        roads, bridges, railways, waterways, embankments, places, health, schools, emergency (Overpass)
 buildings.parquet    Microsoft Global ML Building Footprints in the AOI (centroid x/y in UTM, footprint area)
 grid20_*.tif         on the 20 m atlas grid (2 x 2 aggregation of the 10 m S1 grid):
                      worldcover (ESA WorldCover 2021 class), dem (Copernicus GLO-30, m), pop (GHSL 2020, people per
                      20 m pixel), sand/silt/clay (SoilGrids 2.0, % in the top 30 cm, depth-weighted)
+jrc_occurrence.tif   JRC Global Surface Water occurrence 0-100 % on the 10 m radar grid (where water normally is)
+Areas and gauges: basins.py.
 """
 import argparse
 import gzip
@@ -29,11 +32,12 @@ from rasterio.vrt import WarpedVRT
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from atlas_pull import make_grid  # noqa: E402
+from basins import BASINS  # noqa: E402
 
-BBOX = [85.80, 20.25, 86.45, 20.65]
-UA = {"User-Agent": "IITB-IDP-floodstudy/1.0 (academic project; iitbidp@gmail.com)"}
+BBOX = BASINS["mahanadi"]["bbox"]
+UA = {"User-Agent": "IITB-IDP-floodstudy/1.0 (academic project)"}
 # GloFAS grid cells (Open-Meteo snaps to the nearest 0.05 deg cell); checked by their mean flow in the log
-GAUGES = {"naraj": (20.475, 85.775), "tikarpara": (20.58, 84.78), "hirakud_below": (21.50, 83.88)}
+GAUGES = BASINS["mahanadi"]["gauges"]
 
 
 def grid20():
@@ -70,11 +74,11 @@ def fetch_discharge(out):
     pd.concat(frames, axis=1).rename_axis("date").to_csv(f"{out}/discharge.csv", float_format="%.1f")
 
 
-RAIN_PTS = [(20.35, 85.90), (20.35, 86.10), (20.35, 86.30), (20.55, 85.90), (20.55, 86.10), (20.55, 86.30)]
+RAIN_PTS = BASINS["mahanadi"]["rain_pts"]
 
 
 def fetch_rain(out):
-    """ERA5 daily precipitation (Open-Meteo archive, IST days), mean of six points over the delta box."""
+    """ERA5 daily precipitation (Open-Meteo archive, IST days), mean of six points over the box."""
     r = requests.get("https://archive-api.open-meteo.com/v1/archive", headers=UA, timeout=300, params=dict(
         latitude=",".join(str(p[0]) for p in RAIN_PTS), longitude=",".join(str(p[1]) for p in RAIN_PTS),
         start_date="2016-01-01", end_date="2026-10-27", daily="precipitation_sum", timezone="Asia/Kolkata"))
@@ -209,8 +213,11 @@ def fetch_rasters(out):
     save(f"{out}/grid20_dem.tif", dem, g, "float32", np.nan, "Copernicus GLO-30 elevation (m, EGM2008)")
 
     # GHSL population 2020, 3 arc-second tiles (people per cell) -> density -> people per 20 m pixel
+    # 10 x 10 degree tiles: row 1 starts at 90 N, column 1 at 180 W (the Mahanadi box is in R7_C27)
+    row = int((90 - (BBOX[1] + BBOX[3]) / 2) // 10) + 1
+    col = int(((BBOX[0] + BBOX[2]) / 2 + 180) // 10) + 1
     url = ("https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_POP_GLOBE_R2023A/"
-           "GHS_POP_E2020_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_POP_E2020_GLOBE_R2023A_4326_3ss_V1_0_R7_C27.zip")
+           f"GHS_POP_E2020_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_POP_E2020_GLOBE_R2023A_4326_3ss_V1_0_R{row}_C{col}.zip")
     zf = zipfile.ZipFile(io.BytesIO(requests.get(url, headers=UA, timeout=900).content))
     tif = next(n for n in zf.namelist() if n.endswith(".tif"))
     zf.extract(tif, out)
@@ -227,22 +234,42 @@ def fetch_rasters(out):
     weights = {"0-5cm": 5, "5-15cm": 10, "15-30cm": 15}
     for prop in ("sand", "silt", "clay"):
         acc = 0
-        for depth, wgt in weights.items():
-            href = f"/vsicurl/https://files.isric.org/soilgrids/latest/data/{prop}/{prop}_{depth}_mean.vrt"
-            acc = acc + warp(href, g, Resampling.bilinear) * wgt
+        try:  # only the geotechnical screening of the Mahanadi uses soils; a failed read does not stop the other layers
+            for depth, wgt in weights.items():
+                href = f"/vsicurl/https://files.isric.org/soilgrids/latest/data/{prop}/{prop}_{depth}_mean.vrt"
+                acc = acc + warp(href, g, Resampling.bilinear) * wgt
+        except rasterio.errors.RasterioIOError as ex:
+            print("SoilGrids", prop, "not read:", ex, flush=True)
+            continue
         pct = acc / sum(weights.values()) / 10.0  # g/kg -> %
         save(f"{out}/grid20_{prop}.tif", pct, g, "float32", np.nan, f"SoilGrids 2.0 {prop} % (0-30 cm)")
         print(prop, "mean %", round(float(np.nanmean(pct)), 1), flush=True)
 
 
+def fetch_jrc(out):
+    """JRC Global Surface Water occurrence (Planetary Computer) on the 10 m radar grid, as pull_s1s2.py makes it."""
+    import planetary_computer as pc
+    import pystac_client
+    g = make_grid(BBOX, 10.0)
+    cat = pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1", modifier=pc.sign_inplace)
+    occ = np.zeros((g["height"], g["width"]), np.float32)
+    for it in cat.search(collections=["jrc-gsw"], bbox=BBOX).items():
+        o = warp(it.assets["occurrence"].href, g, Resampling.nearest)
+        occ = np.maximum(occ, np.where(o > 100, 0, o))
+    save(f"{out}/jrc_occurrence.tif", occ, g, "uint8", None, "occurrence_pct")
+    print("JRC: share of the box with occurrence >= 50 %:", round(float((occ >= 50).mean()), 4), flush=True)
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
+    ap.add_argument("--basin", default="mahanadi", help="key of basins.py")
     ap.add_argument("--only", default="discharge,buildings,rasters,osm")
     a = ap.parse_args()
+    BBOX, GAUGES, RAIN_PTS = (BASINS[a.basin][k] for k in ("bbox", "gauges", "rain_pts"))
     os.makedirs(a.out, exist_ok=True)
     for step in a.only.split(","):
         print("==", step, flush=True)
         {"discharge": fetch_discharge, "rain": fetch_rain, "osm": fetch_osm, "buildings": fetch_buildings,
-         "rasters": fetch_rasters}[step](a.out)
+         "rasters": fetch_rasters, "jrc": fetch_jrc}[step](a.out)
     print("CONTEXT_DONE", flush=True)

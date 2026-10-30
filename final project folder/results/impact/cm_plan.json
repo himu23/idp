@@ -8,38 +8,23 @@
  ],
  "link_raising": {
   "links": 10,
-  "total_km": 5.15,
-  "links_by_embankment": 8,
-  "embankment_km": 2.78,
-  "earthwork_m3": 17442,
-  "cost_crore_rs_at_350_per_m3": 0.61,
+  "total_km": 4.13,
+  "links_by_embankment": 10,
+  "embankment_km": 4.13,
+  "earthwork_m3": 27603,
+  "cost_crore_rs_at_350_per_m3": 0.97,
   "max_raise_for_embankment_m": 3.0,
-  "links_needing_structure": [
-   {
-    "rank": 6,
-    "flooded_km": 2.06,
-    "raise_m": 4.9,
-    "lat": 20.40675,
-    "lon": 86.38139
-   },
-   {
-    "rank": 9,
-    "flooded_km": 0.31,
-    "raise_m": 3.85,
-    "lat": 20.38738,
-    "lon": 86.42615
-   }
-  ],
-  "earthwork_m3_if_all_by_embankment": 167882,
+  "links_needing_structure": [],
+  "earthwork_m3_if_all_by_embankment": 27603,
   "people_routed_per_link": [
    4638,
-   10351
+   10930
   ],
-  "hospital_routes_summed_over_links": 70988
+  "hospital_routes_summed_over_links": 74868
  },
  "deployment": {
   "sirens": 40,
-  "siren_share_covered_1500m": 0.491,
+  "siren_share_covered_1500m": 0.482,
   "sirens_for_50pct": null,
   "sirens_for_80pct": null,
   "sensor_sites": 6,
@@ -99,7 +84,7 @@
    "mean_flow_m3s": 3274.0,
    "share_days_above_2yr_flood": 0.012,
    "storms_per_year_within_300km": 0.37,
-   "mean_flooded_share_on_radar": 0.007,
+   "mean_flooded_share_on_radar": 0.013,
    "work_window": "no"
   },
   {
@@ -107,7 +92,7 @@
    "mean_flow_m3s": 8355.0,
    "share_days_above_2yr_flood": 0.029,
    "storms_per_year_within_300km": 0.74,
-   "mean_flooded_share_on_radar": 0.015,
+   "mean_flooded_share_on_radar": 0.019,
    "work_window": "no"
   },
   {
@@ -115,7 +100,7 @@
    "mean_flow_m3s": 7465.0,
    "share_days_above_2yr_flood": 0.026,
    "storms_per_year_within_300km": 0.59,
-   "mean_flooded_share_on_radar": 0.016,
+   "mean_flooded_share_on_radar": 0.022,
    "work_window": "no"
   },
   {
@@ -123,7 +108,7 @@
    "mean_flow_m3s": 2882.0,
    "share_days_above_2yr_flood": 0.0,
    "storms_per_year_within_300km": 0.5,
-   "mean_flooded_share_on_radar": 0.007,
+   "mean_flooded_share_on_radar": 0.009,
    "work_window": "no"
   },
   {
@@ -131,7 +116,7 @@
    "mean_flow_m3s": 1210.0,
    "share_days_above_2yr_flood": 0.0,
    "storms_per_year_within_300km": 0.22,
-   "mean_flooded_share_on_radar": 0.004,
+   "mean_flooded_share_on_radar": 0.003,
    "work_window": "no"
   },
   {

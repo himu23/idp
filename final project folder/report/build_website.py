@@ -46,7 +46,30 @@ def e(s):
 
 BENCH = {f"{s['protocol']}/{s['model']}/{s['mode']}/{s['modalities']}": s for s in json.load(open(os.path.join(AN, "summary.json")))}
 u = lambda k: BENCH[k]["test_iou"]  # noqa: E731
+
+def top_floods(drv, k=2, gap_days=10):
+    """The k largest floods on radar that are separate events (more than gap_days apart), largest first."""
+    d = drv.assign(when=pd.to_datetime(drv.date)).sort_values("flood_km2", ascending=False)
+    picked = []
+    for _, r_ in d.iterrows():
+        if all(abs((r_['when'] - p_['when']).days) > gap_days for p_ in picked):
+            picked.append(r_)
+        if len(picked) == k:
+            break
+    return picked
+
+
+def fold_word(x):
+    k_ = round(x)
+    return {2: "two-fold", 3: "three-fold", 4: "four-fold", 5: "five-fold", 6: "six-fold"}.get(k_, f"{k_}-fold")
+
+
 AS, R20, TT = J(AT, "atlas_summary.json"), J(AN, "radar20m.json"), J(IM, "travel_time.json")
+R20N = J(AN, "radar20m_r20.json")
+# the atlas was built with the radar pair retrained on 20 m input when its threshold is that pair's validation threshold
+ADOPTED = bool(R20N) and abs(AS.get("threshold", 0) - R20N.get("threshold", -1)) < 1e-9
+PROD = R20N if ADOPTED else R20
+
 EXS, TRS, SIT = J(IM, "exposure_summary.json"), J(IM, "transport_summary.json"), J(IM, "siting_summary.json")
 DEP, STR, GRD, OCN, CMP = (J(IM, f) for f in ("depth_summary.json", "structures_summary.json", "ground_summary.json",
                                              "ocean_summary.json", "cm_plan.json"))
@@ -135,6 +158,45 @@ try:
             scen_map(rasterio.open(p).read(1) == 1, tag)
 except ImportError as err:
     print("maps skipped:", err)
+
+# ---------------------------------------------------------------- live outlook, forecast model, risk, other basins
+LIVE_DIR, BAS_DIR = os.path.join(ROOT, "live"), os.path.join(ROOT, "results", "basins")
+BKEYS = ["mahanadi"] + (sorted(d for d in os.listdir(BAS_DIR) if os.path.isdir(os.path.join(BAS_DIR, d)) and not d.startswith("_"))
+                        if os.path.isdir(BAS_DIR) else [])
+LIVE = [s_ for s_ in (J(LIVE_DIR, "out", k, "status.json") for k in BKEYS) if s_]
+FC = J(ROOT, "results", "forecast", "forecast_summary.json")
+RISK = J(IM, "risk_economics.json")
+REPLAY_DIR = sorted(glob.glob(os.path.join(LIVE_DIR, "out", "replay_*", "mahanadi")))  # the latest replay run
+REPLAY = J(REPLAY_DIR[-1], "status.json") if REPLAY_DIR else {}
+if REPLAY and os.path.exists(os.path.join(REPLAY_DIR[-1], "outlook.png")):
+    shutil.copy(os.path.join(REPLAY_DIR[-1], "outlook.png"), os.path.join(IMG, "replay_outlook.png"))
+    imgs["replay_outlook"] = "img/replay_outlook.png"
+BAS = {}
+for k in BKEYS:
+    at_, im_ = (AT, IM) if k == "mahanadi" else (os.path.join(BAS_DIR, k, "atlas"), os.path.join(BAS_DIR, k, "impact"))
+    a_ = J(at_, "atlas_summary.json")
+    if not a_:
+        continue
+    BAS[k] = dict(AS=a_, EX=J(im_, "exposure_summary.json"), S2=J(im_, "s2_crosscheck.json"),
+                  CS=J(im_, "impact_curve_summary.json"), CFG=J(LIVE_DIR, "basins", f"{k}.json"))
+    try:  # how often each pixel flooded, in the hero's colours, one picture per basin
+        fq_ = rd(at_, "flood_frequency.tif")[0]
+        wat_ = (rd(at_, "river_bed.tif")[0] > 0) | (rd(at_, "normal_water_latest.tif")[0] > 0)
+        f_, w_ = pool(np.where(fq_ == 255, 0, fq_ / 100.0), 3), pool(wat_.astype(float), 3)
+        pic_ = np.ones(w_.shape + (3,)) * np.array([222, 229, 237], float)
+        pic_ = mix(pic_, (84, 132, 190), np.clip(f_ * 4, 0, 1) ** 0.6 * 0.95)
+        pic_ = mix(pic_, (18, 50, 86), np.clip(w_ * 1.2, 0, 1))
+        im_ = Image.fromarray(np.clip(pic_, 0, 255).astype(np.uint8))
+        im_.save(os.path.join(IMG, f"basin_{k}.webp"), quality=80, method=6)
+        os.makedirs(os.path.join(BAS_DIR, "_maps"), exist_ok=True)  # the same picture for the slides
+        im_.save(os.path.join(BAS_DIR, "_maps", f"{k}.png"))
+        BAS[k]["img"] = f"img/basin_{k}.webp"
+    except Exception as err:  # rasters not pulled, or no imaging libraries
+        print("basin map skipped:", k, err)
+_fp = os.path.join(ROOT, "results", "forecast", "forecast_naraj.png")
+if os.path.exists(_fp):
+    shutil.copy(_fp, os.path.join(IMG, "forecast_naraj.png"))
+    imgs["forecast_naraj"] = "img/forecast_naraj.png"
 
 
 def table(df, cols, heads, num=(), tags=None):
@@ -226,6 +288,11 @@ s2 = S2C.get("all/all_months", {})
 s2f = S2C.get("outside_normal/all_months", {})
 struct_links = lrk.get("links_needing_structure", [])
 routes = lrk.get("people_routed_per_link", [0, 0])
+max_raise = float(LR["raise_m"].max()) if len(LR) and "raise_m" in LR else 0.0
+struct_short = (f"{len(struct_links)} more need a bridge or vented causeway" if struct_links
+                else f"all by embankment, none above {max_raise:.1f} m")
+struct_long = (f"{len(struct_links)} more would need a bridge or vented causeway" if struct_links
+               else f"none needs a raise above {max_raise:.1f} m, so no bridge or vented causeway is needed")
 rb = {mm: J(IM, "bulletins", f"bulletin_{round(RP[5])}_rain{mm}.json") for mm in (20, RH)}
 rb25 = J(IM, "bulletins", f"bulletin_{round(RP[25])}.json")
 WS = J(IM, "watershed_summary.json")
@@ -314,7 +381,7 @@ disciplines = [
      "IBTrACS tracks matched to the atlas; river, rain and storm drivers", "Interviews on surge and tide-locked drainage"),
     ("Construction technology and management", "cm", "#d-cm", "construction_windows", "When can the delta be built in, and what does protection cost?",
      f"Work window {win}; raising {lrk.get('links_by_embankment', 0)} critical links takes about {n(lrk.get('earthwork_m3', 0))} m³ of "
-     f"earthwork, {len(struct_links)} more need a bridge or vented causeway",
+     f"earthwork, {struct_short}",
      "Monthly flood and storm climatology, earthwork take-off, deployment quantities and schedule", "Site sheets: access, mounting, signal"),
 ]
 acc = []
@@ -418,9 +485,12 @@ if LRN:
                     f"{lh['trigger']['POD']:.0%}, with more false alarms ({lh['learned']['FAR']:.0%} against {lh['trigger']['FAR']:.0%}).")
 
 sc_l = LRN.get("scenarios_all_years_model", {}) if LRN else {}
-learned_rain = (f'<p class="note">The learned flow + rain model gives the same picture: at the 5-year flow it floods '
+learned_rain = (f'<p class="note">The learned flow + rain model gives a similar picture: at the 5-year flow it floods '
                 f'{sc_l["T5 dry week"]["flood_km2"]:.0f} km² in a dry week, {sc_l["T5 typical rain"]["flood_km2"]:.0f} km² with typical '
                 f'rain and {sc_l["T5 heavy rain"]["flood_km2"]:.0f} km² with heavy rain.</p>') if sc_l else ""
+_tops = top_floods(DRV)
+tops_txt = " and ".join(f"{t_['when']:%B %Y}" for t_ in _tops)
+tops_storm = " from Bay of Bengal depressions" if all(isinstance(t_.system, str) and t_.system for t_ in _tops) else ""
 gaps = [
     ("River View · platform", "A flood-risk map layer with no flood extent behind it",
      "Their architecture lists a live map of river levels and flood risk. We add the layers it needs for the Mahanadi delta: "
@@ -445,7 +515,7 @@ gaps = [
      "velocity factor. Field protocols B and C measure both, with Manning's n, at a road bridge near Naraj.",
      "Velocity-area and Manning scripts ready · GloFAS flow at Naraj to compare"),
     ("Varshaq · rain gauge", "Rain that is not yet linked to flooded land",
-     "The largest floods of the delta came with heavy rain from Bay of Bengal depressions, not with the highest river flows. "
+     f"The largest floods of the delta came with heavy rain{tops_storm}, not with the highest river flows. "
      "Rain changes which land floods at the same flow." + learned_line,
      f"5-year flow: {rb[20].get('flooded_land_km2', 0):.0f} km² in a dry week, {rb[RH].get('flooded_land_km2', 0):.0f} km² in a "
      f"heavy-rain week · {drv_counts.get('rain', 0)} of the 20 largest floods had heavy rain" if all(rb.values()) else ""),
@@ -504,7 +574,7 @@ if R20N:
                 f"TerraMind-B and U-Net trained on radar degraded to the 20 m overview the atlas reads. On 20 m input the fusion "
                 f"scores {R20N['mean']['avg20']:.3f} against {R20.get('mean', {}).get('avg20', 0):.3f} for the 10 m-trained pair "
                 f"(threshold from validation: {R20N['calibrated_test_iou']:.3f} against {R20.get('calibrated_test_iou', 0):.3f}).",
-                "Ready to swap into the atlas" if gain >= 0.005 else "No clear gain: the 10 m models stay")
+                "Now maps the atlas" if ADOPTED else "Ready to swap into the atlas" if gain >= 0.005 else "No clear gain: the 10 m models stay")
 else:
     r20_card = ("", "Next", "Train on 20 m radar directly",
                 f"The atlas reads 20 m radar; the fusion loses {R20.get('mean', {}).get('native', 0) - R20.get('mean', {}).get('avg20', 0):.3f} IoU "
@@ -514,14 +584,20 @@ road = [("done", "Done", "Flow + rain + history model", learned_card or "Gradien
          "Uses the 457 monsoon passes already mapped"),
         ("", "Next", "Teach the radar model the delta",
          f"Sixty radar passes have a Sentinel-2 image within a day. Their water masks become weak labels to fine-tune the U-Net on the "
-         f"delta, tested on dates left out.", f"Target: flood-water recall {s2f.get('recall', 0):.2f} against Sentinel-2"),
+         f"delta, tested on dates left out.", f"Baseline to beat: flood-water recall {s2f.get('recall', 0):.2f} against Sentinel-2"),
         r20_card,
         ("", "Planned", "Hirakud reservoir water area",
          "The same pipeline on the Hirakud reservoir gives a water-area record on every pass, for the dam and reservoir solution.",
          "Same model, a new area of interest"),
-        ("", "Planned", "Nowcast Naraj from upstream gauges",
-         f"Flow changes below Hirakud reach Naraj about {TT.get('hirakud_below', {}).get('best_lag_days', 1)} day later. A model on "
-         f"upstream gauges, such as a Pravaah network, would forecast the flow the flood map needs.", "Needs observed gauge records"),
+        (("done", "Done", "Forecast the Naraj flow 1-3 days ahead",
+          "Gradient boosting on the flows at Naraj, Tikarpara and below Hirakud and the catchment rain, tested on the monsoons of "
+          f"{FC['test_years'][0]}-{FC['test_years'][1]}: Nash-Sutcliffe efficiency "
+          + " / ".join(f"{FC['skill'][f'lead_{L}d']['boosted']['nse']:.2f}" for L in (1, 2, 3)) + " at 1 / 2 / 3 days against "
+          + " / ".join(f"{FC['skill'][f'lead_{L}d']['persistence']['nse']:.2f}" for L in (1, 2, 3)) + " for persistence.",
+          "Runs in the live feed") if FC else
+         ("", "Planned", "Nowcast Naraj from upstream gauges",
+          f"Flow changes below Hirakud reach Naraj about {TT.get('hirakud_below', {}).get('best_lag_days', 1)} day later. A model on "
+          f"upstream gauges, such as a Pravaah network, would forecast the flow the flood map needs.", "Needs observed gauge records")),
         ("", "After the visit", "Calibrate on field truth",
          "Forty random ground-truth points give the atlas its accuracy on the ground and per-land-cover thresholds.",
          "POD and FAR at 40 points")]
@@ -529,6 +605,186 @@ road_html = "".join(f'<article><span class="st {c_}">{e(t_)}</span><h3>{e(h_)}</
                     for c_, t_, h_, p_, g_ in road)
 
 # ---------------------------------------------------------------- page
+LV = [("No flood impact", "#16a34a"), ("Be aware", "#eab308"), ("Be prepared", "#f08714"), ("Act now", "#b91c1c")]
+
+
+def hydro_svg(s_):
+    """The 30-day GloFAS outlook at the gauge: median of the 51 runs, their 10-90 % band, and the flows where the warning
+    levels start (drawn up to the first level, so a quiet week shows how far below it the river stays)."""
+    d = s_["days"]
+    hi = max(x["p90_m3s"] for x in d)
+    lf = {int(k_): q for k_, q in s_["level_flows_m3s"].items() if q}
+    top = max(hi * 1.15, lf.get(1, hi) * 1.1)
+    step = next(v for v in (500, 1000, 2000, 5000, 10000, 20000) if top / v <= 6)
+    X = lambda i: 52 + i * 584 / max(len(d) - 1, 1)  # noqa: E731
+    Y = lambda q: 172 - q / top * 150  # noqa: E731
+    grid = "".join(f'<line x1="52" x2="636" y1="{Y(v):.1f}" y2="{Y(v):.1f}" class="g"/><text x="46" y="{Y(v) + 4:.1f}" class="yl">'
+                   f'{v / 1000:g}k</text>' for v in range(0, int(top) + 1, step))
+    band = " ".join(f"{X(i):.1f},{Y(x['p90_m3s']):.1f}" for i, x in enumerate(d)) + " " + " ".join(
+        f"{X(i):.1f},{Y(x['p10_m3s']):.1f}" for i, x in reversed(list(enumerate(d))))
+    line = " ".join(f"{X(i):.1f},{Y(x['median_m3s']):.1f}" for i, x in enumerate(d))
+    shown = [(k_, q) for k_, q in sorted(lf.items()) if q <= top]
+    groups = []  # levels whose lines lie within 12 px share one label (on the Brahmani two start at the same flow)
+    for k_, q in shown:
+        if groups and Y(groups[-1][-1][1]) - Y(q) < 12:
+            groups[-1].append((k_, q))
+        else:
+            groups.append([(k_, q)])
+    lab = lambda g: (", ".join(LV[k_][0] for k_, _ in g) + f" · {n(g[0][1])} m³/s" if len({q for _, q in g}) == 1  # noqa: E731
+                     else " · ".join(f"{LV[k_][0]} {n(q)}" for k_, q in g) + " m³/s")
+    lev = "".join(f'<line x1="52" x2="636" y1="{Y(q):.1f}" y2="{Y(q):.1f}" stroke="{LV[k_][1]}" stroke-width="1.5" stroke-dasharray="5 4"/>'
+                  for k_, q in shown) + "".join(
+        f'<text x="636" y="{Y(g[-1][1]) - 5:.1f}" class="lvl-t" text-anchor="end">{e(lab(g))}</text>' for g in groups)
+    ticks = "".join(f'<text x="{X(i):.1f}" y="192" class="xl" text-anchor="{"end" if X(i) > 600 else "middle"}">{pd.Timestamp(x["date"]):%d %b}</text>'
+                    for i, x in enumerate(d) if i % 7 == 0)
+    return (f'<svg class="hydro" viewBox="0 0 660 200" role="img" aria-label="{e(s_["gauge"])} flow outlook, next {len(d)} days">'
+            f'{grid}<polygon points="{band}" class="band"/><polyline points="{line}" class="med"/>{lev}{ticks}</svg>')
+
+
+def live_card(s_, wide=False):
+    lv = LV[s_["level"]]
+    pk, imp = s_["peak"], s_["impact_at_peak"]
+    vill = [w for w in s_["villages_to_warn"] if w["expected"]]
+    vtxt = (f"Expected to have 10 % or more of their people on flooded land: " + "; ".join(
+        f"{w['name']} (from {pd.Timestamp(w['expected']):%d %b})" for w in vill[:4]) + (f" and {len(vill) - 4} more" if len(vill) > 4 else "") + "."
+            ) if vill else "No village is expected to have 10 % of its people on flooded land."
+    mf = s_.get("model_forecast", {}).get("naraj_m3s")
+    mtxt = (" Upstream-gauge model, daily flow: " + ", ".join(f"{pd.Timestamp(d_):%d %b} {n(q)}" for d_, q in mf.items()) + " m³/s.") if mf else ""
+    off = "".join(f'<li>{e((a.get("headline") or a["title"])[:150])}{"…" if len(a.get("headline") or a["title"]) > 150 else ""}'
+                  f' <span>{e(a.get("sender") or a["author"])}</span></li>' for a in s_.get("official_alerts", [])[:3])
+    return f'''<article class="live-card{' wide' if wide else ''}">
+      <header><div><h3>{e(s_["name"])}</h3><span class="live-sub">{e(s_["river"])} at {e(s_["gauge"])} · next {s_["horizon_days"]} days</span></div>
+        <span class="lvl" style="--lv:{lv[1]}">{e(lv[0])}</span></header>
+      <div class="live-kv"><div><b>{n(s_["today_m3s"])}</b><span>m³/s today</span></div><div><b>{n(pk["median_m3s"])}</b><span>peak, {pd.Timestamp(pk["date"]):%d %b} (median run)</span></div>
+        <div><b>{n(pk["p90_m3s"])}</b><span>wettest 10 % of runs</span></div><div><b>{n(imp["people"])}</b><span>people on flooded land at the peak</span></div></div>
+      {hydro_svg(s_)}
+      <p class="live-note">{e(vtxt)}{e(mtxt)}</p>
+      {f'<h4>Official alerts in the state feed</h4><ul class="alerts">{off}</ul>' if off else ""}
+    </article>'''
+
+
+replay_html = ""
+if REPLAY:
+    _rd = pd.Timestamp(REPLAY["issued"][:10])
+    _pk = REPLAY["peak"]
+    _mf = REPLAY.get("model_forecast", {}).get("naraj_m3s", {})
+    _cut = [w for w in REPLAY.get("hospital_access_lost", []) if w["expected"]]
+    _vill = [w for w in REPLAY["villages_to_warn"] if w["expected"]]
+    _cutday = f", from {pd.Timestamp(_cut[0]['expected']):%d %B}" if _cut else ""
+    _rows = "".join(f'<tr><td>{pd.Timestamp(c["date"]):%d %b}</td><td class=num>{n(c["flow_m3s"])}</td><td class=num>{c["coverage"]:.0%}</td>'
+                    f'<td class=num>{n(c["expected_km2"])}</td><td class=num>{n(c["observed_km2"])}</td></tr>' for c in REPLAY.get("radar_check", []))
+    replay_html = f'''<div class="replay">
+    <div>
+      <span class="eyebrow">Replay · the largest flood of the radar era</span>
+      <h3>What the feed would have said on {_rd:%d %B %Y}</h3>
+      <p>Run on the morning of {_rd:%d %B} with the flows that came, the feed would have issued <b>{e(REPLAY["level_name"])}</b> for a Naraj peak of {n(_pk["median_m3s"])} m³/s on {pd.Timestamp(_pk["date"]):%d %B}: {len(_vill)} villages named with the day the water reaches them and {len(_cut)} that lose their hospital{_cutday}.{f" The upstream-gauge model, trained without 2022, forecast {', '.join(f'{n(q)} m³/s for {pd.Timestamp(d_):%d %b}' for d_, q in _mf.items())}: lower than the flood that came, but already 'Act now' three days ahead." if _mf else ""}</p>
+      <p>The radar shows why rain matters: more land was under water on 16 August, after 177 mm of rain in a week, than at the river crest two days later.</p>
+    </div>
+    <div>{fig("replay_outlook", f"Replay of {_rd:%d %b %Y}: the flow that came and the warning levels", False)}
+      <div class="tablewrap"><table><thead><tr><th>Radar pass</th><th class=num>Flow (m³/s)</th><th class=num>Imaged</th><th class=num>Expected (km²)</th><th class=num>Radar (km²)</th></tr></thead><tbody>{_rows}</tbody></table></div></div>
+  </div>'''
+
+live_html = ""
+if LIVE:
+    issued = pd.Timestamp(LIVE[0]["issued"])
+    cwc_ = LIVE[0].get("cwc_above_warning", {})
+    s1_ = (LIVE[0].get("latest_radar_passes") or [{}])[0]
+    live_html = f'''<section id="live" class="band-surface"><div class="container">
+  <div class="center-head">
+    <span class="eyebrow blue">Live outlook · issued {issued:%d %b %Y, %H:%M} IST</span>
+    <h2>What the river will do this week, and whom it reaches</h2>
+    <p class="lede">The live feed reads today's GloFAS forecast (51 runs, 30 days), ECMWF rain and the official alerts, and turns the flow into an impact-based warning: the level comes from the people on flooded land and the villages that lose their hospital, not from the river level alone.</p>
+  </div>
+  <div class="live-grid">{"".join(live_card(s_, wide=i_ == 0 and len(LIVE) % 2 == 1) for i_, s_ in enumerate(LIVE))}</div>
+  {replay_html}
+  <p class="sim-note" style="text-align:center;margin-top:18px">A snapshot of the feed ({issued:%d %b %H:%M} IST){f"; CWC reports {cwc_.get('stations')} stations above warning level across India" if cwc_ else ""}{f"; latest radar pass over the delta {pd.Timestamp(s1_['time_utc']):%d %b}" if s1_.get("time_utc") else ""}. <code>python live/run_live.py</code> refreshes it in about 15 seconds and writes a CAP alert and an Atom feed. A student prototype, not an official warning.</p>
+</div></section>'''
+
+fc_html = ""
+if FC:
+    sk_ = FC["skill"]
+    fc_rows = [dict(lead=f"{L} day{'s' if L > 1 else ''}", p=sk_[f"lead_{L}d"]["persistence"]["nse"],
+                    l=sk_[f"lead_{L}d"]["linear_routing"]["nse"], m=sk_[f"lead_{L}d"]["boosted"]["nse"],
+                    r=sk_[f"lead_{L}d"]["boosted_with_rain_forecast"]["nse"],
+                    hit=f'{sk_[f"lead_{L}d"]["boosted_with_rain_forecast"]["two_year_flood"]["pod"]:.0%} / '
+                        f'{sk_[f"lead_{L}d"]["boosted_with_rain_forecast"]["two_year_flood"]["far"]:.0%}',
+                    hitp=f'{sk_[f"lead_{L}d"]["persistence"]["two_year_flood"]["pod"]:.0%} / {sk_[f"lead_{L}d"]["persistence"]["two_year_flood"]["far"]:.0%}')
+               for L in (1, 2, 3)]
+    fc_tab = table(pd.DataFrame(fc_rows), ["lead", "p", "l", "m", "r", "hit", "hitp"],
+                   ["Lead", "Persistence", "Linear routing", "Model", "Model + rain forecast",
+                    "2-year flood caught / false alarms (model + rain)", "Same, persistence"], num={"p", "l", "m", "r"})
+    fc_html = f'''<section id="forecast" style="border-top:1px solid var(--line)"><div class="container">
+  <div class="split">
+    <div>
+      <span class="eyebrow">Prediction model · water resources</span>
+      <h2 style="margin-top:16px">How far ahead the warning sees.</h2>
+      <div class="prose" style="margin-top:20px">
+        <p>Water reaches Naraj from the Hirakud reach and the Tel and Ong tributaries in about a day. A gradient-boosted model per lead time reads today's flows at Naraj, Tikarpara and below Hirakud and the rain over the catchment between them, and forecasts the Naraj flow one to three days ahead.</p>
+        <p>Trained on {FC["train_years"][0]}–{FC["train_years"][1]} and tested on the monsoons of {FC["test_years"][0]}–{FC["test_years"][1]} it never saw, it keeps its skill where persistence fades: Nash–Sutcliffe efficiency {sk_["lead_3d"]["boosted"]["nse"]:.2f} three days ahead against {sk_["lead_3d"]["persistence"]["nse"]:.2f}. A rain forecast adds most where it matters, in catching floods above the 2-year flow. With Pravaah-type gauges upstream, the same code trains on measured flows.</p>
+      </div>
+    </div>
+    <div class="figs" style="grid-template-columns:minmax(0, 1fr)">{fig("forecast_naraj", "Two test monsoons: the flow at Naraj and the forecasts made one and three days earlier", True)}</div>
+  </div>
+  <div style="margin-top:28px">{fc_tab}<p class="sim-note">Nash–Sutcliffe efficiency of the daily Naraj flow, June–November of the test years; 1 = perfect. "Model + rain forecast" uses the rain of the coming days as if forecast perfectly: an upper bound.</p></div>
+</div></section>'''
+
+risk_html = ""
+if RISK:
+    ead_, dr_, rr_ = RISK["expected_annual_damage_rs_crore"], RISK["daily_record"], RISK["road_raising"]
+    pyr_, hk_ = dr_["per_year"], RISK["hirakud_1000_m3s_off_the_peak"]
+    dm_ = pd.DataFrame(RISK["damage_by_flood"])
+    dm_ = dm_[dm_["T"].isin([2, 5, 10])].assign(lab=lambda d: d["T"].map({2: "2-year", 5: "5-year", 10: "10-year and rarer (lower bound)"}))
+    risk_tab = table(dm_, ["lab", "flow_m3s", "people_on_flooded_land", "house_equivalents_damaged", "houses_rs_crore", "paddy_lost_ha", "paddy_rs_crore", "total_rs_crore"],
+                     ["Flood", "Naraj flow (m³/s)", "People on flooded land", "Houses (damage-equivalent)", "Houses, ₹ crore",
+                      "Paddy lost (ha)", "Paddy, ₹ crore", "Total, ₹ crore"],
+                     num={"flow_m3s", "people_on_flooded_land", "house_equivalents_damaged", "houses_rs_crore", "paddy_lost_ha", "paddy_rs_crore", "total_rs_crore"})
+    lvd_ = dr_["mean_days_per_year_at_level"]
+    risk_html = f'''<section id="risk" class="band-surface" style="border-top:1px solid var(--line)"><div class="container">
+  <div class="center-head">
+    <span class="eyebrow blue">Risk and economics · structural, construction management, transportation</span>
+    <h2>What the floods cost, and what protection is worth</h2>
+    <p class="lede">Flood depth times a published depth–damage curve gives the houses damaged; flooded paddy at the support price gives the crop lost. Running every day of {dr_["years"]} through the flow–impact table gives what a year costs on average.</p>
+  </div>
+  <div class="glance" style="margin-top:36px">
+    <div><b>₹{ead_["total_rs_crore"]:.0f} crore</b><span>expected flood damage a year: houses ₹{ead_["houses_rs_crore"]:.1f} crore, paddy ₹{ead_["paddy_rs_crore"]:.1f} crore (a lower bound)</span></div>
+    <div><b>{pyr_.get("person_days_without_hospital_access", 0) / 1e5:.1f} lakh</b><span>person-days a year without road access to any hospital</span></div>
+    <div><b>{rr_["benefit_cost_ratio"]:.0f} : 1</b><span>benefit to cost of raising the ten critical roads (₹{rr_["cost_rs_crore"]:.2f} crore)</span></div>
+    <div><b>{lvd_.get("days_level_2_or_more", 0):.1f} days</b><span>a year at "Be prepared" or above, so warnings stay rare and credible</span></div>
+  </div>
+  <div style="margin-top:32px">{risk_tab}</div>
+  <div class="prose" style="margin-top:22px">
+    <p><b>Road raising.</b> With the ten links raised, the person-days without hospital access drop from {n(pyr_.get("person_days_without_hospital_access", 0))} to {n(pyr_.get("person_days_without_hospital_access_links_raised", 0))} a year. Valued only at the rural wage of ₹254 a day, the saving of ₹{rr_["annual_benefit_rs_lakh"]:.0f} lakh a year pays the annualised earthwork (₹{rr_["annual_cost_rs_lakh"]:.0f} lakh over {rr_["life_years"]} years at {rr_["discount_rate"]:.0%}) {rr_["benefit_cost_ratio"]:.0f} times over, before counting a single life saved.</p>
+    <p><b>Hirakud.</b> Every 1,000 m³/s the dam keeps off a 5-year peak keeps about {n(hk_["T5"]["people_saved"])} people and {hk_["T5"]["flooded_km2_saved"]:.0f} km² dry; off a 10-year peak, about {n(hk_["T10"]["people_saved"])} people. <b>Warnings.</b> Twenty-four hours of warning cuts flood damage by about 30 % (Global Commission on Adaptation), here about ₹{RISK["warning_saving_rs_crore_per_year"]:.0f} crore a year.</p>
+  </div>
+  <p class="sim-note">Houses: JRC depth–damage curve for Asia (Huizinga et al. 2017) at the PMAY-G rate of ₹1.20 lakh a house, one house per 4.4 people (assumed). Paddy: 2,081 kg/ha (Odisha 2023-24) at the 2025-26 MSP of ₹2,369 a quintal, lost where water is 0.5 m deep or more and 30 % lost where shallower (to be checked in the farmers' interviews).</p>
+</div></section>'''
+
+basins_html = ""
+if len(BAS) > 1:
+    cards_ = []
+    for k, b_ in BAS.items():
+        a_, ex_, s2_ = b_["AS"], b_["EX"].get("scenarios", {}), b_["S2"].get("all/all_months", {})
+        hf_ = a_["validation"]["high_flow_passes"]
+        cfg_ = b_["CFG"] or {}
+        t25_ = ex_.get("T25", {})
+        lb_ = "at least " if a_["gumbel"]["return_period_m3s"]["25"] > a_["largest_observed_predictor_m3s"] else ""  # beyond the record
+        img_ = f'<img src="{b_["img"]}" alt="How often the land flooded, {e(cfg_.get("name", k))}" loading="lazy">' if b_.get("img") else ""
+        cards_.append(f'''<article class="basin-card"><div class="pic">{img_}</div><div class="basin-body">
+      <span class="eyebrow">{e(cfg_.get("state", ""))} · {e(cfg_.get("river", ""))} at {e(cfg_.get("gauge_name", ""))}</span><h3>{e(cfg_.get("name", k))}</h3>
+      <dl><div><dt>Radar passes mapped</dt><dd>{n(a_["n_passes"])}</dd></div><div><dt>Land flooded at least once</dt><dd>{n(a_["flooded_ever_km2"])} km²</dd></div>
+      <div><dt>25-year flow, flooded land</dt><dd>{n(a_["gumbel"]["return_period_m3s"]["25"])} m³/s, {lb_}{n(t25_.get("flood_km2", 0))} km²</dd></div>
+      <div><dt>People on it</dt><dd>{lb_}{n(t25_.get("people", 0))}</dd></div>
+      <div><dt>Held-out years, high flows (IoU)</dt><dd>{hf_["model"]["iou"]:.2f} vs {hf_["climatology"]["iou"]:.2f}</dd></div>
+      {f'<div><dt>Agreement with Sentinel-2</dt><dd>IoU {s2_["iou"]:.2f}</dd></div>' if s2_ else ""}</dl></div></article>''')
+    basins_html = f'''<section id="basins" style="border-top:1px solid var(--line)"><div class="container">
+  <div class="center-head">
+    <span class="eyebrow blue">Other basins</span>
+    <h2>The same pipeline on two more basins</h2>
+    <p class="lede">Nothing in the method is specific to the Mahanadi: a box, a gauge and the months of the flood season set up a new basin. The Brahmani–Baitarani delta next door and the Brahmaputra around Majuli in Assam were mapped from every Sentinel-1 pass since 2017 with the same radar models and joined the live feed.</p>
+  </div>
+  <div class="basin-grid">{"".join(cards_)}</div>
+</div></section>'''
+
 CSS = """
 /* Layout: floating pill navigation over a left-aligned hero; bands alternate plain, surface, diagonal stripes and
    diamonds; one 1280 px column; tiles, cards and the accordion stack to one column on phones.
@@ -601,6 +857,7 @@ h2 { font-size: clamp(30px, 4.2vw, 52px); }
 .menu-btn .bars { width: 14px; height: 10px; background: linear-gradient(currentColor 0 0) top / 100% 1.5px no-repeat, linear-gradient(currentColor 0 0) center / 100% 1.5px no-repeat, linear-gradient(currentColor 0 0) bottom / 100% 1.5px no-repeat; }
 .mobile-nav { position: fixed; z-index: 49; top: calc(96px + env(safe-area-inset-top, 0px)); left: max(24px, env(safe-area-inset-left, 0px)); right: max(24px, env(safe-area-inset-right, 0px));
   background: var(--bg); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-lg); padding: 10px; display: grid; gap: 2px; max-height: calc(100vh - 120px); overflow-y: auto; }
+.mobile-nav[hidden] { display: none; }
 .mobile-nav a { padding: 12px 14px; border-radius: 12px; text-decoration: none; font-weight: 500; color: var(--ink); }
 .mobile-nav a:hover { background: var(--hover); }
 @media (max-width: 1100px) { .nav-links { display: none; } .menu-btn { display: inline-flex; } }
@@ -896,6 +1153,55 @@ footer { border-top: 1px solid var(--line); background: var(--bg); padding-block
 .road .gain { font-size: 13px; font-weight: 600; color: var(--ink); }
 @media (max-width: 1000px) { .road { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .road { grid-template-columns: minmax(0, 1fr); } }
+/* live outlook */
+.live-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; margin-top: 40px; }
+/* an odd number of basins: the first (the study basin) takes the whole row, chart beside its notes, the others pair up below */
+.live-card.wide { grid-column: 1 / -1; }
+@media (min-width: 900px) {
+  .live-card.wide { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: 36px; align-content: start; }
+  .live-card.wide > header, .live-card.wide > .live-kv { grid-column: 1 / -1; }
+  .live-card.wide > .hydro { grid-column: 1; grid-row: 3 / span 3; }
+  .live-card.wide > :not(header):not(.live-kv):not(.hydro) { grid-column: 2; }
+}
+.live-card { background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: grid; gap: 14px; min-width: 0; box-shadow: var(--shadow); }
+.live-card header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.live-card h3 { font-size: 20px; letter-spacing: -0.02em; }
+.live-sub { font-size: 13px; color: var(--muted); }
+.lvl { flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; border-radius: 9999px; font-size: 13px; font-weight: 600; background: color-mix(in srgb, var(--lv) 16%, white); color: #111; border: 1px solid color-mix(in srgb, var(--lv) 55%, white); }
+.lvl::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--lv); }
+.live-kv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.live-kv b { display: block; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.live-kv span { font-size: 12px; line-height: 1.4; color: var(--muted); }
+.hydro { width: 100%; height: auto; }
+.hydro .g { stroke: var(--line); }
+.hydro .band { fill: var(--accent); opacity: .16; }
+.hydro .med { fill: none; stroke: var(--navy); stroke-width: 2.2; }
+.hydro .yl, .hydro .xl { font-size: 12px; fill: var(--muted); }
+.hydro .yl { text-anchor: end; }
+.hydro .lvl-t { font-size: 12px; fill: var(--ink); font-weight: 600; }
+/* the chart scales with the card: on a phone its 660-unit width is about 310 px, so the labels need more units */
+@media (max-width: 600px) { .hydro .yl, .hydro .xl { font-size: 18px; } .hydro .lvl-t { font-size: 19px; } }
+.live-note { font-size: 14px; line-height: 1.6; }
+.live-card h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.alerts { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; line-height: 1.5; }
+.alerts span { color: var(--muted); font-size: 12px; }
+@media (max-width: 560px) { .live-kv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.replay { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 28px; margin-top: 28px; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 26px; align-items: start; }
+.replay h3 { font-size: 22px; letter-spacing: -0.02em; margin: 10px 0 12px; }
+.replay p { font-size: 15px; line-height: 1.65; margin-bottom: 12px; }
+.replay .case { margin-bottom: 14px; }
+@media (max-width: 900px) { .replay { grid-template-columns: minmax(0, 1fr); padding: 18px; } }
+/* other basins */
+.basin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; margin-top: 40px; }
+.basin-card { background: var(--bg); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.basin-card .pic { aspect-ratio: 4 / 3; background: var(--surface); }
+.basin-card .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.basin-body { padding: 20px 22px 22px; display: grid; gap: 10px; align-content: start; }
+.basin-body h3 { font-size: 19px; }
+.basin-body dl { margin: 4px 0 0; display: grid; gap: 6px; }
+.basin-body dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 6px; font-size: 13.5px; }
+.basin-body dt { color: var(--muted); }
+.basin-body dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rise, .track { animation: none; }
@@ -952,8 +1258,9 @@ JS = """
 })();
 """
 
-NAV = [("#problem", "Problem"), ("#how", "How it works"), ("#atlas", "Atlas"), ("#partner", "For ClimMaTech"),
+NAV = [("#live", "Live"), ("#how", "How it works"), ("#atlas", "Atlas"), ("#basins", "Basins"), ("#partner", "For ClimMaTech"),
        ("#deploy", "Deployment"), ("#team", "Team")]
+NAV = [(h, t) for h, t in NAV if (h != "#live" or LIVE) and (h != "#basins" or len(BAS) > 1)]
 nav_main = "".join(f'<a class="nav-item" href="{h}">{e(t)}</a>' for h, t in NAV[:3])
 nav_rest = "".join(f'<a class="nav-item" href="{h}">{e(t)}</a>' for h, t in NAV[3:])
 mobile_links = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in NAV[:3] + [("#specializations", "Specializations")] + NAV[3:]) + \
@@ -1012,6 +1319,8 @@ page = f'''<title>Prithvi Flood-IN</title>
   <div class="marquee"><div class="track"><div class="set">{src_set}</div><div class="set" aria-hidden="true">{src_set}</div></div></div>
 </div></div>
 
+{live_html}
+
 <section id="problem" class="band-surface"><div class="container">
   <div class="center-head">
     <span class="badge"><span class="mark" aria-hidden="true"></span>The problem in the field</span>
@@ -1065,11 +1374,13 @@ page = f'''<title>Prithvi Flood-IN</title>
   </div>
   <div class="figs">{fig("atlas_timeseries", "River flow at Naraj and flooded land on every radar pass", True)}{fig("atlas_trigger_map", "The Naraj flow at which each pixel starts to flood")}{fig("atlas_frequency_map", "How often the land flooded, 2017–2026")}</div>
   <div class="sub-h"><span class="eyebrow">The river is not the only driver</span><h3>The same river flow floods {rain_ratio} as much land in a week of heavy rain.</h3>
-    <p>The largest floods in the record (September 2018 and 2021) came with heavy rain from Bay of Bengal depressions, not with the highest river flows. Looking up past passes with a similar flow and similar 7-day rain shows the effect for the 5-year flow:</p></div>
+    <p>The largest floods in the record ({tops_txt}) came with heavy rain{tops_storm}, not with the highest river flows. Looking up past passes with a similar flow and similar 7-day rain shows the effect for the 5-year flow:</p></div>
   {rain_pair}
   {learned_rain}
   <p class="note">Floodplain flooding is patchy and the observed maps are themselves radar maps, so pass-level scores are modest. Where the delta floods is very predictable from its past floods (ranking skill {auc.get("high_flow_passes", {}).get("clim", 0):.2f}); how much of it floods on a given day only partly ({auc.get("high_flow_passes", {}).get("model", 0):.2f} for the trigger map). The frequency map says where to prepare, the trigger map at which flow to act, and the rain forecast has to be read with the river forecast.</p>
 </div></section>
+
+{basins_html}
 
 <section id="how" class="band-diamond"><div class="container">
   <div class="center-head">
@@ -1098,7 +1409,7 @@ page = f'''<title>Prithvi Flood-IN</title>
     <div class="fact"><b>{u("lio/unet/full/default"):.3f}</b><span>U-Net water IoU on the unseen Assam flood</span></div>
     <div class="fact"><b>{u("lio/prithvi/full/default"):.3f}</b><span>best foundation model (Prithvi-EO-2.0)</span></div>
     <div class="fact"><b>{u("lio/enstop3_mean/full/default"):.3f}</b><span>fusion of U-Net, CNN and the best foundation model</span></div>
-    <div class="fact"><b>{R20.get("calibrated_test_iou", 0):.3f}</b><span>radar-only TerraMind + U-Net on 20 m radar, the model that maps the monsoon</span></div>
+    <div class="fact"><b>{PROD.get("calibrated_test_iou", 0):.3f}</b><span>radar-only TerraMind + U-Net on 20 m radar{", trained at 20 m" if ADOPTED else ""}, the model that maps the monsoon</span></div>
   </div>
   {audit_html}
   <div class="figs">{fig("bars_lio", "Test IoU on the unseen Indian flood, mean ± sd over three seeds")}{fig("modality_ablation", "Radar only, optical only and both: optical wins under clear sky, radar is all that sees a monsoon flood")}</div>
@@ -1133,7 +1444,7 @@ page = f'''<title>Prithvi Flood-IN</title>
         <div class="figs">{fig("depth_T25_map", "Estimated depth in the 25-year flood; circles: settlements with people on land deeper than 1 m", True)}</div></article>
 
       <article class="detail" id="d-gt"><span class="eyebrow">Geotechnical</span><h3>River banks to inspect, and dry houses on soaked ground.</h3>
-        <div class="prose"><p>Bank cells are ranked by how often water stands behind the bank, the soil and the people nearby, giving twenty sites for the field team to sample. Houses that stay dry but stand within 200 m of flood water on silty clay sit on soaked ground: <b>{n(ground_s.get("people_in_zone", 0))} people</b> in the 25-year flood. Soaking cuts a footing's bearing capacity by about {fe.get("silty_sand_drained", {}).get("reduction_pct", 0)} %, and the clay settles when the water table drops, the cracks that appear weeks after a flood.</p></div>
+        <div class="prose"><p>Bank cells are ranked by how often water stands behind the bank, the soil and the people nearby, giving twenty candidate sites; the top twelve are on the field team's GPS file for inspection and soil samples. Houses that stay dry but stand within 200 m of flood water on silty clay sit on soaked ground: <b>{n(ground_s.get("people_in_zone", 0))} people</b> in the 25-year flood. Soaking cuts a footing's bearing capacity by about {fe.get("silty_sand_drained", {}).get("reduction_pct", 0)} %, and the clay settles when the water table drops, the cracks that appear weeks after a flood.</p></div>
         <div class="figs">{fig("ground_advisory_map", "Ground-saturation advisory zone around 25-year flood water", True)}</div></article>
 
       <article class="detail" id="d-oc"><span class="eyebrow">Ocean engineering</span><h3>The Bay of Bengal floods the delta from above.</h3>
@@ -1141,7 +1452,7 @@ page = f'''<title>Prithvi Flood-IN</title>
         <div class="figs">{fig("flood_drivers", "The 20 largest floods on radar and their drivers", True)}</div></article>
 
       <article class="detail" id="d-cm"><span class="eyebrow">Construction technology and management</span><h3>Build in {e(win)}; raise the links that matter.</h3>
-        <div class="prose"><p>Forty-two years of flows and storm tracks leave <b>{e(win)}</b> free of flood days and nearly free of storms, the window for road raising, embankment repair and installing sensors. Raising {lrk.get("links_by_embankment", 0)} critical links takes about <b>{n(lrk.get("earthwork_m3", 0))} m³</b> of earthwork (about ₹{lrk.get("cost_crore_rs_at_350_per_m3", 0):.2f} crore at an assumed rate); {len(struct_links)} more would need a bridge or vented causeway.</p></div>
+        <div class="prose"><p>Twenty-nine years of river flow and 46 years of storm tracks leave <b>{e(win)}</b> free of flood days and nearly free of storms, the window for road raising, embankment repair and installing sensors. Raising {lrk.get("links_by_embankment", 0)} critical links takes about <b>{n(lrk.get("earthwork_m3", 0))} m³</b> of earthwork (about ₹{lrk.get("cost_crore_rs_at_350_per_m3", 0):.2f} crore at an assumed rate); {struct_long}.</p></div>
         <div class="figs">{fig("gantt", "Deployment schedule for the next monsoon, inside the construction window", True)}</div></article>
 
       <article class="detail" id="d-wr"><span class="eyebrow">Water resources and the watershed</span><h3>Half of a flood peak comes from below the dam.</h3>
@@ -1150,6 +1461,8 @@ page = f'''<title>Prithvi Flood-IN</title>
     </div>
   </div>
 </div></section>
+
+{risk_html}
 
 <section id="partner" class="band-surface" style="border-top:1px solid var(--line)"><div class="container">
   <div class="center-head">
@@ -1191,6 +1504,8 @@ page = f'''<title>Prithvi Flood-IN</title>
   <div class="road">{road_html}</div>
 </div></section>
 
+{fc_html}
+
 <section id="deploy" class="band-surface" style="border-top:1px solid var(--line)"><div class="container">
   <div class="split">
     <div>
@@ -1222,8 +1537,8 @@ page = f'''<title>Prithvi Flood-IN</title>
   <div class="tablewrap"><table><thead><tr><th>Specialization</th><th>Next step</th><th>Why</th></tr></thead><tbody>
     <tr><td>Remote sensing</td><td>SWOT water-surface elevations and NISAR L-band radar</td><td>Measured water levels for depth; flooding under crops and trees</td></tr>
     <tr><td>Water resources</td><td>Refit with observed CWC flows; a 2-D HEC-RAS model calibrated on the atlas</td><td>Floods larger than any seen since 2017</td></tr>
-    <tr><td>Transportation systems</td><td>Closures in time during flood onset; school and market access; evacuation timing</td><td>When villages are cut off, not only whether</td></tr>
-    <tr><td>Structural</td><td>Depth–damage curves for kutcha and pucca houses</td><td>Money at risk, for the cost–benefit of protection</td></tr>
+    <tr><td>Transportation systems</td><td>Evacuation routing and shelter capacity from the live cut-off dates; school and market access</td><td>Who to move first, and where to</td></tr>
+    <tr><td>Structural</td><td>Local depth–damage curves for kutcha and pucca houses from the field survey</td><td>Replace the continental JRC curve in the damage estimate</td></tr>
     <tr><td>Geotechnical</td><td>2-D seepage of the top embankments; bank-line migration from Landsat since 1990</td><td>Piping and erosion risk in numbers</td></tr>
     <tr><td>Ocean</td><td>Paradip tide record, surge hindcasts, sea-level rise</td><td>Compound river, rain and surge flooding</td></tr>
     <tr><td>Construction technology and management</td><td>Life-cycle cost, O&amp;M plan, procurement through GeM</td><td>From a plan to an executable project</td></tr>
@@ -1236,10 +1551,10 @@ page = f'''<title>Prithvi Flood-IN</title>
     <h2>Five students, seven specializations</h2>
   </div>
   <div class="team">
-    <div class="person"><b>Nikhil Upadhyay</b><span>Team lead · water resources and ocean: flow-to-flood model, design floods, storm drivers; organises the visit</span></div>
-    <div class="person"><b>Vineet Jangir</b><span>Remote sensing: benchmark of six foundation models, fusion, the 20 m radar model</span></div>
-    <div class="person"><b>Prakhar Gupta</b><span>Remote sensing: flood atlas from every Sentinel-1 pass, Sentinel-2 check, map viewer</span></div>
-    <div class="person"><b>Himanshu Shete</b><span>Transportation and structural: hospital access, critical links, walls, bridge scour; integration of the impact chain, bulletin tool, website and report</span></div>
+    <div class="person"><b>Nikhil Upadhyay</b><span>Team lead · water resources and ocean: flow-to-flood model, learned flow + rain model, Naraj flow forecast, watershed, design floods, storm drivers; organises the visit</span></div>
+    <div class="person"><b>Vineet Jangir</b><span>Remote sensing: benchmark of six foundation models, fusion, radar models retrained at 20 m</span></div>
+    <div class="person"><b>Prakhar Gupta</b><span>Remote sensing: flood atlas from every Sentinel-1 pass, Sentinel-2 check, atlases of two more basins, map viewer</span></div>
+    <div class="person"><b>Himanshu Shete</b><span>Transportation and structural: hospital access, critical links, walls, bridge scour; integration: impact chain, live warning feed and data plugins, flood-risk economics, bulletins with CAP alerts, training audit, partner gap analysis, website and report</span></div>
     <div class="person"><b>Prabhat Kumar</b><span>Geotechnical and construction management: banks, ground saturation, foundations, work windows, deployment plan</span></div>
   </div>
   <p class="note">Faculty guide: Prof. Basudev Biswal, Department of Civil Engineering, IIT Bombay. Industry partner: ClimMaTech Pvt. Ltd. (IIT Mandi), Dr. Vivek Gupta and Siddik Barbhuiya.</p>

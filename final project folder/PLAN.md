@@ -39,6 +39,11 @@ priorities); district administrations (villages to warn per forecast).
 | Benchmark: 6 FMs + CNN + U-Net, 2 protocols, 3 seeds, frozen vs fine-tuned, fusion, radar vs optical, label efficiency | AI / remote sensing | **done** (92 training runs) | `results/analysis`, report §4 |
 | PINN (Saint-Venant) reproduction + case 3 retrain, L-BFGS finding | hydraulics | **done** | `pinn/`, report §5 |
 | Mahanadi flood atlas 2017–2026 (all 590 Sentinel-1 passes, radar FM) | remote sensing + hydrology | **done** | `mahanadi/atlas_*.py`, report §6 |
+| Naraj flow forecast 1–3 days ahead from upstream flows and catchment rain (efficiency 0.99 / 0.94 / 0.89 on unseen monsoons, against 0.96 / 0.88 / 0.79 for persistence) | water resources | **done** | `mahanadi/forecast_model.py`, report §6.7 |
+| Live warning feed for all three basins: GloFAS ensemble + ECMWF rain + NDMA SACHET + CWC + latest Sentinel-1 pass → impact-based levels counted beyond the ordinary monsoon, villages with dates, CAP alert, Atom feed; plugins per source; replay of the August 2022 flood | deployment | **done** (run of 31 Oct: no flood impact on any basin) | `live/`, report §9.7, website "Live" |
+| Flood risk in rupees: house and paddy damage, expected annual damage, hospital-access person-days, benefit–cost of road raising, Hirakud what-if | structural, transportation, construction management | **done** | `mahanadi/risk_economics.py`, report §7.9, C.9 |
+| Two more basins (Brahmani–Baitarani: 394 passes, 2,277 km² flooded at least once; Brahmaputra at Majuli: 346 passes, 2,145 km²) through the same pipeline, both in the live feed | remote sensing + hydrology | **done** | `mahanadi/basins.py`, `server/run_basin*.sh`, `results/basins/`, report §6.8 |
+| Radar pair retrained on the atlas's 20 m input (3 seeds, +0.022 IoU on every seed); atlas rebuilt with it after it agreed better with Sentinel-2 (IoU 0.56 against 0.49) | remote sensing | **done** (atlas, impacts and learned model all on the rebuilt atlas; the first atlas archived) | `server/run_r20_*.sh`, `scripts/compare_atlases.py`, `results/archive_atlas_10m/`, report Appendix B |
 | Discharge → inundation model (GloFAS at Naraj, per-pixel trigger flow, leave-one-year-out test, return periods) | hydrology | **done** | `mahanadi/atlas_build.py`, report §6 |
 | Independent check with Sentinel-2 on the same days | remote sensing | **done** (60 pairs) | `mahanadi/s2_crosscheck.py`, report §6 |
 | Exposure: people, roads, bridges, rail, health facilities, schools, farmland | all | **done** | `mahanadi/impact_exposure.py`, report §7.1 |
@@ -62,10 +67,10 @@ priorities); district administrations (villages to warn per forecast).
 
 | Member | Specializations they present | Report | At the site |
 |---|---|---|---|
-| Vineet | Remote Sensing (model benchmark, radar foundation model in production) | §4, §6.1 | Ground-truth points with Prakhar (A) |
-| Prakhar | Remote Sensing (flood atlas, Sentinel-2 check, map viewer) | §6.1–6.2 | Ground-truth points, GPS/photo log (A) |
-| Nikhil | Water Resources (flow-to-flood model, rain, design floods, PINN) and Ocean (storm drivers); organises the visit | §5, §6.3–6.5, §7.6 | Discharge, slope, Manning's n (B, C); WRD/CWC interviews |
-| Himanshu | Transportation Systems and Structural (cut-offs, shelters, critical links; flood depth, walls, scour, clearance); integration of the impact chain, forecast-to-bulletin tool, project website, report and slides | §7.1–7.3, §9.1–9.2 | Bridge inspections, foundation levels, road closures (D); runs the field scripts each evening and updates the numbers |
+| Vineet | Remote Sensing (model benchmark, radar foundation model in production, radar models retrained at 20 m) | §4, §6.1, App. B | Ground-truth points with Prakhar (A) |
+| Prakhar | Remote Sensing (flood atlas, Sentinel-2 check, atlases of the Brahmani–Baitarani and Brahmaputra basins, map viewer) | §6.1–6.2, §6.8 | Ground-truth points, GPS/photo log (A) |
+| Nikhil | Water Resources (flow-to-flood model, rain, learned flow + rain model, Naraj flow forecast 1–3 days ahead, design floods, watershed, PINN) and Ocean (storm drivers); organises the visit | §5, §6.3–6.7, §7.6, §7.8 | Discharge, slope, Manning's n (B, C); WRD/CWC interviews |
+| Himanshu | Transportation Systems and Structural (cut-offs, shelters, critical links; flood depth, walls, scour, clearance); integration of the impact chain, forecast-to-bulletin tool with CAP alerts, live warning feed with its data plugins and the August 2022 replay, flood-risk economics, training audit, partner gap analysis, project website, report and slides | §7.1–7.3, §7.9, §9.1–9.2, §9.6–9.7, App. A | Bridge inspections, foundation levels, road closures (D); runs the field scripts each evening and updates the numbers |
 | Prabhat | Geotechnical and Construction Technology & Management (banks, ground saturation, foundations; work windows, earthwork, siren and sensor plan) | §7.4–7.5, §7.7, §9.3–9.4 | Bank inspection, soil samples + lab, well levels, site sheets (E, F, H) |
 
 Each member should be able to answer for the whole chain, but present the part they own.
@@ -80,6 +85,7 @@ Each member should be able to answer for the whole chain, but present the part t
 | 3–5 Nov | Type data; run the seven field scripts; soil tests in the geotech lab; write §8 "field results and what changed" | owners (scripts: Himanshu) |
 | 5–6 Nov | Update problem statement (§2), impacts and deployment plan with field findings; rebuild report, slides and website | all (rebuild: Himanshu) |
 | 7 Nov | Dry run of the presentation with the mentors; fix | all |
+| 7–9 Nov | Run `python live/run_live.py` the morning of the presentation so the live outlook on the slides and website is that day's | Himanshu |
 | 8 Nov | Submit report + slides; abstract for HYDRO/journal ready | — |
 | 9 Nov | Deadline (PROJECT_SCOPE.md) | — |
 
@@ -92,14 +98,17 @@ Prepare one slide per item, each with a photo, the measured number and the chang
 - bridge clearance vs. IRC:5 and road closures confirmed or corrected — re-ranks critical links;
 - soil class and piping susceptibility of the bank samples — re-ranks the inspection list;
 - siren / sensor sites confirmed or dropped (mobile signal, access in flood, mounting) — final deployment plan;
-- the engineers' answer to "which flow at Naraj floods which villages?" vs. our trigger-discharge map.
+- the engineers' answer to "which flow at Naraj floods which villages?" vs. our trigger-discharge map and the levels of
+  the live warning (12,250 / 18,500 / 21,250 m³/s);
+- the house and paddy losses people report for 2020 and 2022 vs. the damage estimate (§7.9);
+- whether villagers and the district would act on the live bulletin that names them with a date.
 
 ## 7. Risks and fallbacks
 
 - **Visit cannot happen in the Mahanadi delta.** Run the same protocols at the nearest reachable river site with
   a gauge or a ClimMaTech installation (e.g. their Mandi deployments); the hydrometry, bridge and soil
-  protocols do not depend on the place. Generate check points for any area with
-  `mahanadi/make_checkpoints.py` after changing the bounding box in the atlas scripts.
+  protocols do not depend on the place. A new area is one entry in `mahanadi/basins.py` (box, gauge, season);
+  `server/run_basin_atlas.sh` then builds its atlas and `mahanadi/make_checkpoints.py` its check points.
 - **No permission for gauge/barrage areas.** Use a public road bridge for hydrometry and interviews by phone.
 - **No lab slot.** Field texture by feel + SoilGrids remain; state it as a limitation.
 - **Observed discharge not shared in time.** GloFAS (modelled) stays the discharge source; state it.

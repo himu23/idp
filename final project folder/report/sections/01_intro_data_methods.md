@@ -28,10 +28,13 @@ plan where warnings and sensors should go.* Concretely we
    flood atlas, and check it against Sentinel-2 images taken within a day (§6);
 3. link the atlas to river discharge at Naraj, so that a discharge forecast becomes an inundation map, and test
    that link on years it was not fitted on (§6);
-4. translate inundation into engineering impacts: people and buildings, roads and bridges (transportation and
-   structures), river banks (geotechnical) (§7);
-5. plan siren and river-sensor sites for a ClimMaTech-type deployment (§9); and
-6. check and calibrate all of this with measurements and interviews at the site (§8).
+4. translate inundation into what it means for each of the department's specializations: people and roads
+   (transportation), walls and bridges (structural), river banks and foundations (geotechnical), storms (ocean),
+   when and at what cost to build (construction management) and the watershed above the delta (water resources) (§7);
+5. plan siren and river-sensor sites for a ClimMaTech-type deployment (§9);
+6. forecast the Naraj flow days ahead, run the warning on live data, put the flood risk in rupees and repeat the
+   method on two more basins (§6.7–6.8, §7.9, §9.7); and
+7. check and calibrate all of this with measurements and interviews at the site (§8).
 
 ### 1.2 Stakeholders
 
@@ -83,6 +86,14 @@ mentor notebook, with two protocols designed to answer the Indian question hones
 | F14 | Work windows, earthwork for raising critical links, deployment quantities and schedule | construction technology & management | §7.7 |
 | F15 | Field visit: measure, ask, and feed the results back into the models | all | §8 |
 | F16 | Siren and river-sensor siting; forecast-to-bulletin tool; integration with the ClimMaTech platform | construction planning | §9 |
+| F17 | A learned model that adds local rain and flood history to the river flow | hydrology, AI | §6.6 |
+| F18 | The watershed above the delta: how much of a flood peak comes from Hirakud dam and how much from the tributaries below it | water resources | §7.8 |
+| F19 | Check every training run, reproduce published scores, retrain the radar models at the atlas resolution | AI / remote sensing | Appendices A–B |
+| F20 | Read the partner's services and list, with evidence, what this project adds | all | §9.6 |
+| F21 | Forecast the Naraj flow one to three days ahead from upstream flows and catchment rain, tested on unseen monsoons | water resources, AI | §6.7 |
+| F22 | Repeat the atlas and its link to river flow on two more basins | remote sensing, hydrology | §6.8 |
+| F23 | Flood risk in rupees and person-days; benefit–cost of raising critical roads; what dam operation saves | structural, transportation, construction management, water resources | §7.9, C.9 |
+| F24 | A live warning service: today's forecasts and official alerts in, an impact-based warning, CAP alert and feed out | all | §9.7 |
 
 ## 2. Data
 
@@ -136,7 +147,7 @@ UTM 45N grid at 10 m for single events and 20 m for the atlas). All sources are 
 | Sentinel-1 RTC γ⁰ (VV, VH), every pass in Feb–Mar and Jun–Nov, 2017 – Oct 2026, three tracks (descending 48 and 121, ascending 85), Sentinel-1A/B/D | Microsoft Planetary Computer, `sentinel-1-rtc` | flood atlas (§6) |
 | Sentinel-2 L2A (B03, B11, scene classification) within ±1 day of a radar pass | Planetary Computer, `sentinel-2-l2a` | independent optical check (§6.2) |
 | JRC Global Surface Water occurrence 1984–2021 | Planetary Computer, `jrc-gsw` | normal rivers and lakes |
-| River discharge, daily, Naraj / Tikarpara / below Hirakud, 1984–2026 | GloFAS v4 reanalysis via the Open-Meteo flood API | discharge-to-inundation model, design floods |
+| River discharge, daily, Naraj / Tikarpara / below Hirakud, 1997–2026 (the API has no earlier values at these cells) | GloFAS v4 reanalysis via the Open-Meteo flood API | discharge-to-inundation model, design floods |
 | Rainfall, daily, mean of 6 points over the delta, 2016–2026 | ERA5 via the Open-Meteo archive API | second flood driver (§6.4) |
 | Population 2020 (3″ grid) | JRC GHSL GHS-POP R2023A | people exposed, settlements |
 | Building footprints | Microsoft Global ML Building Footprints (incomplete here: ~120 k) | mapped buildings exposed |
@@ -145,9 +156,15 @@ UTM 45N grid at 10 m for single events and 20 m for the atlas). All sources are 
 | Soil sand / silt / clay, 0–30 cm | ISRIC SoilGrids 2.0 (250 m) | bank screening (§7.4) |
 | Roads (with node ids), railways, waterways | OpenStreetMap via Overpass | network analysis, bridges |
 | Places, hospitals and clinics, schools, embankments, shelters | OpenStreetMap, Geofabrik eastern-India extract (the Overpass servers were overloaded) | destinations, names |
-
 | Cyclone and depression tracks, North Indian Ocean, 1980–2025 | IBTrACS v4 (NOAA NCEI) | storm drivers (§7.6), work windows (§7.7) |
 | Basin areas: Hirakud catchment about 83,400 km², whole Mahanadi basin about 141,600 km² | published figures (sources differ by about 2 %) | watershed view (§7.8) |
+| Rainfall, daily, mean of 8 points over the catchment between Hirakud and Naraj, 1984–2026 | ERA5 via the Open-Meteo archive API | flow forecast (§6.7) |
+| River-flow forecast: GloFAS v4 control run and 50 ensemble members, 30 days | Open-Meteo flood API | live warnings (§9.7) |
+| Rain forecast, ECMWF IFS 0.25°, 16 days | Open-Meteo forecast API | live warnings (§9.7) |
+| Official alerts (IMD, CWC, SDMA) as CAP | NDMA SACHET feed of the state | live warnings (§9.7) |
+| CWC stations above warning level | CWC flood-forecasting portal | live warnings (§9.7) |
+| Depth–damage curve for houses in Asia; rural housing assistance; Odisha rice yield; paddy support price | JRC (Huizinga et al. 2017); PMAY-G (₹1.20 lakh); RBI Handbook 2023-24 (2,081 kg/ha); MSP 2025-26 (₹2,369 a quintal) | flood risk in rupees (§7.9) |
+| The same layers for the Brahmani–Baitarani delta (86.20–86.90 °E, 20.58–21.08 °N) and the Brahmaputra around Majuli (93.90–94.60 °E, 26.70–27.30 °N) | as above; JRC occurrence for both boxes | other basins (§6.8) |
 
 Optical images on the large flood dates were 61–95 % cloud over the box, so the atlas uses radar only.
 
@@ -160,8 +177,8 @@ Optical images on the large flood dates were 61–95 % cloud over the box, so th
 | Statistics and learning on tables | scikit-learn (logistic-regression fusion layer, gradient-boosted flood model, ROC AUC), pandas, numpy |
 | Maps and documents | matplotlib, Leaflet 1.9.4 (map viewer), pandoc / python-docx / python-pptx (report and slides) |
 | Compute | IIT Bombay lab server: 2 GPUs, 32 CPU cores, 62 GB memory; the benchmark cache sat in RAM because the data disks are slow |
-| Data volume | Sen1Floods11 hand-labelled set 446 chips; Mahanadi radar archive 590 passes at 20 m (about 11 GB); atlas probability maps about 1.7 GB |
-| Run times | one benchmark run 10–40 minutes; one radar pass mapped in about 5 s on one GPU; atlas build about 26 minutes; impact chain about 5 minutes; learned flood model about 27 minutes on 28 cores |
+| Data volume | Sen1Floods11 hand-labelled set 446 chips; Mahanadi radar archive 590 passes at 20 m (about 11 GB); atlas probability maps about 1.7 GB; each further basin a similar archive |
+| Run times | one benchmark run 2–6 minutes for the U-Net and 5–31 minutes for a foundation model (the range follows the shared server's load); one radar pass mapped in about 5 s on one GPU; atlas build about 26 minutes; impact chain about 5 minutes; learned flood model about 27 minutes on 28 cores; flow–impact sweep about 9 s; flow-forecast models about 15 s on 32 cores; one live run about 15 s per basin |
 
 ## 3. Methods
 
@@ -243,10 +260,10 @@ Code: `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `s2_crossche
    download four-fold, which mattered because the lab server's connection to the archive ran at 4–8 MB/s.
 2. **Production model.** The mean water probability of the two radar-only models of §4 (TerraMind-B and U-Net,
    official split), each run at 10 m on the up-sampled pass with overlapping 512 × 512 windows, averaged back to
-   20 m. Fed with 20 m data this way, the pair scores 0.640 on the official Sen1Floods11 test at threshold 0.5,
-   and 0.646 at threshold 0.30, the threshold chosen on the validation set (`scripts/test_resolution.py`;
-   native 10 m: 0.664). RTC γ⁰ is shifted to σ⁰ by −0.97 dB. A pair retrained directly on 20 m input scores 0.681
-   and is ready for the next atlas run (Appendix B).
+   20 m. Trained at 10 m and fed with 20 m data this way, the pair scores 0.640 on the official Sen1Floods11 test
+   (0.646 at the validation threshold 0.30; native 10 m: 0.664). Retrained with the radar degraded to 20 m exactly as
+   the archive's overview is made, the same pair scores 0.681 at its validation threshold 0.45, better on all three
+   seeds (Appendix B); the atlas was rebuilt with this pair. RTC γ⁰ is shifted to σ⁰ by −0.97 dB.
 3. **Normal water** of each year = water in at least half of that year's February–March passes, or JRC
    occurrence ≥ 50 %. **Flood** on a monsoon pass = water and not normal water of that year. Flood frequency =
    flooded passes / valid passes per pixel.
@@ -266,7 +283,7 @@ Code: `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `s2_crossche
    window chosen like the flow predictor); and flood climatology (flooded when the pixel's frequency in the other
    years ≥ 50 %).
 7. **Design floods.** Gumbel distribution (method of moments) fitted to GloFAS annual maxima at Naraj
-   (1984–2025); maps for 2- to 100-year flows. Above the largest flow in the radar record the map is a lower
+   (1997–2025, 29 years); maps for 2- to 100-year flows. Above the largest flow in the radar record the map is a lower
    bound.
 8. **Independent optical check.** Sentinel-2 L2A within ±1 day of a radar pass, clear pixels only (scene classes
    vegetation, bare, water), water = MNDWI > 0; agreement with the radar atlas on the same pixels.
@@ -274,6 +291,14 @@ Code: `mahanadi/atlas_pull.py`, `atlas_infer.py`, `atlas_build.py`, `s2_crossche
    pixel and pass, with the flow and 7-day rain of the pass, its month and radar track, and the pixel's training-year
    trigger flow, flood frequencies, height above and distance to the river bed as inputs; the physical direction of
    each input is imposed. Tested leave-one-year-out against the trigger map and climatology on the same passes (§6.6).
+10. **Flow forecast.** One gradient-boosted regression per lead time (1–3 days) of the change in the Naraj flow, from
+   the flows at Naraj, Tikarpara and below Hirakud, ERA5 catchment rain and the season; trained 1997–2015, tested on
+   the monsoons of 2016–2026 against persistence and linear routing (§6.7).
+11. **Flow–impact tables.** The trigger map swept once over flows from 500 m³/s to the 100-year flow, every 250 m³/s:
+   flooded land, people, villages with 10 % of their people on flooded land, health facilities and schools near water,
+   roads cut (≥ 20 m of an edge under water) and people cut off from every hospital, and per village, road and facility
+   the flow at which it is hit (`mahanadi/impact_curve.py`; it reproduces the design-flood numbers of §7 exactly). The
+   live warnings (§9.7) and the risk estimate (§7.9) read these tables.
 
 ### 3.6 Engineering impact analyses
 
@@ -291,6 +316,7 @@ at least 10 % of monsoon passes); code in `mahanadi/impact_*.py`, `ocean_cyclone
 | Construction technology and management | Monthly flood and storm climatology for work windows; earthwork for raising critical links; deployment quantities and schedule |
 | Water resources and the watershed | GloFAS flows below Hirakud, at Tikarpara and at Naraj: travel time, design floods and the share of a flood peak from each part of the basin |
 | Siting (deployment) | Sirens by greedy maximal coverage of exposed people at 1.0 / 1.5 / 2.0 km; one river gauge per distributary on the bridge nearest Naraj with dry approaches |
+| Risk and economics (structural, transportation, construction management) | Depth × JRC depth–damage curve for houses; flooded paddy at the support price; expected annual damage; 29 years of daily flows through the flow–impact table; benefit–cost of raising the critical links |
 
 Chapter 7 gives the results briefly; Appendix C has the formulas, parameters and full tables.
 
@@ -306,7 +332,9 @@ Chapter 7 gives the results briefly; Appendix C has the formulas, parameters and
 | Prithvi, TerraMind and U-Net with 10, 25 and 50 % of the labels, 2 seeds | 18 | Do foundation models need fewer labels | §4.7 |
 | **Benchmark total** (all re-checked, Appendix A) | **92** | | |
 | Fusion layers (logistic regression on validation predictions) | one per seed and protocol | Does combining models help | §4.4 |
-| Radar pair retrained on 20 m input | 2 | The input resolution of the atlas | Appendix B |
+| Radar pair retrained on 20 m input (seed 0), and seeds 1–2 of the pair at 10 m and at 20 m | 10 | The input resolution of the atlas, and its spread over seeds | Appendix B |
+| Naraj flow forecast: one model per lead time (1, 2, 3 days), without and with the rain of the coming days | 6 | How far ahead the flow can be known | §6.7 |
 | Learned flow + rain + history flood model: 10 held-out years and a final model, without and with physical constraints | 22 | Can flow, rain and flood history together map a pass better than flow alone | §6.6 |
 | PINN for the Saint-Venant equations, case 3 retrained (Adam + L-BFGS-B, and Adam only) | 2 | Does the mentor's physics-informed network reproduce and transfer | §5 |
 | Inference: every Sentinel-1 pass through both radar models | 1,180 maps | The flood atlas | §6.1 |
+| Inference: every pass of the two other basins through the same pair | two maps per pass | Their atlases | §6.8 |

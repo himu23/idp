@@ -9,10 +9,10 @@ laptop builds the documents. Each stage writes files that the next one reads.
 | Benchmark training | `floodfm/train.py` through `scripts/jobqueue.py server/jobs_main.txt` | 92 runs, each with `results.json` and predictions |
 | Benchmark analysis | `scripts/analyze.py`, `scripts/make_tables.py`, `scripts/eval_no_training.py` | tables, figures, thresholds, fusion |
 | Training audit | `scripts/audit_training.py` | `results/analysis/audit_training.json` (Appendix A) |
-| 20 m retraining | `floodfm/train.py --s1_res 20` (`server/jobs_r20.txt`), `scripts/test_resolution.py` | `results/analysis/radar20m_r20.json` (Appendix B) |
+| 20 m retraining | `floodfm/train.py --s1_res 20` (`server/jobs_r20.txt`, `server/run_r20_seeds.sh`), `scripts/test_resolution.py --json`, `scripts/summarise_r20_seeds.py` | `results/analysis/radar20m*.json` (Appendix B) |
 | Context layers | `mahanadi/fetch_context.py`, `fetch_osm_pbf.py` | discharge, rain, OpenStreetMap, population, land cover, DEM, soils, storm tracks |
 | Radar archive | `mahanadi/atlas_pull.py` | 590 Sentinel-1 passes at 20 m |
-| Water maps | `mahanadi/atlas_infer.py` | 1,180 probability maps |
+| Water maps | `mahanadi/atlas_infer.py` through `server/run_r20_candidate.sh` (the 20 m-trained pair) | 1,180 probability maps |
 | Atlas, trigger map, validation, design floods | `mahanadi/atlas_build.py` | `results/atlas/` |
 | Learned flood model | `mahanadi/learned_flood_model.py` | `results/atlas/learned/` |
 | Impacts and siting | `mahanadi/impact_exposure.py`, `impact_transport.py`, `impact_siting.py`, `impact_geotech.py`, `impact_depth.py`, `impact_structures.py`, `impact_ground.py`, `ocean_cyclones.py`, `cm_plan.py`, `watershed_share.py`, `travel_time.py` | `results/impact/` |
@@ -20,7 +20,13 @@ laptop builds the documents. Each stage writes files that the next one reads.
 | Bulletins and CAP alerts | `mahanadi/forecast_to_impact.py` | `results/impact/bulletins/` |
 | Field check points, figures, viewer | `mahanadi/make_checkpoints.py`, `make_atlas_figures.py`, `make_discipline_figures.py`, `make_dashboard.py` | `fieldkit/checkpoints/`, `results/atlas_figures/`, `dashboard/index.html` |
 | Whole chain on the server | `mahanadi/run_atlas_pipeline.sh`, `run_disciplines.sh` (`SKIP_BUILD=1 SKIP_S2=1` re-runs only the impacts) | all of the above |
-| Documents | `report/write_sections.py`, `build_report.py`, `build_slides.py`, `build_website.py` | this report, the slides, the website |
+| First atlas against the rebuilt one | `scripts/compare_atlases.py` | `results/archive_atlas_10m/compare.json` (Appendix B) |
+| Flow–impact tables | `mahanadi/impact_curve.py` | `results/impact/impact_curve.csv`, `settlement_thresholds.csv`, `road_cut_flows.csv`, `facility_thresholds.csv` |
+| Naraj flow forecast | `mahanadi/forecast_model.py` | `results/forecast/` (§6.7) |
+| Risk and economics | `mahanadi/risk_economics.py` (after `impact_depth.py`) | `results/impact/risk_economics.json`, `damage_by_scenario.csv`, `alert_days_per_year.csv` (§7.9, C.9) |
+| Other basins | `mahanadi/basins.py`, `server/run_basins_pull.sh`, `run_basins_context.sh`, `run_basin_atlas.sh` | `results/basins/<basin>/` (§6.8) |
+| Live warnings | `live/make_basin_config.py`, `live/run_live.py` (`server/run_live.sh` daily) | `live/out/` (§9.7) |
+| Documents | `report/write_sections.py`, `build_report.py`, `build_slides.py`, `build_website.py`, `build_handouts.py` | this report, the slides, the website, the summary and team guide |
 
 The exact commands are in `README.md`. Every number in this report is read from these files when the report is built,
 so a re-run updates the text, the tables, the slides and the website together.

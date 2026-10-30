@@ -1,0 +1,382 @@
+{
+ "train_years": [
+  1997,
+  2015
+ ],
+ "test_years": [
+  2016,
+  2026
+ ],
+ "test_months": [
+  6,
+  7,
+  8,
+  9,
+  10,
+  11
+ ],
+ "gauges": [
+  "naraj",
+  "tikarpara",
+  "hirakud_below"
+ ],
+ "catchment_rain_points": [
+  [
+   20.9,
+   83.0
+  ],
+  [
+   20.3,
+   83.3
+  ],
+  [
+   19.9,
+   83.0
+  ],
+  [
+   21.0,
+   83.6
+  ],
+  [
+   20.6,
+   84.0
+  ],
+  [
+   20.8,
+   84.6
+  ],
+  [
+   20.4,
+   84.7
+  ],
+  [
+   20.6,
+   85.3
+  ]
+ ],
+ "thresholds_m3s": {
+  "high_flow": 9682,
+  "two_year_flood": 17897
+ },
+ "skill": {
+  "lead_1d": {
+   "persistence": {
+    "nse": 0.963,
+    "kge": 0.982,
+    "mae_m3s": 432,
+    "n_days": 1978,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 198,
+     "misses": 29,
+     "false_alarms": 29,
+     "pod": 0.872,
+     "far": 0.128,
+     "csi": 0.773
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 20,
+     "misses": 6,
+     "false_alarms": 6,
+     "pod": 0.769,
+     "far": 0.231,
+     "csi": 0.625
+    }
+   },
+   "linear_routing": {
+    "nse": 0.98,
+    "kge": 0.982,
+    "mae_m3s": 249,
+    "n_days": 1978,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 210,
+     "misses": 17,
+     "false_alarms": 11,
+     "pod": 0.925,
+     "far": 0.05,
+     "csi": 0.882
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 19,
+     "misses": 7,
+     "false_alarms": 4,
+     "pod": 0.731,
+     "far": 0.174,
+     "csi": 0.633
+    }
+   },
+   "boosted": {
+    "nse": 0.987,
+    "kge": 0.991,
+    "mae_m3s": 194,
+    "n_days": 1978,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 216,
+     "misses": 11,
+     "false_alarms": 12,
+     "pod": 0.952,
+     "far": 0.053,
+     "csi": 0.904
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 20,
+     "misses": 6,
+     "false_alarms": 0,
+     "pod": 0.769,
+     "far": 0.0,
+     "csi": 0.769
+    }
+   },
+   "boosted_with_rain_forecast": {
+    "nse": 0.988,
+    "kge": 0.993,
+    "mae_m3s": 193,
+    "n_days": 1978,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 216,
+     "misses": 11,
+     "false_alarms": 12,
+     "pod": 0.952,
+     "far": 0.053,
+     "csi": 0.904
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 20,
+     "misses": 6,
+     "false_alarms": 1,
+     "pod": 0.769,
+     "far": 0.048,
+     "csi": 0.741
+    }
+   }
+  },
+  "lead_2d": {
+   "persistence": {
+    "nse": 0.882,
+    "kge": 0.941,
+    "mae_m3s": 806,
+    "n_days": 1977,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 174,
+     "misses": 53,
+     "false_alarms": 53,
+     "pod": 0.767,
+     "far": 0.233,
+     "csi": 0.621
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 15,
+     "misses": 11,
+     "false_alarms": 11,
+     "pod": 0.577,
+     "far": 0.423,
+     "csi": 0.405
+    }
+   },
+   "linear_routing": {
+    "nse": 0.882,
+    "kge": 0.93,
+    "mae_m3s": 582,
+    "n_days": 1977,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 184,
+     "misses": 43,
+     "false_alarms": 27,
+     "pod": 0.811,
+     "far": 0.128,
+     "csi": 0.724
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 16,
+     "misses": 10,
+     "false_alarms": 13,
+     "pod": 0.615,
+     "far": 0.448,
+     "csi": 0.41
+    }
+   },
+   "boosted": {
+    "nse": 0.941,
+    "kge": 0.97,
+    "mae_m3s": 474,
+    "n_days": 1977,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 199,
+     "misses": 28,
+     "false_alarms": 31,
+     "pod": 0.877,
+     "far": 0.135,
+     "csi": 0.771
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 16,
+     "misses": 10,
+     "false_alarms": 8,
+     "pod": 0.615,
+     "far": 0.333,
+     "csi": 0.471
+    }
+   },
+   "boosted_with_rain_forecast": {
+    "nse": 0.948,
+    "kge": 0.973,
+    "mae_m3s": 432,
+    "n_days": 1977,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 199,
+     "misses": 28,
+     "false_alarms": 36,
+     "pod": 0.877,
+     "far": 0.153,
+     "csi": 0.757
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 19,
+     "misses": 7,
+     "false_alarms": 9,
+     "pod": 0.731,
+     "far": 0.321,
+     "csi": 0.543
+    }
+   }
+  },
+  "lead_3d": {
+   "persistence": {
+    "nse": 0.788,
+    "kge": 0.894,
+    "mae_m3s": 1109,
+    "n_days": 1976,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 153,
+     "misses": 74,
+     "false_alarms": 74,
+     "pod": 0.674,
+     "far": 0.326,
+     "csi": 0.508
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 11,
+     "misses": 15,
+     "false_alarms": 15,
+     "pod": 0.423,
+     "far": 0.577,
+     "csi": 0.268
+    }
+   },
+   "linear_routing": {
+    "nse": 0.747,
+    "kge": 0.865,
+    "mae_m3s": 905,
+    "n_days": 1976,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 156,
+     "misses": 71,
+     "false_alarms": 42,
+     "pod": 0.687,
+     "far": 0.212,
+     "csi": 0.58
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 11,
+     "misses": 15,
+     "false_alarms": 18,
+     "pod": 0.423,
+     "far": 0.621,
+     "csi": 0.25
+    }
+   },
+   "boosted": {
+    "nse": 0.885,
+    "kge": 0.939,
+    "mae_m3s": 723,
+    "n_days": 1976,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 181,
+     "misses": 46,
+     "false_alarms": 59,
+     "pod": 0.797,
+     "far": 0.246,
+     "csi": 0.633
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 13,
+     "misses": 13,
+     "false_alarms": 13,
+     "pod": 0.5,
+     "far": 0.5,
+     "csi": 0.333
+    }
+   },
+   "boosted_with_rain_forecast": {
+    "nse": 0.892,
+    "kge": 0.945,
+    "mae_m3s": 642,
+    "n_days": 1976,
+    "high_flow": {
+     "threshold_m3s": 9682,
+     "days_observed": 227,
+     "hits": 185,
+     "misses": 42,
+     "false_alarms": 54,
+     "pod": 0.815,
+     "far": 0.226,
+     "csi": 0.658
+    },
+    "two_year_flood": {
+     "threshold_m3s": 17897,
+     "days_observed": 26,
+     "hits": 15,
+     "misses": 11,
+     "false_alarms": 9,
+     "pod": 0.577,
+     "far": 0.375,
+     "csi": 0.429
+    }
+   }
+  }
+ },
+ "note": "NSE/KGE on daily Naraj flow, June-November of the test years; event scores for the flow at the lead time crossing each threshold. Flows: GloFAS v4 reanalysis."
+}
